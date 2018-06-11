@@ -17,6 +17,11 @@ class LicitacaoCN extends AbstractLicitacao
         return ($value) ? new \DateTime($value) : null;
     }
 
+    public function gethasAnexoAttribute($value)
+    {
+        return (bool) $value;
+    }
+
     public function setNmTelefoneAttribute($value)
     {
         $this->attributes['nm_telefone'] = blank($value) ? null : $value;
@@ -25,11 +30,6 @@ class LicitacaoCN extends AbstractLicitacao
     public function setNmFaxAttribute($value)
     {
         $this->attributes['nm_fax'] = blank($value) ? null : $value;
-    }
-
-    public function setTxtObjetoAttribute($value)
-    {
-        $this->attributes['txt_objeto'] = blank($value) ? null : mb_strtoupper($value);
     }
 
     public function reserva()

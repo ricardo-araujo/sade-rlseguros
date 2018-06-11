@@ -43,7 +43,7 @@ class ReservaCNController extends Controller
                         ->create(['nm_reserva' => $reservaNumero]);
 
         /**
-         * TODO:
+         * TODO: validacao da reserva
         */
 
         return response()->json($reserva, 201);

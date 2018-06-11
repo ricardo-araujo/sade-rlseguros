@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Events\LicitacaoCreatedEvent;
+use App\Listeners\DownloadAnexosForPortalListener;
 use App\Listeners\SendLicitacaoTelegramListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -16,7 +17,8 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
 
         LicitacaoCreatedEvent::class => [
-            SendLicitacaoTelegramListener::class
+            SendLicitacaoTelegramListener::class,
+            DownloadAnexosForPortalListener::class
         ]
     ];
 
@@ -28,6 +30,5 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
-        //
     }
 }

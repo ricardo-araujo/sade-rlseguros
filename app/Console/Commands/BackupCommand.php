@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Symfony\Component\Process\Process;
 
@@ -35,26 +34,17 @@ class BackupCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return void
      */
     public function handle()
     {
-        $jobStartTime = Carbon::createFromTime(06, 10, 00);
-
-        $currentTime = Carbon::now();
-
-        $sec1 = $jobStartTime->diffInSeconds($currentTime, false);  // terminar logica para atrasar job de busca de edital da licitacao
-                                                                             // caso o horario de captura seja anterior ao jobStartTime, calcular a diferenca
-        $sec2 = $currentTime->diffInSeconds($jobStartTime, false);  // ate chegar nesse horario, para iniciar requisicoes no CN
-
-        dd($sec1, $sec2);
-
         try {
+
             $databases = 'sadecn_new sadeio_new sadebb_new sade_config';
             $user = env('DB_USERNAME');
             $password = env('DB_PASSWORD');
 
-            $file = storage_path(sprintf('sade_%s.sql', today('America/Sao_Paulo')->format('Ymd')));
+            $file = storage_path(sprintf('sade_%s.sql', today()->format('Ymd')));
 
             $process = new Process(sprintf('mysqldump -u %s -p%s --databases %s > %s', $user, $password, $databases, $file)); //realiza o dump na pasta storage da aplicação
             $process->run();
@@ -67,7 +57,5 @@ class BackupCommand extends Command
             $this->error($e->getMessage());
 
         }
-
-        return;
     }
 }

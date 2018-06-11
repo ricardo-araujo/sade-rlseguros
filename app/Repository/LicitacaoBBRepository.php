@@ -17,6 +17,7 @@ class LicitacaoBBRepository extends Repository
                                                                                               ->doesntExist()) {
 
             return $this->query()->create([
+                'portal' => 'bb',
                 'nu_licitacao' => $attributes['nu_licitacao'],
                 'txt_objeto' => $attributes['txt_resumo'],
                 'nu_cliente' => $attributes['id_cliente'],
@@ -52,5 +53,7 @@ class LicitacaoBBRepository extends Repository
                 'nm_link_anexo' => $attributes['arquivoList']
             ]);
         }
+
+        return false;
     }
 }

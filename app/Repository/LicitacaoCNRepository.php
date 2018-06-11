@@ -16,6 +16,7 @@ class LicitacaoCNRepository extends Repository
                  ->doesntExist()) {
 
             return $this->query()->create([
+                'portal' => 'cn',
                 'nm_uf' => $attributes['uf'],
                 'nm_orgao' => app()->make(PesquisarUasgPage::class)->get($attributes['nu_uasg'])->getNomeUasg(),
                 'nu_uasg' => $attributes['nu_uasg'],
@@ -30,13 +31,7 @@ class LicitacaoCNRepository extends Repository
                 'nm_modalidade' => $attributes['modalidade']
             ]);
         }
-    }
 
-    public function toBeProcessed()
-    {
-        return $this->query()
-                     ->whereDate('created_at', today('America/Sao_Paulo'))
-                     ->where('has_anexo', false)
-                     ->get();
+        return false;
     }
 }

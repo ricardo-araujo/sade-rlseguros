@@ -17,6 +17,11 @@ class LicitacaoBB extends AbstractLicitacao
         return ($value) ? new \DateTime($value) : null;
     }
 
+    public function getDtDisputaAttribute($value)
+    {
+        return ($value) ? new \DateTime($value) : null;
+    }
+
     public function getNmLinkAnexoAttribute($value)
     {
         return json_decode($value, true);

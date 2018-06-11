@@ -19,6 +19,7 @@ class LicitacaoIORepository extends Repository
                                                                            ->doesntExist()) {
 
             return $this->query()->create([
+                'portal' => 'io',
                 'nu_licitacao' => $attributes['idLicitacao'],
                 'nu_orgao' => $attributes['idUnidadeGestoraExecucao'],
                 'nm_orgao' => $attributes['nmOrgao'],

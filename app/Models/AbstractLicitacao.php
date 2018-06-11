@@ -14,5 +14,10 @@ abstract class AbstractLicitacao extends Model
         return ($value) ? new \DateTime($value) : null;
     }
 
+    public function setTxtObjetoAttribute($value)
+    {
+        $this->attributes['txt_objeto'] = blank($value) ? null : mb_strtoupper($value);
+    }
+
     abstract public function reserva();
 }
