@@ -16,8 +16,8 @@ class RecaptchaRepository extends Repository
     public function token()
     {
         $model = $this->query()
+                      ->where('created_at', '>=', now()->subSeconds(110))
                       ->sharedLock()
-                      ->where('created_at', '>=', now('America/Sao_Paulo')->subSeconds(110))
                       ->first();
 
         if (!$model)

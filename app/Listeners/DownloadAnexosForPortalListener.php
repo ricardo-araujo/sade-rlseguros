@@ -3,9 +3,11 @@
 namespace App\Listeners;
 
 use App\Events\LicitacaoCreatedEvent;
+use App\Jobs\BuscaOrgaoParaLicitacaoIOJob;
 use App\Jobs\DownloadAnexosBBJob;
 use App\Jobs\DownloadAnexosCNJob;
 use App\Jobs\DownloadAnexosIOJob;
+use App\Jobs\EnviaParaMapfreJob;
 use App\Jobs\ProcessaAnexosJob;
 use App\Jobs\ProcessaLicitacaoJob;
 use Illuminate\Queue\InteractsWithQueue;
@@ -34,32 +36,36 @@ class DownloadAnexosForPortalListener
     {
         $licitacao = $event->licitacao;
 
-        if ($licitacao->portal == 'bb') {
-
+        if ($licitacao->portal == 'bb')
             ProcessaLicitacaoJob::withChain([
                 new DownloadAnexosBBJob($licitacao),
-                new ProcessaAnexosJob($licitacao)
+                new ProcessaAnexosJob($licitacao),
+                /**
+                 * TODO: varredura de arquivos p/ busca de cnpjs, criação de orgaos e reserva
+                */
+                new EnviaParaMapfreJob($licitacao)
             ])->dispatch($licitacao);
 
-        }
-
-        if ($licitacao->portal == 'cn') {
-
+        if ($licitacao->portal == 'cn')
             ProcessaLicitacaoJob::withChain([
                 new DownloadAnexosCNJob($licitacao),
-                new ProcessaAnexosJob($licitacao)
-            ])->dispatch($licitacao)->delay(self::setDelayTime());
+                new ProcessaAnexosJob($licitacao),
+                new EnviaParaMapfreJob($licitacao)
+            ])->dispatch($licitacao)
+              ->delay(
+                  $this->setDelayTime()
+              );
 
-        }
-
-        if ($licitacao->portal == 'io') {
-
+        if ($licitacao->portal == 'io')
             ProcessaLicitacaoJob::withChain([
+                new BuscaOrgaoParaLicitacaoIOJob($licitacao),
                 new DownloadAnexosIOJob($licitacao),
-                new ProcessaAnexosJob($licitacao)
+                new ProcessaAnexosJob($licitacao),
+                /**
+                 * TODO: validacao de orgao e criacao da reserva
+                */
+                new EnviaParaMapfreJob($licitacao)
             ])->dispatch($licitacao);
-
-        }
     }
 
     /**
@@ -67,7 +73,7 @@ class DownloadAnexosForPortalListener
      *
      * libera seus anexos e evita do sistema estressar o portal com muitas requisicoes para verificar se ja estão disponíveis.
      */
-    private static function setDelayTime()
+    private function setDelayTime()
     {
         $jobTime = Carbon::createFromTime(06, 10, 00); //hora em que requisicoes para download devem se iniciar no portal do CN
         $diffInSeconds = now()->diffInSeconds($jobTime, false);

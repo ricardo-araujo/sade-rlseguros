@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ValidaReservaJob;
 use App\Repository\LicitacaoCNRepository;
 use App\Repository\ReservaCNRepository;
 use Illuminate\Http\Request;
@@ -42,9 +43,7 @@ class ReservaCNController extends Controller
                         ->reserva()
                         ->create(['nm_reserva' => $reservaNumero]);
 
-        /**
-         * TODO: validacao da reserva
-        */
+        dispatch(new ValidaReservaJob($reserva));
 
         return response()->json($reserva, 201);
     }

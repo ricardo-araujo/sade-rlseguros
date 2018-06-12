@@ -12,12 +12,12 @@ class LicitacaoCN extends AbstractLicitacao
         return ($value) ? new \DateTime($value) : null;
     }
 
-    public function getDtRegistroEditalAttribute($value)
+    public function getDtRegistroAnexoAttribute($value)
     {
         return ($value) ? new \DateTime($value) : null;
     }
 
-    public function gethasAnexoAttribute($value)
+    public function getHasAnexoAttribute($value)
     {
         return (bool) $value;
     }
@@ -30,6 +30,11 @@ class LicitacaoCN extends AbstractLicitacao
     public function setNmFaxAttribute($value)
     {
         $this->attributes['nm_fax'] = blank($value) ? null : $value;
+    }
+
+    public function orgao()
+    {
+        return $this->belongsTo(OrgaoIO::class, 'id_orgao', 'id');
     }
 
     public function reserva()

@@ -26,17 +26,14 @@ class GuzzleProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(ClientInterface::class, function ($app, array $params = []) {
+        $this->app->bind(ClientInterface::class, function () {
 
-            $config = array_collapse([$params, [
-                'handler' => app()->make(HandlerStack::class), //provider de Handler de retry, fiz o provider para nao poluir essa classe
+            return new Client([
+                'handler' => app(HandlerStack::class), //provider de Handler de retry, fiz o provider para nao poluir essa classe
                 'headers' => [
                     'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36'
                 ]
-            ]]);
-
-            return new Client($config);
-
+            ]);
         });
     }
 }

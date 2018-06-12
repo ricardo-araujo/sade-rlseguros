@@ -34,16 +34,16 @@ class ProxyListRepository extends Repository
     public function proxy()
     {
         $model = $this->query()
-                      ->sharedLock()
-                      ->where('used_at', '<=', now('America/Sao_Paulo')->subMinutes(2)) //retorna primeiro proxy usado a mais de 2 minutos ou nao usado e sem reserva associada ou falso
+                      ->where('used_at', '<=', now()->subMinutes(2)) //retorna primeiro proxy usado a mais de 2 minutos ou nao usado e sem reserva associada ou falso
                       ->orWhereNull('used_at')
                       ->whereNull('id_reserva')
+                      ->sharedLock()
                       ->first();
 
         if (!$model)
             return false;
 
-        $model->update(['used_at' => now('America/Sao_Paulo')]);
+        $model->update(['used_at' => now()]);
 
         return $model;
     }
