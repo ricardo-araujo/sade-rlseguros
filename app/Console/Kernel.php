@@ -31,6 +31,17 @@ class Kernel extends ConsoleKernel
             ->timezone('America/Sao_Paulo')
             ->everyFiveMinutes();
 
+        $schedule->command('sade:carga-io')
+            ->description('Busca as oportunidades no IO, de terça à sabado, das 07h00 às 09h00')
+            ->tuesdays()
+            ->wednesdays()
+            ->thursdays()
+            ->fridays()
+            ->saturdays()
+            ->between('07:00', '09:00')
+            ->timezone('America/Sao_Paulo')
+            ->everyMinute();
+
         //Command para gerar tokens do recaptcha
         $schedule->command('sade:gera-token-recaptcha')
             ->description('Requisita token de resolução do recaptcha da Mapfre e salva-os no banco de dados, das 07h00 às 09h00')
@@ -86,6 +97,12 @@ class Kernel extends ConsoleKernel
             ->description('Remove os arquivos txt criados pela reserva do diretorio storage')
             ->weekdays()
             ->at('23:00')
+            ->timezone('America/Sao_Paulo');
+
+        $schedule->command('sade:remove-anexos')
+            ->description('Remove anexos criados há mais de 4 meses de todos os portais')
+            ->weekdays()
+            ->at('19:00')
             ->timezone('America/Sao_Paulo');
 
         $schedule->command('sade:email-oportunidades')

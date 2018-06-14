@@ -32,11 +32,6 @@ class LicitacaoCN extends AbstractLicitacao
         $this->attributes['nm_fax'] = blank($value) ? null : $value;
     }
 
-    public function orgao()
-    {
-        return $this->belongsTo(OrgaoIO::class, 'id_orgao', 'id');
-    }
-
     public function reserva()
     {
         return $this->hasMany(ReservaCN::class, 'id_licitacao', 'id');

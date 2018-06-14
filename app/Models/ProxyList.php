@@ -27,6 +27,6 @@ class ProxyList extends Model
 
     public function reserva()
     {
-        return $this->belongsTo(ReservaCN::class, 'id_reserva', 'id');
+        return $this->morphTo(); //Ver 'Polymorphic Relations' do Laravel para maiores entendimentos
     }
 }

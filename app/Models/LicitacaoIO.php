@@ -22,13 +22,13 @@ class LicitacaoIO extends AbstractLicitacao
         return ($value) ? new \DateTime($value) : null;
     }
 
-    public function orgao()
-    {
-        return $this->belongsTo(OrgaoIO::class, 'id_orgao', 'id');
-    }
-
     public function reserva()
     {
         return $this->hasMany(ReservaIO::class, 'id_licitacao', 'id');
+    }
+
+    public function orgao()
+    {
+        return $this->belongsToMany(OrgaoMapfre::class, 'sadeio_new.licitacao_orgao', 'id_licitacao', 'id_orgao')->using(LicitacaoIOOrgao::class);
     }
 }

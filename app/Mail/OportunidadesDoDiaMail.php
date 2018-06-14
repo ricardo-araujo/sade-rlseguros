@@ -30,9 +30,12 @@ class OportunidadesDoDiaMail extends Mailable
     public function build()
     {
         $oportunidades = (new LicitacaoCNRepository())->fromDate(new \DateTime());
+        /**
+         * TODO: Enviar as oportunidades dos demais portais
+        */
 
         return $this->to('ricardo.araujo@forseti.com.br', 'Ricardo Araujo')
-                     ->subject('[Forseti - Sade CN] Resumo das oportunidades do dia')
+                     ->subject('[Forseti - Sade] Resumo das oportunidades do dia')
                      ->view('mail.oportunidades-do-dia', ['oportunidades' => $oportunidades]);
     }
 }

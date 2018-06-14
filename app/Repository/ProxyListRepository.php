@@ -31,12 +31,12 @@ class ProxyListRepository extends Repository
                     ->first();
     }
 
-    public function proxy()
+    public function proxy() //retorna primeiro proxy usado a mais de 2 minutos ou nao usado e sem reserva associada ou falso
     {
         $model = $this->query()
-                      ->where('used_at', '<=', now()->subMinutes(2)) //retorna primeiro proxy usado a mais de 2 minutos ou nao usado e sem reserva associada ou falso
+                      ->where('used_at', '<=', now()->subMinutes(2))
                       ->orWhereNull('used_at')
-                      ->whereNull('id_reserva')
+                      ->whereNull('reserva_id')
                       ->sharedLock()
                       ->first();
 

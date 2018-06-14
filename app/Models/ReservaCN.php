@@ -21,4 +21,9 @@ class ReservaCN extends AbstractReserva
     {
         return $this->belongsTo(LicitacaoCN::class, 'id_licitacao', 'id');
     }
+
+    public function proxy()
+    {
+        return $this->morphOne(ProxyList::class, 'reserva'); //Ver 'Polymorphic Relations' do Laravel para maiores entendimentos
+    }
 }

@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class OrgaoMapfre extends Model
+{
+    protected $connection = 'mysql_config';
+    protected $table = 'orgao';
+    protected $primaryKey = 'id';
+    protected $guarded = ['id'];
+
+    public function setNmRazaoSocialAttribute($value)
+    {
+        $this->attributes['nm_razao_social'] = ($value) ? mb_strtoupper($value) : null;
+    }
+
+    public function setNmCnpjAttribute($value)
+    {
+        $this->attributes['nm_cnpj'] = ($value) ? preg_replace('#[^0-9]+#', '', $value) : null;
+    }
+
+    public function licitacaoBB()
+    {
+        return $this->belongsToMany(LicitacaoBB::class, 'sadebb_new.licitacao_orgao', 'id_licitacao', 'id_orgao')->using(LicitacaoBBOrgao::class);
+    }
+
+    public function licitacaoIO()
+    {
+        return $this->belongsToMany(LicitacaoIO::class, 'sadeio_new.licitacao_orgao', 'id_licitacao', 'id_orgao')->using(LicitacaoIOOrgao::class);
+    }
+}

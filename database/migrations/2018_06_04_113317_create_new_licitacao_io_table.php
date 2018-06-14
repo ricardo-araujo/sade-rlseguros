@@ -15,7 +15,6 @@ class CreateNewLicitacaoIoTable extends Migration
     {
         Schema::connection('mysql_io')->create('licitacao', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('id_orgao')->nullable();
             $table->char('portal')->default('io');
             $table->integer('nu_licitacao');
             $table->string('nu_orgao')->nullable();
@@ -32,7 +31,6 @@ class CreateNewLicitacaoIoTable extends Migration
             $table->string('nm_link_anexo')->nullable();
             $table->timestamp('dt_registro_anexo')->nullable();
             $table->timestamps();
-            $table->foreign('id_orgao')->references('id')->on('orgao');
             $table->index(['nu_licitacao', 'nu_orgao']);
         });
     }

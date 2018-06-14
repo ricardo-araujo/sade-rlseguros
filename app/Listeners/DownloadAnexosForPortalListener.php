@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\LicitacaoCreatedEvent;
+use App\Jobs\BuscaCnpjsNosAnexosJob;
 use App\Jobs\BuscaOrgaoParaLicitacaoIOJob;
 use App\Jobs\DownloadAnexosBBJob;
 use App\Jobs\DownloadAnexosCNJob;
@@ -40,6 +41,7 @@ class DownloadAnexosForPortalListener
             ProcessaLicitacaoJob::withChain([
                 new DownloadAnexosBBJob($licitacao),
                 new ProcessaAnexosJob($licitacao),
+                new BuscaCnpjsNosAnexosJob($licitacao),
                 /**
                  * TODO: varredura de arquivos p/ busca de cnpjs, criação de orgaos e reserva
                 */
@@ -58,7 +60,6 @@ class DownloadAnexosForPortalListener
 
         if ($licitacao->portal == 'io')
             ProcessaLicitacaoJob::withChain([
-                new BuscaOrgaoParaLicitacaoIOJob($licitacao),
                 new DownloadAnexosIOJob($licitacao),
                 new ProcessaAnexosJob($licitacao),
                 /**
@@ -68,14 +69,9 @@ class DownloadAnexosForPortalListener
             ])->dispatch($licitacao);
     }
 
-    /**
-     * Checa o horario da oportunidade para que as requisições do job se iniciem exatamente às 06h10, que é uma estimativa do horario que o CN
-     *
-     * libera seus anexos e evita do sistema estressar o portal com muitas requisicoes para verificar se ja estão disponíveis.
-     */
-    private function setDelayTime()
+    private function setDelayTime() //atrasa a sequencia de jobs p/ as 6:10, p/ que nao estresse o IO com requisicoes de download do edital
     {
-        $jobTime = Carbon::createFromTime(06, 10, 00); //hora em que requisicoes para download devem se iniciar no portal do CN
+        $jobTime = Carbon::createFromTime(06, 10, 00);
         $diffInSeconds = now()->diffInSeconds($jobTime, false);
 
         return ($diffInSeconds < 0) ? 0 : now()->addSeconds($diffInSeconds);

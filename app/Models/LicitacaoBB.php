@@ -61,4 +61,9 @@ class LicitacaoBB extends AbstractLicitacao
     {
         return $this->hasMany(ReservaBB::class, 'id_licitacao', 'id');
     }
+
+    public function orgao()
+    {
+        return $this->belongsToMany(OrgaoMapfre::class, 'sadebb_new.licitacao_orgao', 'id_licitacao', 'id_orgao')->using(LicitacaoBBOrgao::class);
+    }
 }
