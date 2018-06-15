@@ -4,11 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-abstract class AbstractLicitacao extends Model
+class AbstractLicitacao extends Model
 {
     protected $primaryKey = 'id';
     protected $guarded = ['id'];
 
+    public function getDtRegistroAnexoAttribute($value)
+    {
+        return ($value) ? new \DateTime($value) : null;
+    }
+    
     public function getCreatedAtAttribute($value)
     {
         return ($value) ? new \DateTime($value) : null;
@@ -18,6 +23,4 @@ abstract class AbstractLicitacao extends Model
     {
         $this->attributes['txt_objeto'] = blank($value) ? null : mb_strtoupper($value);
     }
-
-    abstract public function reserva();
 }

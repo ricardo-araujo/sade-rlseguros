@@ -29,6 +29,6 @@ class LicitacaoIO extends AbstractLicitacao
 
     public function orgao()
     {
-        return $this->belongsToMany(OrgaoMapfre::class, 'sadeio_new.licitacao_orgao', 'id_licitacao', 'id_orgao')->using(LicitacaoIOOrgao::class);
+        return $this->belongsTo(OrgaoMapfre::class, 'id_orgao');
     }
 }

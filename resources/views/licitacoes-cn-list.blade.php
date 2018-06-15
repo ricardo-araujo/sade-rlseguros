@@ -12,7 +12,7 @@
                         <strong>{{ $licitacao->id }} - </strong>{{ $licitacao->nm_orgao }}
                     </button>
                     @if($licitacao->nm_anexo_principal)
-                    <a href="{{ action('LicitacaoCNController@download', [$licitacao]) }}" class="btn btn-outline-dark" style="float: right" title="Clique para baixar os arquivos da oportunidade. (Disponibilizado às {{$licitacao->dt_registro_anexo->format('H:i:s')}})" download>
+                    <a href="{{ route('download-cn', [$licitacao]) }}" class="btn btn-outline-dark" style="float: right" title="Clique para baixar os arquivos da oportunidade. (Disponibilizado às {{$licitacao->dt_registro_anexo->format('H:i:s')}})" download>
                         <strong> Download </strong>
                     </a>
                     @endif

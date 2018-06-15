@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\LicitacaoBB;
 use App\Models\LicitacaoCN;
-use App\Models\ReservaCN;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -26,6 +26,10 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
+
+        Route::model('licitacao_bb', LicitacaoBB::class);
+
+        Route::model('licitacao_cn', LicitacaoCN::class);
     }
 
     /**

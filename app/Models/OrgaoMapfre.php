@@ -28,6 +28,6 @@ class OrgaoMapfre extends Model
 
     public function licitacaoIO()
     {
-        return $this->belongsToMany(LicitacaoIO::class, 'sadeio_new.licitacao_orgao', 'id_licitacao', 'id_orgao')->using(LicitacaoIOOrgao::class);
+        return $this->hasMany(LicitacaoIO::class, 'id_orgao');
     }
 }

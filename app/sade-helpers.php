@@ -131,3 +131,12 @@ if (!function_exists('cnpjValido')) {
         return $cnpj{13} == ($resto < 2 ? 0 : 11 - $resto);
     }
 }
+
+if (!function_exists('hour')) {
+
+    function hour($hour = null, $minute = null, $second = null, $tz = null) {
+
+        return \Illuminate\Support\Carbon::createFromTime($hour, $minute, $second, $tz);
+
+    }
+}

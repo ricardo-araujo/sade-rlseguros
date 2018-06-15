@@ -8,16 +8,8 @@ class OrgaoMapfreRepository extends Repository
 {
     protected $model = OrgaoMapfre::class;
 
-    public function create()
+    public function firstOrCreate($cnpj, $razaoSocial)
     {
-        return $this->query()->create(); /** TODO: finalizar */
-    }
-
-    public function firstByCnpjWithMapfreCode($cnpj)
-    {
-        return $this->query()
-                     ->where(['nm_cnpj' => $cnpj])
-                     ->whereNotNull('nm_cod_mapfre')
-                     ->first();
+        return $this->query()->firstOrCreate(['nm_cnpj' => $cnpj], ['nm_razao_social' => $razaoSocial]);
     }
 }

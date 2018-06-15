@@ -12,11 +12,6 @@ class LicitacaoCN extends AbstractLicitacao
         return ($value) ? new \DateTime($value) : null;
     }
 
-    public function getDtRegistroAnexoAttribute($value)
-    {
-        return ($value) ? new \DateTime($value) : null;
-    }
-
     public function getHasAnexoAttribute($value)
     {
         return (bool) $value;

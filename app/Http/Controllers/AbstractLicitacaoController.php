@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\LicitacaoCN;
+use App\Models\AbstractLicitacao;
 use Illuminate\Http\Request;
 
-class LicitacaoCNController extends Controller
+class AbstractLicitacaoController extends Controller
 {
-    public function download(LicitacaoCN $licitacao)
+    public function __construct()
     {
-        $zipName = "licitacao_{$licitacao->id}.zip";
+        $this->middleware('auth')->except('create');
+        $this->middleware('auth.basic')->only('create');
+    }
 
-        $path = public_path("/anexos/cn/{$licitacao->id}/");
+    public function download(AbstractLicitacao $licitacao)
+    {
+        $zipName = "lic_{$licitacao->portal}_{$licitacao->id}.zip";
+
+        $path = public_path('anexos' . DIRECTORY_SEPARATOR . $licitacao->portal . DIRECTORY_SEPARATOR . $licitacao->id . DIRECTORY_SEPARATOR);
 
         $it = new \DirectoryIterator($path);
 

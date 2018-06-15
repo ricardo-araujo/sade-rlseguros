@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\LicitacaoBB;
+use App\Repository\OrgaoMapfreRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;
@@ -10,7 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class BuscaCnpjsNosAnexosJob implements ShouldQueue
+class BuscaCnpjsNosAnexosBBJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -34,7 +35,7 @@ class BuscaCnpjsNosAnexosJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(OrgaoMapfreRepository $orgaoRepo)
     {
         $path = public_path('anexos' . DIRECTORY_SEPARATOR . $this->licitacao->portal . DIRECTORY_SEPARATOR . $this->licitacao->id . DIRECTORY_SEPARATOR);
 
@@ -57,8 +58,11 @@ class BuscaCnpjsNosAnexosJob implements ShouldQueue
                    ->map(function($cnpj) {
                        return onlyNumbers($cnpj);
                    })
-                   ->each(function ($cnpj) {
-                       dump($cnpj);
+                   ->each(function($cnpj) use($orgaoRepo) {
+
+                       $orgao = $orgaoRepo->firstOrCreate($cnpj, $this->licitacao->nm_cliente);
+
+                       $this->licitacao->orgao()->attach($orgao->id);
                    });
     }
 }
