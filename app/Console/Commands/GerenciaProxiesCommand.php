@@ -20,7 +20,7 @@ class GerenciaProxiesCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Adiciona, altera, restaura ou exclui do banco de dados os proxies a serem usados pela aplicação para anexar o edital à reserva';
+    protected $description = 'Adiciona, altera, restaura ou exclui do bd, os proxies  para anexar o edital à reserva';
 
     /**
      * Create a new command instance.

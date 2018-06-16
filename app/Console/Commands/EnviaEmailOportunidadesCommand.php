@@ -20,7 +20,7 @@ class EnviaEmailOportunidadesCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Envia um e-mail com as possiveis oportunidades do dia e resuma das reservas';
+    protected $description = 'Envia um e-mail com as possiveis oportunidades do dia e resumo das reservas';
 
     /**
      * Create a new command instance.

@@ -23,7 +23,12 @@ class Kernel extends ConsoleKernel
      * @return void
      */
     protected function schedule(Schedule $schedule)
-    {   //Command que inicia as buscas das oportunidades do dia
+    {
+        /**
+         * TODO: commands para inicar e parar o supervisor definidos no arquivo de config na raiz do projeto de acordo com o padrão atual
+        */
+
+        //Command que inicia as buscas das oportunidades do dia
         $schedule->command('sade:carga-cn')
             ->description('Busca as oportunidades no CN nos dias de semana, das 05h00 às 10h00')
             ->weekdays()

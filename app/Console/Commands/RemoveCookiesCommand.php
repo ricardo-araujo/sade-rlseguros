@@ -19,7 +19,7 @@ class RemoveCookiesCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Busca no diretorio storage os arquivos txt, criados pela validacao da reserva e remove-os, para que nao ocupem espaço em disco';
+    protected $description = 'Busca no diretorio storage os arquivos txt, criados pela validacao da reserva e remove-os';
 
     /**
      * Create a new command instance.
