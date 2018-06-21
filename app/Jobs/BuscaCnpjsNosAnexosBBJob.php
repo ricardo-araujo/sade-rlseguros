@@ -47,7 +47,7 @@ class BuscaCnpjsNosAnexosBBJob implements ShouldQueue
             if ($item->isFile())
                 $content .= contentFromFile($item->getRealPath());
         }
-
+        //duas regexes para identificar padroes de cnpjs:
         preg_match_all('#\d{2}[,\.]\d{3}[,\.]\d{3}[\/\.]\d{4}\s?[\.\-]\s?\d{2}|\d{8}\/\d{4}\-\d{2}#isu', $content, $m);
 
         collect($m)->flatten()

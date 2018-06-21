@@ -11,6 +11,7 @@ use App\Jobs\DownloadAnexosIOJob;
 use App\Jobs\EnviaParaMapfreJob;
 use App\Jobs\ProcessaAnexosJob;
 use App\Jobs\ProcessaLicitacaoJob;
+use App\Jobs\ValidaOrgaoParaLicitacaoJob;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -41,6 +42,7 @@ class DownloadAnexosForPortalListener
                 new DownloadAnexosBBJob($licitacao),
                 new ProcessaAnexosJob($licitacao),
                 new BuscaCnpjsNosAnexosBBJob($licitacao),
+                new ValidaOrgaoParaLicitacaoJob($licitacao),
                 /**
                  * TODO: criação de orgaos e reserva
                 */
@@ -64,6 +66,7 @@ class DownloadAnexosForPortalListener
                 new DownloadAnexosIOJob($licitacao),
                 new ProcessaAnexosJob($licitacao),
                 new BuscaOrgaoNoBecIOJob($licitacao),
+                new ValidaOrgaoParaLicitacaoJob($licitacao),
                 /**
                  * TODO: validacao de orgao e criacao da reserva
                 */

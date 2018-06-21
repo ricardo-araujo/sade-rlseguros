@@ -15,7 +15,7 @@ class GeraTokenRecaptchaCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'sade:gera-token-recaptcha {--delay= : Atrasa o command em segundos} {--f|force : Gera o token sem considerar se há oportunidades ou reservas}';
+    protected $signature = 'sade:gera-token-recaptcha {--delay= : Atrasa o command em segundos} {--f|force : Gera o token sem considerar se há oportunidades ou reservas} {--o|output : Mostra em tela o token gerado ao invés de grava-lo}';
 
     /**
      * The console command description.
@@ -66,8 +66,13 @@ class GeraTokenRecaptchaCommand extends Command
         while ($this->twoCaptcha->requisitaRespostaCaptcha()->identificaRespostaPadrao() == false)
             continue;
 
-        $this->repository->create(['id_captcha' => $this->twoCaptcha->getIdCaptcha(), 'token' => $this->twoCaptcha->identificaRespostaPadrao()]);
+        if ($this->option('output'))
+            dd($this->twoCaptcha->identificaRespostaPadrao());
 
         Log::debug('Token do recaptcha salvo no banco de dados', ['id_token' => $this->twoCaptcha->getIdCaptcha()]);
+
+        $this->repository->create(['id_captcha' => $this->twoCaptcha->getIdCaptcha(), 'token' => $this->twoCaptcha->identificaRespostaPadrao()]);
+
+        return true;
     }
 }

@@ -109,7 +109,7 @@ if (!function_exists('cnpjValido')) {
 
         $cnpj = preg_replace('#[^0-9]#', '', (string) $cnpj);
 
-        if (strlen($cnpj) != 14)
+        if (strlen($cnpj) != 14 or $cnpj == '00000000000000')
             return false;
 
         for ($i = 0, $j = 5, $soma = 0; $i < 12; $i++) {

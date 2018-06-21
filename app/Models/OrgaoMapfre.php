@@ -13,7 +13,7 @@ class OrgaoMapfre extends Model
 
     public function setNmRazaoSocialAttribute($value)
     {
-        $this->attributes['nm_razao_social'] = ($value) ? mb_strtoupper($value) : null;
+        $this->attributes['nm_razao_social'] = ($value) ? mb_strtoupper(trim($value)) : null;
     }
 
     public function setNmCnpjAttribute($value)

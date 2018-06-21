@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\LicitacaoBBReceivedJob;
+use App\Jobs\LicitacaoRecebidaBBJob;
 use App\Models\AbstractLicitacao;
 use App\Models\LicitacaoBB;
 use Illuminate\Http\Request;
@@ -16,7 +16,7 @@ class LicitacaoBBController extends AbstractLicitacao
         if (!$oportunidade)
             return response('Oportunidade nao recebida', 404);
 
-        dispatch(new LicitacaoBBReceivedJob($oportunidade));
+        dispatch(new LicitacaoRecebidaBBJob($oportunidade));
 
         return response('Oportunidade enviada para processamento');
     }
