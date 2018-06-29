@@ -25,6 +25,8 @@ Além dos commands principais para a aplicação, foram adicionados alguns comma
 - Command de gerenciamento de proxies, que grava, remove, altera ou restaura um proxy. Os proxies são necessários na aplicação pois a Mapfre bloqueia tentativas de anexar edital feitas em menos de 2 minutos para um IP;
 - Command para remover cookies (auto-explicativo);
 - Command para enviar e-mail das oportunidades do dia;
+- Command para truncar a tabela de jobs ao final do dia e remover jobs que não conseguiram ser processados;
+- Command para login na Mapfre, a fim de gerar um cookie em txt para criação de órgaos do BB e IO;
 
 **Os commands descritos nos passos acima, foram definidos utilizando o mecanismo de Task Scheduling do Laravel, para que possam funcionar, devem seguir a documentação. Ex.:**
 ```

@@ -2,30 +2,32 @@
 
 namespace App\Events;
 
-use App\Models\AbstractLicitacao;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Support\Facades\Log;
 
 class LicitacaoCreatedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var AbstractLicitacao
+     * @var Model
      */
     public $licitacao;
 
     /**
      * Create a new event instance.
      *
-     * @param AbstractLicitacao|Model $licitacao
+     * @param Model $licitacao
      *
      * @return void
      */
-    public function __construct(AbstractLicitacao $licitacao)
+    public function __construct(Model $licitacao)
     {
+        Log::info('Licitacao inserida no banco de dados', ['licitacao' => $licitacao->toArray()]);
+
         $this->licitacao = $licitacao;
     }
 }

@@ -43,8 +43,6 @@ class ReservaCNController extends Controller
                         ->reserva()
                         ->create(['nm_reserva' => $reservaNumero]);
 
-        dispatch(new ValidaReservaCNJob($reserva));
-
         return response()->json($reserva, 201);
     }
 

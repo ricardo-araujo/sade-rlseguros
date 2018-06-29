@@ -9,6 +9,9 @@ use Forseti\Bot\Sade\PageObject\GetHomePageObject;
 use Forseti\Bot\Sade\PageObject\GetLoginPageObject;
 use Forseti\Bot\Sade\PageObject\GetReservaPageObject;
 use Forseti\Bot\Sade\PageObject\PostLoginPageObject;
+use GuzzleHttp\Client;
+use GuzzleHttp\Cookie\FileCookieJar;
+use GuzzleHttp\HandlerStack;
 use Illuminate\Bus\Queueable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;
@@ -47,14 +50,18 @@ class ValidaReservaCNJob implements ShouldQueue
 
         if (!$token = $recaptchaRepo->token() or !$proxy = $proxyRepo->proxy()) {
 
-            dispatch(new self($this->reserva));
+            dispatch(new self($this->reserva))->onQueue('cn');
 
             return;
         }
 
         Log::debug('Validando reserva no site da Mapfre', ['reserva' => $this->reserva->toArray()]);
 
-        $client = null; /** TODO: implementar client do Guzzle*/
+        $cp = cookieReservaPath($this->reserva);
+
+        $client = getClient($cp);
+
+        /** TODO: inserir proxy na requisicao e atribuir à reserva */
 
         $parser = (new Pipeline())
             ->pipe(new GetLoginPageObject($client))

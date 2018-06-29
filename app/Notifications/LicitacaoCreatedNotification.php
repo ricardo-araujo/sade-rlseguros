@@ -2,8 +2,8 @@
 
 namespace App\Notifications;
 
-use App\Models\AbstractLicitacao;
 use Illuminate\Bus\Queueable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use NotificationChannels\Telegram\TelegramChannel;
@@ -14,7 +14,7 @@ class LicitacaoCreatedNotification extends Notification implements ShouldQueue
     use Queueable;
 
     /**
-     * @var AbstractLicitacao
+     * @var Model
      */
     private $licitacao;
 
@@ -23,7 +23,7 @@ class LicitacaoCreatedNotification extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(AbstractLicitacao $licitacao)
+    public function __construct(Model $licitacao)
     {
         $this->licitacao = $licitacao;
     }
@@ -54,10 +54,16 @@ class LicitacaoCreatedNotification extends Notification implements ShouldQueue
         switch ($portal) {
             case 'bb':
                 return '[Banco do Brasil](http://www.licitacoes-e.com.br/)';
+
             case 'cn':
                 return '[ComprasNet](http://www.comprasgovernamentais.gov.br/)';
+
             case 'io':
                 return '[Imprensa Oficial](http://www.imprensaoficial.com.br/)';
+
+            default:
+                return false;
+
         }
     }
 }

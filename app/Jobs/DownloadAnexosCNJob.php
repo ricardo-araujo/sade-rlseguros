@@ -63,7 +63,7 @@ class DownloadAnexosCNJob implements ShouldQueue
 
                 Log::warning('Erro ao tentar download de anexos da licitacao no CN', ['exception' => $e->getMessage()]);
 
-                dispatch(new self($this->licitacao)); //simula um 'while (true)' do SADE original, enquanto nao baixar os anexos, reinicia o mesmo job.
+                dispatch(new self($this->licitacao))->onQueue('cn'); //simula um 'while (true)' do SADE original, enquanto nao baixar os anexos, reinicia o mesmo job.
             }
         }
     }

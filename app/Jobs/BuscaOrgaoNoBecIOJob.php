@@ -38,7 +38,9 @@ class BuscaOrgaoNoBecIOJob implements ShouldQueue
      */
     public function handle(ClientInterface $client, OrgaoMapfreRepository $orgaoRepo)
     {
-        $parser = (new GetUnidadeCompradoraPageObject($client, $this->licitacao->nu_orgao))->perform();
+        $this->delete();
+
+        $parser = (new GetUnidadeCompradoraPageObject($client))->getPage($this->licitacao->nu_orgao);
 
         $orgao = $orgaoRepo->firstOrCreate($parser->getCnpj(), $parser->getNome());
 

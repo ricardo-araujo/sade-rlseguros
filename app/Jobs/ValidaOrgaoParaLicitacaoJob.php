@@ -36,18 +36,20 @@ class ValidaOrgaoParaLicitacaoJob implements ShouldQueue
      */
     public function handle()
     {
+        $this->delete();
+
         if ($this->licitacao->portal == 'io')
 
             ($this->licitacao->orgao->nm_cod_mapfre)
-                ? dispatch(new CriaReservaJob($this->licitacao))
-                : dispatch(new CriaOrgaoJob($this->licitacao, $this->licitacao->orgao));
+                ? dispatch(new CriaReservaJob($this->licitacao))->onQueue('io')
+                : dispatch(new CriaOrgaoJob($this->licitacao, $this->licitacao->orgao))->onQueue('io');
 
         if ($this->licitacao->portal == 'bb')
 
             $this->licitacao->orgao->each(function(OrgaoMapfre $orgao) {
                 ($orgao->nm_cod_mapfre)
-                    ? dispatch(new CriaReservaJob($this->licitacao))
-                    : dispatch(new CriaOrgaoJob($this->licitacao, $orgao));
+                    ? dispatch(new CriaReservaJob($this->licitacao))->onQueue('bb')
+                    : dispatch(new CriaOrgaoJob($this->licitacao, $orgao))->onQueue('bb');
             });
 
         return;

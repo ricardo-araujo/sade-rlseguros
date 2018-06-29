@@ -40,9 +40,9 @@ class AnexaEditalNaReservaJob implements ShouldQueue
     {
         $this->delete();
 
-        if (!$token = $recaptchaRepo->token()) {
+        if (!$this->reserva->licitacao->nm_anexo_principal or !$token = $recaptchaRepo->token()) {
 
-            dispatch(new self($this->reserva));
+            dispatch(new self($this->reserva))->onQueue($this->reserva->licitacao->portal);
 
             return;
         }
@@ -64,17 +64,6 @@ class AnexaEditalNaReservaJob implements ShouldQueue
         }
 
         $this->reserva->update(['dt_fim_upload' => now()]);
-    }
-
-    private function editalPath()
-    {
-        return public_path('anexos' .
-            DIRECTORY_SEPARATOR .
-            $this->reserva->licitacao->portal .
-            DIRECTORY_SEPARATOR .
-            $this->reserva->licitacao->id .
-            DIRECTORY_SEPARATOR .
-            $this->reserva->licitacao->nm_anexo_principal);
     }
 
     private function checkUpload($html)

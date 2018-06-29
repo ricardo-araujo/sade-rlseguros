@@ -140,3 +140,37 @@ if (!function_exists('hour')) {
 
     }
 }
+
+if (!function_exists('editalPath')) {
+
+    function editalPath(\App\Models\AbstractLicitacao $licitacao) {
+
+        $ds = DIRECTORY_SEPARATOR;
+
+        return public_path('anexos' . $ds . $licitacao->portal . $ds . $licitacao->id . $ds . $licitacao->nm_anexo_principal);
+    }
+}
+
+if (!function_exists('cookieReservaPath')) {
+
+    function cookieReservaPath(\App\Models\AbstractReserva $reserva) {
+
+        return storage_path("{$reserva->licitacao->portal}_{$reserva->id}.txt");
+    }
+}
+
+if (!function_exists('getClient')) {
+
+    function getClient($cookiePath = null) {
+
+        $cookiePath = $cookiePath ?? storage_path('mapfre.txt');
+
+        return new \GuzzleHttp\Client([
+            'cookies' => new \GuzzleHttp\Cookie\FileCookieJar($cookiePath, true),
+            'handler' => app(\GuzzleHttp\HandlerStack::class),
+            'headers' => [
+                'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36'
+            ]
+        ]);
+    }
+}

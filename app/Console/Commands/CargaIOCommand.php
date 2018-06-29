@@ -2,8 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Events\LicitacaoCreatedEvent;
-use App\Events\LicitacaoIOCreatedEvent;
 use App\Repository\LicitacaoIORepository;
 use Forseti\Bot\IO\Seguro\Crawler\ParseLicitacao;
 use Forseti\Bot\IO\Seguro\Crawler\ParseListaLicitacao;
@@ -59,16 +57,13 @@ class CargaIOCommand extends Command
 
             $licitacoes = $this->parserList->getAllLicitacao();
 
-            Log::info('Iniciando busca de licitacoes no portal IO', ['total' => count($licitacoes)]);
+            Log::info('Iniciando busca de licitacoes no portal IO');
 
             foreach ($licitacoes as $numeroLicitacao) {
 
                 $licitacao = (new ParseLicitacao((int) $numeroLicitacao))->parseData();
 
-                $licitacao = $this->repository->create($licitacao); //internamente verifica se licitacao é de seguro ou nao existe antes de gravar
-
-                if ($licitacao)
-                    event(new LicitacaoCreatedEvent($licitacao));
+                $this->repository->create($licitacao); //internamente verifica se licitacao é de seguro ou nao existe antes de gravar
             }
 
         } catch (\Exception $e) {

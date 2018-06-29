@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\LicitacaoRecebidaBBJob;
 use App\Models\AbstractLicitacao;
 use App\Models\LicitacaoBB;
+use App\Repository\LicitacaoBBRepository;
 use Illuminate\Http\Request;
 
 class LicitacaoBBController extends AbstractLicitacao
@@ -16,8 +17,10 @@ class LicitacaoBBController extends AbstractLicitacao
         if (!$oportunidade)
             return response('Oportunidade nao recebida', 404);
 
-        dispatch(new LicitacaoRecebidaBBJob($oportunidade));
+        $lic = (new LicitacaoBBRepository())->create($oportunidade);
 
-        return response('Oportunidade enviada para processamento');
+        return ($lic)
+            ? response('Oportunidade enviada para processamento', 201)
+            : response('Oportunidade já existente ou modalide incorreta', 404);
     }
 }

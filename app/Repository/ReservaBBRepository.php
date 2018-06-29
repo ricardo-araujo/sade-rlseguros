@@ -2,16 +2,11 @@
 
 namespace App\Repository;
 
-use App\Models\ReservaCN;
+use App\Models\ReservaBB;
 
-class ReservaCNRepository extends Repository
+class ReservaBBRepository extends Repository
 {
-    protected $model = ReservaCN::class;
-
-    public function searchAndDelete($numero)
-    {
-        return $this->query()->where('nm_reserva', $numero)->delete();
-    }
+    protected $model = ReservaBB::class;
 
     public function existsToday()
     {

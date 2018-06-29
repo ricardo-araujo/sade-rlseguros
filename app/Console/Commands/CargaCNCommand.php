@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Events\LicitacaoCreatedEvent;
 use App\Repository\LicitacaoCNRepository;
 use Forseti\Bot\CN\PageObject\ConsultaLicitacoes\ConsLicitacaoRelacaoPage;
 use Illuminate\Console\Command;
@@ -59,7 +58,7 @@ class CargaCNCommand extends Command
 
         try {
 
-            Log::info('Iniciando busca de licitacoes no CN', ['total' => $parser->getTotalLicitacao()]);
+            Log::info('Iniciando busca de licitacoes no CN');
 
             $pagina = 0; $totalPaginas = $parser->getTotalPaginas();
             while ($totalPaginas >= ++$pagina) {
@@ -70,10 +69,8 @@ class CargaCNCommand extends Command
 
                 foreach ($it as $licitacao) {
 
-                    $licitacao = $this->repository->create($licitacao); //internamente verifica se licitacao ja existe
+                    $this->repository->create($licitacao); //internamente verifica se licitacao ja existe
 
-                    if ($licitacao)
-                        event(new LicitacaoCreatedEvent($licitacao));
                 }
             }
 

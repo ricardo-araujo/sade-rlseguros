@@ -9,6 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use League\Pipeline\Pipeline;
 
 class CriaOrgaoJob implements ShouldQueue
 {
@@ -41,9 +42,10 @@ class CriaOrgaoJob implements ShouldQueue
      */
     public function handle()
     {
-        //rotina de criacao de orgao no bot sade...
+        $this->delete();
 
+        //...
 
-        dispatch(new CriaReservaJob($this->licitacao));
+        dispatch(new CriaReservaJob($this->licitacao))->onQueue($this->licitacao->portal);
     }
 }

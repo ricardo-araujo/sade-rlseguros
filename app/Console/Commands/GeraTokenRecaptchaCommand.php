@@ -3,7 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Repository\RecaptchaRepository;
+use App\Repository\ReservaBBRepository;
 use App\Repository\ReservaCNRepository;
+use App\Repository\ReservaIORepository;
 use Forseti\Crawler\NoRecaptcha\TwoCaptcha\TwoCaptchaWithGoogleKey;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -51,11 +53,11 @@ class GeraTokenRecaptchaCommand extends Command
      *
      * @return mixed
      */
-    public function handle(ReservaCNRepository $reserva)
+    public function handle(ReservaBBRepository $repoBB, ReservaCNRepository $repoCN, ReservaIORepository $repoIO)
     {
         sleep((int)$this->option('delay'));
 
-        if ($this->option('force') || $reserva->existsToday()) //Verificacao tem como objetivo minimizar a criação de tokens em caso de dias sem reserva, para que creditos da api nao sejam gastos sem necessidade
+        if ($this->option('force') || $repoBB->existsToday() || $repoCN->existsToday() || $repoIO->existsToday()) //Verificacao tem como objetivo minimizar a criação de tokens em caso de dias sem reserva, para que creditos da api nao sejam gastos sem necessidade
             return $this->generateToken();
 
         return false;

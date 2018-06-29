@@ -37,6 +37,8 @@ class BuscaCnpjsNosAnexosBBJob implements ShouldQueue
      */
     public function handle(OrgaoMapfreRepository $orgaoRepo)
     {
+        $this->delete();
+
         $path = public_path('anexos' . DIRECTORY_SEPARATOR . $this->licitacao->portal . DIRECTORY_SEPARATOR . $this->licitacao->id . DIRECTORY_SEPARATOR);
 
         $it = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));

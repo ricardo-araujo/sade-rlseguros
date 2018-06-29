@@ -31,7 +31,7 @@ class ProxyListRepository extends Repository
                     ->first();
     }
 
-    public function proxy() //retorna primeiro proxy usado a mais de 2 minutos ou nao usado e sem reserva associada ou falso
+    public function proxy() //retorna primeiro proxy usado ha mais de 2 minutos ou nao usado e sem reserva associada ou falso
     {
         $model = $this->query()
                       ->where('used_at', '<=', now()->subMinutes(2))
