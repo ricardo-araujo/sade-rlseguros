@@ -2,9 +2,9 @@
 
 namespace App\Jobs;
 
-use App\Models\AbstractLicitacao;
 use App\Models\OrgaoMapfre;
 use Illuminate\Bus\Queueable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -15,16 +15,16 @@ class ValidaOrgaoParaLicitacaoJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * @var AbstractLicitacao
+     * @var Model
      */
     private $licitacao;
 
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param Model $licitacao
      */
-    public function __construct(AbstractLicitacao $licitacao)
+    public function __construct(Model $licitacao)
     {
         $this->licitacao = $licitacao;
     }

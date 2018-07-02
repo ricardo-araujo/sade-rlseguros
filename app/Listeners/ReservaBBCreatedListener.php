@@ -2,16 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Events\LicitacaoCNCreatedEvent;
-use App\Notifications\LicitacaoCreatedNotification;
-use Illuminate\Notifications\Notifiable;
+use App\Events\ReservaBBCreatedEvent;
+use App\Jobs\AnexaEditalNaReservaJob;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendLicitacaoTelegramListener
+class ReservaBBCreatedListener
 {
-    use Notifiable;
-
     /**
      * Create the event listener.
      *
@@ -28,8 +25,10 @@ class SendLicitacaoTelegramListener
      * @param  object  $event
      * @return void
      */
-    public function handle(LicitacaoCNCreatedEvent $event)
+    public function handle(ReservaBBCreatedEvent $event)
     {
-        $this->notify(new LicitacaoCreatedNotification($event->licitacao));
+        $reserva = $event->reserva;
+
+        dispatch(new AnexaEditalNaReservaJob($reserva))->onQueue('bb');
     }
 }

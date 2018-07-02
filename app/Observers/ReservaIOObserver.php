@@ -2,13 +2,13 @@
 
 namespace App\Observers;
 
-use App\Jobs\AnexaEditalNaReservaJob;
+use App\Events\ReservaIOCreatedEvent;
 use App\Models\ReservaIO;
 
 class ReservaIOObserver
 {
     public function created(ReservaIO $reserva)
     {
-        dispatch(new AnexaEditalNaReservaJob($reserva))->onQueue('io');
+        event(new ReservaIOCreatedEvent($reserva));
     }
 }

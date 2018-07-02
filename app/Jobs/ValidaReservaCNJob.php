@@ -24,6 +24,7 @@ use League\Pipeline\Pipeline;
 class ValidaReservaCNJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
     /**
      * @var AbstractReserva
      */
@@ -57,11 +58,7 @@ class ValidaReservaCNJob implements ShouldQueue
 
         Log::debug('Validando reserva no site da Mapfre', ['reserva' => $this->reserva->toArray()]);
 
-        $cp = cookieReservaPath($this->reserva);
-
-        $client = getClient($cp);
-
-        /** TODO: inserir proxy na requisicao e atribuir à reserva */
+        /** TODO: $client */
 
         $parser = (new Pipeline())
             ->pipe(new GetLoginPageObject($client))

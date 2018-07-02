@@ -20,7 +20,9 @@ class ProcessaLicitacaoJob implements ShouldQueue
      */
     public function __construct(AbstractLicitacao $licitacao)
     {
-        //
+        /**
+         * Classe wrapper pra juntar os processos de processamento de uma licitacao para cada portal
+        */
     }
 
     /**
