@@ -6,14 +6,14 @@ use App\Events\LicitacaoBBCreatedEvent;
 use App\Events\LicitacaoCNCreatedEvent;
 use App\Events\LicitacaoIOCreatedEvent;
 use App\Events\ReservaBBCreatedEvent;
-use App\Events\ReservaBBCreatedListener;
 use App\Events\ReservaCNCreatedEvent;
-use App\Events\ReservaCNCreatedListener;
 use App\Events\ReservaIOCreatedEvent;
-use App\Events\ReservaIOCreatedListener;
-use App\Listeners\ProcessaLicitacaoBBListener;
-use App\Listeners\ProcessaLicitacaoCNListener;
-use App\Listeners\ProcessaLicitacaoIOListener;
+use App\Listeners\LicitacaoBBCreatedListener;
+use App\Listeners\LicitacaoCNCreatedListener;
+use App\Listeners\LicitacaoIOCreatedListener;
+use App\Listeners\ReservaBBCreatedListener;
+use App\Listeners\ReservaCNCreatedListener;
+use App\Listeners\ReservaIOCreatedListener;
 use App\Listeners\SendLicitacaoTelegramListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -28,17 +28,17 @@ class EventServiceProvider extends ServiceProvider
 
         LicitacaoBBCreatedEvent::class => [
             SendLicitacaoTelegramListener::class,
-            ProcessaLicitacaoBBListener::class
+            LicitacaoBBCreatedListener::class
         ],
 
         LicitacaoCNCreatedEvent::class => [
             SendLicitacaoTelegramListener::class,
-            ProcessaLicitacaoCNListener::class
+            LicitacaoCNCreatedListener::class
         ],
 
         LicitacaoIOCreatedEvent::class => [
             SendLicitacaoTelegramListener::class,
-            ProcessaLicitacaoIOListener::class
+            LicitacaoIOCreatedListener::class
         ],
 
         ReservaBBCreatedEvent::class => [

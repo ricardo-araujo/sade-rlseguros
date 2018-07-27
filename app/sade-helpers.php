@@ -4,17 +4,17 @@
  * Arquivo para juntar funções comuns ao Sade
 */
 
-if (!function_exists('contentFromDoc')) {
+if (!function_exists('content_from_doc')) {
 
-    function contentFromDoc($pathToFile) {
+    function content_from_doc($pathToFile) {
 
         return shell_exec("catdoc \"{$pathToFile}\"");
     }
 }
 
-if (!function_exists('contentFromDocx')) {
+if (!function_exists('content_from_docx')) {
 
-    function contentFromDocx($pathToFile) {
+    function content_from_docx($pathToFile) {
 
         $content = '';
         $zip = zip_open($pathToFile);
@@ -37,9 +37,9 @@ if (!function_exists('contentFromDocx')) {
     }
 }
 
-if (!function_exists('contentFromPDF')) {
+if (!function_exists('content_from_pdf')) {
 
-    function contentFromPDF($pathToFile) {
+    function content_from_pdf($pathToFile) {
 
         $tmpFile = '/tmp/' . md5($pathToFile) . '.txt';
         shell_exec("pdftotext $pathToFile $tmpFile -raw >/dev/null 2>&1");
@@ -50,44 +50,44 @@ if (!function_exists('contentFromPDF')) {
     }
 }
 
-if (!function_exists('contentFromRTF')) {
+if (!function_exists('content_from_rtf')) {
 
-    function contentFromRTF($pathToFile) {
+    function content_from_rtf($pathToFile) {
 
         return shell_exec("catdoc \"{$pathToFile}\"");
     }
 }
 
-if (!function_exists('contentFromTXT')) {
+if (!function_exists('content_from_txt')) {
 
-    function contentFromTXT($pathToFile) {
+    function content_from_txt($pathToFile) {
 
         return file_get_contents($pathToFile);
     }
 }
 
-if (!function_exists('contentFromFile')) {
+if (!function_exists('content_from_file')) {
 
-    function contentFromFile($pathToFile)
+    function content_from_file($pathToFile)
     {
         $ext = pathinfo($pathToFile, PATHINFO_EXTENSION);
 
         switch (mb_strtolower($ext)) {
 
             case 'doc':
-                return contentFromDoc($pathToFile);
+                return content_from_doc($pathToFile);
 
             case 'docx':
-                return contentFromDocx($pathToFile);
+                return content_from_docx($pathToFile);
 
             case 'pdf':
-                return contentFromPDF($pathToFile);
+                return content_from_pdf($pathToFile);
 
             case 'rtf':
-                return contentFromRTF($pathToFile);
+                return content_from_rtf($pathToFile);
 
             case 'txt':
-                return contentFromTXT($pathToFile);
+                return content_from_txt($pathToFile);
 
             default:
                 return false;
@@ -95,17 +95,17 @@ if (!function_exists('contentFromFile')) {
     }
 }
 
-if (!function_exists('onlyNumbers')) {
+if (!function_exists('only_numbers')) {
 
-    function onlyNumbers($string) {
+    function only_numbers($string) {
 
         return preg_replace('#[^0-9]#', '', $string);
     }
 }
 
-if (!function_exists('cnpjValido')) {
+if (!function_exists('cnpj_is_valid')) {
 
-    function cnpjValido($cnpj) {
+    function cnpj_is_valid($cnpj) {
 
         $cnpj = preg_replace('#[^0-9]#', '', (string) $cnpj);
 
@@ -141,9 +141,9 @@ if (!function_exists('hour')) {
     }
 }
 
-if (!function_exists('editalPath')) {
+if (!function_exists('edital_path')) {
 
-    function editalPath(\App\Models\AbstractLicitacao $licitacao) {
+    function edital_path(\App\Models\AbstractLicitacao $licitacao) {
 
         $ds = DIRECTORY_SEPARATOR;
 
@@ -151,10 +151,19 @@ if (!function_exists('editalPath')) {
     }
 }
 
-if (!function_exists('cookieReservaPath')) {
+if (!function_exists('cookie_reserva_path')) {
 
-    function cookieReservaPath(\App\Models\AbstractReserva $reserva) {
+    function cookie_reserva_path(\App\Models\AbstractReserva $reserva) {
 
         return storage_path("{$reserva->licitacao->portal}_{$reserva->id}.txt");
+    }
+}
+
+if (!function_exists('check_upload')) {
+
+    function check_upload($html) {
+
+        return (bool) preg_match('#enviado com sucesso#i', $html);
+
     }
 }

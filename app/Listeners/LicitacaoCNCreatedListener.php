@@ -9,7 +9,7 @@ use App\Jobs\ProcessaLicitacaoJob;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ProcessaLicitacaoCNListener
+class LicitacaoCNCreatedListener
 {
     /**
      * Create the event listener.

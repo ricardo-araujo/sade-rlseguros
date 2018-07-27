@@ -9,7 +9,10 @@ class LicitacaoCN extends AbstractLicitacao
 
     public function getDtAberturaPropostaAttribute($value)
     {
-        return ($value) ? new \DateTime($value) : null;
+        if (!$value)
+            return null;
+
+        return ($value instanceof \DateTime) ? $value : new \DateTime($value);
     }
 
     public function getHasAnexoAttribute($value)

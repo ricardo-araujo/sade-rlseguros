@@ -28,7 +28,7 @@ class SendLicitacaoTelegramListener
      * @param  object  $event
      * @return void
      */
-    public function handle(LicitacaoCNCreatedEvent $event)
+    public function handle($event)
     {
         $this->notify(new LicitacaoCreatedNotification($event->licitacao));
     }

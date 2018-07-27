@@ -11,7 +11,7 @@ use App\Jobs\ValidaOrgaoParaLicitacaoJob;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ProcessaLicitacaoBBListener
+class LicitacaoBBCreatedListener
 {
     /**
      * Create the event listener.

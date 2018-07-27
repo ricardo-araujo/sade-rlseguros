@@ -29,6 +29,7 @@ class LicitacaoIOCreatedEvent
     public function __construct(Model $licitacao)
     {
         Log::info('Licitacao inserida no banco de dados', ['licitacao' => $licitacao->toArray()]);
+
         $this->licitacao = $licitacao;
     }
 }

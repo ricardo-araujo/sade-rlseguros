@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use Forseti\Bot\Sade\Pipeline\CreateReservaPipeline;
+use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;
@@ -33,10 +35,19 @@ class CriaReservaJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(Client $client)
     {
         $this->delete();
 
-        // rotina de criação de reserva no bot sade...
+        /**
+         * TODO: finalizar rotina e adequar p/ BB e IO
+        */
+        $parser = (new CreateReservaPipeline($client))->process(
+            '',
+            $this->licitacao->nm_edital,
+            $this->licitacao->nu_ramo,
+            $this->licitacao->dt_disputa);
+
+        dump($parser);
     }
 }

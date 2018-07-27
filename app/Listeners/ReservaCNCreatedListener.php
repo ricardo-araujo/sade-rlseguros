@@ -3,8 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\ReservaCNCreatedEvent;
-use App\Jobs\AnexaEditalNaReservaJob;
-use App\Jobs\ProcessaReservaJob;
 use App\Jobs\ValidaReservaCNJob;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -31,10 +29,6 @@ class ReservaCNCreatedListener
     {
         $reserva = $event->reserva;
 
-        ProcessaReservaJob::withChain([
-            new ValidaReservaCNJob($reserva),
-            new AnexaEditalNaReservaJob($reserva)
-        ])->dispatch($reserva)
-          ->onQueue('cn');;
+        dispatch(new ValidaReservaCNJob($reserva))->onQueue('cn');
     }
 }

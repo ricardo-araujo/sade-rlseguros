@@ -47,7 +47,7 @@ class BuscaCnpjsNosAnexosBBJob implements ShouldQueue
         foreach ($it as $item) {
 
             if ($item->isFile())
-                $content .= contentFromFile($item->getRealPath());
+                $content .= content_from_file($item->getRealPath());
         }
         //duas regexes para identificar padroes de cnpjs:
         preg_match_all('#\d{2}[,\.]\d{3}[,\.]\d{3}[\/\.]\d{4}\s?[\.\-]\s?\d{2}|\d{8}\/\d{4}\-\d{2}#isu', $content, $m);
@@ -55,10 +55,10 @@ class BuscaCnpjsNosAnexosBBJob implements ShouldQueue
         collect($m)->flatten()
                    ->unique()
                    ->filter(function($cnpj) {
-                       return cnpjValido($cnpj);
+                       return cnpj_is_valid($cnpj);
                    })
                    ->map(function($cnpj) {
-                       return onlyNumbers($cnpj);
+                       return only_numbers($cnpj);
                    })
                    ->each(function($cnpj) use($orgaoRepo) {
 

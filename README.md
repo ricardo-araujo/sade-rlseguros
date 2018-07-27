@@ -9,6 +9,9 @@ composer install
 ```
 php artisan migrate --seed
 ```
+```
+sudo apt-get install catdoc pdftotext
+```
 ## Utilização
 Para visualizar os commands disponíveis, digite no terminal dentro da aplicação:
 ```
