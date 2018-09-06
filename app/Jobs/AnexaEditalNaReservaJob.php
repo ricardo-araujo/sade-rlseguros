@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\AbstractReserva;
 use App\Repository\RecaptchaRepository;
+use Forseti\Bot\Sade\Pipeline\PostEditalPipeline;
 use Illuminate\Bus\Queueable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;
@@ -53,9 +54,15 @@ class AnexaEditalNaReservaJob implements ShouldQueue
 
         try {
 
-            $html = '';
+            $parser = (new PostEditalPipeline(null))->process(
+                $token,
+                $this->reserva->nm_reserva,
+                '',
+                '',
+                edital_path($this->reserva->licitacao)
+            );
 
-            $this->reserva->update(['was_uploaded' => check_upload($html)]);
+            $this->reserva->update(['was_uploaded' => check_upload($parser->getHtml())]);
 
         } catch (\Exception $e) {
 

@@ -4,8 +4,7 @@ namespace App\Models;
 
 class ReservaBB extends AbstractReserva
 {
-    protected $connection = 'mysql_bb';
-    protected $table = 'reserva';
+    protected $table = 'reserva_bb';
 
     public function licitacao()
     {

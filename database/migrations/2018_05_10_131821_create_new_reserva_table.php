@@ -13,7 +13,7 @@ class CreateNewReservaTable extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql_cn')->create('reserva', function (Blueprint $table) {
+        Schema::create('reserva_cn', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('id_licitacao');
             $table->string('nm_reserva')->nullable();
@@ -23,7 +23,7 @@ class CreateNewReservaTable extends Migration
             $table->timestamp('dt_inicio_upload')->nullable();
             $table->timestamp('dt_fim_upload')->nullable();
             $table->timestamps();
-            $table->foreign('id_licitacao')->references('id')->on('licitacao');
+            $table->foreign('id_licitacao')->references('id')->on('licitacao_cn');
         });
     }
 
@@ -34,6 +34,5 @@ class CreateNewReservaTable extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql_cn')->dropIfExists('reserva');
     }
 }

@@ -4,8 +4,8 @@ namespace App\Jobs;
 
 use App\Models\LicitacaoIO;
 use App\Repository\OrgaoMapfreRepository;
-use Forseti\Bot\Sade\PageObject\GetUnidadeCompradoraPageObject;
-use GuzzleHttp\ClientInterface;
+use Forseti\Bot\Sade\PageObject\UnidadeCompradoraPageObject;
+use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;
@@ -36,11 +36,11 @@ class BuscaOrgaoNoBecIOJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle(ClientInterface $client, OrgaoMapfreRepository $orgaoRepo)
+    public function handle(Client $client, OrgaoMapfreRepository $orgaoRepo)
     {
         $this->delete();
 
-        $parser = (new GetUnidadeCompradoraPageObject($client))->getPage($this->licitacao->nu_orgao);
+        $parser = (new UnidadeCompradoraPageObject($client))->getPage($this->licitacao->nu_orgao);
 
         $orgao = $orgaoRepo->firstOrCreate($parser->getCnpj(), $parser->getNome());
 

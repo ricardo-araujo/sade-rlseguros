@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class OrgaoMapfre extends Model
 {
-    protected $connection = 'mysql_config';
     protected $table = 'orgao';
     protected $primaryKey = 'id';
     protected $guarded = ['id'];
@@ -23,7 +22,7 @@ class OrgaoMapfre extends Model
 
     public function licitacaoBB()
     {
-        return $this->belongsToMany(LicitacaoBB::class, 'sadebb_new.licitacao_orgao', 'id_licitacao', 'id_orgao')->using(LicitacaoBBOrgao::class);
+        return $this->belongsToMany(LicitacaoBB::class, 'licitacao_bb_orgao', 'id_licitacao', 'id_orgao')->using(LicitacaoBBOrgao::class);
     }
 
     public function licitacaoIO()

@@ -10,7 +10,6 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $connection = 'mysql_config';
     protected $table = 'users';
     protected $primaryKey = 'id';
     protected $guarded = ['id'];

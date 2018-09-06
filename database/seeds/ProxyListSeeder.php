@@ -14,7 +14,7 @@ class ProxyListSeeder extends Seeder
     {
         $ips = [
             [
-                'nome' => 'local',
+                'nome' => 'default',
                 'proxy' => null,
             ],
             [

@@ -6,6 +6,7 @@ use App\Events\LicitacaoCNCreatedEvent;
 use App\Jobs\DownloadAnexosCNJob;
 use App\Jobs\ProcessaAnexosJob;
 use App\Jobs\ProcessaLicitacaoJob;
+use App\Jobs\UploadEditalCNJob;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -33,7 +34,8 @@ class LicitacaoCNCreatedListener
 
         ProcessaLicitacaoJob::withChain([
             new DownloadAnexosCNJob($licitacao),
-            new ProcessaAnexosJob($licitacao)
+            new ProcessaAnexosJob($licitacao),
+            new UploadEditalCNJob($licitacao)
         ])->dispatch($licitacao)
           ->allOnQueue('cn')
           ->delay(

@@ -5,6 +5,8 @@ namespace App\Listeners;
 use App\Events\LicitacaoIOCreatedEvent;
 use App\Jobs\BuscaOrgaoNoBecIOJob;
 use App\Jobs\DownloadAnexosIOJob;
+use App\Jobs\IdentificaOrgaoMapfreJob;
+use App\Jobs\IdentificaOrgaoIOJob;
 use App\Jobs\ProcessaAnexosJob;
 use App\Jobs\ProcessaLicitacaoJob;
 use App\Jobs\ValidaOrgaoParaLicitacaoJob;
@@ -37,7 +39,7 @@ class LicitacaoIOCreatedListener
             new DownloadAnexosIOJob($licitacao),
             new ProcessaAnexosJob($licitacao),
             new BuscaOrgaoNoBecIOJob($licitacao),
-            new ValidaOrgaoParaLicitacaoJob($licitacao),
+            new IdentificaOrgaoMapfreJob($licitacao)
             /**
              * TODO: validacao de orgao e criacao da reserva
              */

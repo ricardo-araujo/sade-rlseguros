@@ -13,7 +13,7 @@ class MakeProxylistTable extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql_config')->create('proxylist', function (Blueprint $table) {
+        Schema::create('proxylist', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('reserva_id')->nullable(); #
             $table->char('reserva_type')->nullable()->comment('Portal da reserva'); #
@@ -33,6 +33,6 @@ class MakeProxylistTable extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql_config')->dropIfExists('proxylist');
+        Schema::dropIfExists('proxylist');
     }
 }

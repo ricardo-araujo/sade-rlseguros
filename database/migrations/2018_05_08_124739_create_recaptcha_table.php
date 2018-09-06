@@ -13,7 +13,7 @@ class CreateRecaptchaTable extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql_config')->create('recaptcha', function (Blueprint $table) {
+        Schema::create('recaptcha', function (Blueprint $table) {
             $table->increments('id');
             $table->string('id_captcha');
             $table->text('token');
@@ -29,6 +29,6 @@ class CreateRecaptchaTable extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql_config')->dropIfExists('recaptcha');
+        Schema::dropIfExists('recaptcha');
     }
 }

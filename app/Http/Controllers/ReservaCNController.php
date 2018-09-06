@@ -36,7 +36,7 @@ class ReservaCNController extends Controller
         $licitacaoId = $request->get('licitacao');
         $reservaNumero = $request->get('reserva');
 
-        $this->validate($request, ['reserva' => 'required|digits:6|unique:mysql_cn.reserva,nm_reserva']);
+        $this->validate($request, ['reserva' => 'required|digits:6|unique:reserva_cn,nm_reserva']);
 
         $reserva = $this->licitacaoRepo
                         ->byId($licitacaoId)

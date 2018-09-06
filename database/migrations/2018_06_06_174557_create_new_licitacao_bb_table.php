@@ -13,7 +13,7 @@ class CreateNewLicitacaoBbTable extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql_bb')->create('licitacao', function (Blueprint $table) {
+        Schema::create('licitacao_bb', function (Blueprint $table) {
             $table->increments('id');
             $table->char('portal')->default('bb');
             $table->string('nu_licitacao')->nullable();
@@ -62,6 +62,5 @@ class CreateNewLicitacaoBbTable extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql_bb')->dropIfExists('licitacao');
     }
 }

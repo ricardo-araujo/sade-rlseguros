@@ -13,7 +13,7 @@ class CreateJobsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql_config')->create('jobs', function (Blueprint $table) {
+        Schema::create('jobs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('queue')->index();
             $table->longText('payload');
@@ -31,6 +31,6 @@ class CreateJobsTable extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql_config')->dropIfExists('jobs');
+        Schema::dropIfExists('jobs');
     }
 }

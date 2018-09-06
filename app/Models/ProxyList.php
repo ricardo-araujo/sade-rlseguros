@@ -9,7 +9,6 @@ class ProxyList extends Model
 {
     use SoftDeletes;
 
-    protected $connection = 'mysql_config';
     protected $table = 'proxylist';
     protected $primaryKey = 'id';
     protected $guarded = ['id'];

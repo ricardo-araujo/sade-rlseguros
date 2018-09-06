@@ -4,8 +4,7 @@ namespace App\Models;
 
 class ReservaCN extends AbstractReserva
 {
-    protected $connection = 'mysql_cn';
-    protected $table = 'reserva';
+    protected $table = 'reserva_cn';
 
     public function getDtInicioUploadAttribute($value)
     {

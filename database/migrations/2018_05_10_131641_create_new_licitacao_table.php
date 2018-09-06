@@ -13,7 +13,7 @@ class CreateNewLicitacaoTable extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql_cn')->create('licitacao', function (Blueprint $table) {
+        Schema::create('licitacao_cn', function (Blueprint $table) {
             $table->increments('id');
             $table->char('portal')->default('cn');
             $table->string('nm_uf')->nullable();
@@ -42,10 +42,5 @@ class CreateNewLicitacaoTable extends Migration
      */
     public function down()
     {
-        $database = Schema::connection('mysql_cn');
-
-        $database->disableForeignKeyConstraints();
-
-        $database->dropIfExists('licitacao');
     }
 }

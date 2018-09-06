@@ -13,9 +13,9 @@ class AddOrgaoForeignKeyToLicitacaoIO extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql_io')->table('licitacao', function(Blueprint $table) {
+        Schema::table('licitacao_io', function(Blueprint $table) {
             $table->unsignedInteger('id_orgao')->nullable()->after('id');
-            $table->foreign('id_orgao')->references('id')->on('sade_config.orgao');
+            $table->foreign('id_orgao')->references('id')->on('orgao');
         });
     }
 

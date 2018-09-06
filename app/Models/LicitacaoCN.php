@@ -4,8 +4,7 @@ namespace App\Models;
 
 class LicitacaoCN extends AbstractLicitacao
 {
-    protected $connection = 'mysql_cn';
-    protected $table = 'licitacao';
+    protected $table = 'licitacao_cn';
 
     public function getDtAberturaPropostaAttribute($value)
     {

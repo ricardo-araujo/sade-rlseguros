@@ -4,8 +4,7 @@ namespace App\Models;
 
 class LicitacaoBB extends AbstractLicitacao
 {
-    protected $connection = 'mysql_bb';
-    protected $table = 'licitacao';
+    protected $table = 'licitacao_bb';
 
     public function getDtPublicacaoAttribute($value)
     {
@@ -64,6 +63,6 @@ class LicitacaoBB extends AbstractLicitacao
 
     public function orgao()
     {
-        return $this->belongsToMany(OrgaoMapfre::class, 'sadebb_new.licitacao_orgao', 'id_licitacao', 'id_orgao')->using(LicitacaoBBOrgao::class);
+        return $this->belongsToMany(OrgaoMapfre::class, 'licitacao_bb_orgao', 'id_licitacao', 'id_orgao')->using(LicitacaoBBOrgao::class);
     }
 }

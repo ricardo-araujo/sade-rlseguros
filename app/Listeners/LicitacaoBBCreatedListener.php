@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\LicitacaoBBCreatedEvent;
 use App\Jobs\BuscaCnpjsNosAnexosBBJob;
 use App\Jobs\DownloadAnexosBBJob;
+use App\Jobs\IdentificaOrgaoMapfreJob;
 use App\Jobs\ProcessaAnexosJob;
 use App\Jobs\ProcessaLicitacaoJob;
 use App\Jobs\ValidaOrgaoParaLicitacaoJob;
@@ -37,7 +38,7 @@ class LicitacaoBBCreatedListener
             new DownloadAnexosBBJob($licitacao),
             new ProcessaAnexosJob($licitacao),
             new BuscaCnpjsNosAnexosBBJob($licitacao),
-            new ValidaOrgaoParaLicitacaoJob($licitacao),
+            new IdentificaOrgaoMapfreJob($licitacao)
             /**
              * TODO: criação de orgaos e reserva
              */

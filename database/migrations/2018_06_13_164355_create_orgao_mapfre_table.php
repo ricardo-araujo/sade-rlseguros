@@ -13,7 +13,7 @@ class CreateOrgaoMapfreTable extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql_config')->create('orgao', function (Blueprint $table) {
+        Schema::create('orgao', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nm_razao_social')->nullable();
             $table->string('nm_cnpj')->nullable();
@@ -30,6 +30,5 @@ class CreateOrgaoMapfreTable extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql_config')->dropIfExists('orgao_mapfre');
     }
 }

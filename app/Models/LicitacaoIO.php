@@ -4,8 +4,7 @@ namespace App\Models;
 
 class LicitacaoIO extends AbstractLicitacao
 {
-    protected $connection = 'mysql_io';
-    protected $table = 'licitacao';
+    protected $table = 'licitacao_io';
 
     public function setNmOrgaoAttribute($value)
     {

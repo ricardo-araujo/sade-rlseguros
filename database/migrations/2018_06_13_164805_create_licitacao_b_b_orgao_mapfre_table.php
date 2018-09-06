@@ -13,12 +13,12 @@ class CreateLicitacaoBBOrgaoMapfreTable extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql_bb')->create('licitacao_orgao', function (Blueprint $table) {
+        Schema::create('licitacao_bb_orgao', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('id_licitacao')->nullable();
             $table->unsignedInteger('id_orgao')->nullable();
-            $table->foreign('id_licitacao')->references('id')->on('licitacao');
-            $table->foreign('id_orgao')->references('id')->on('sade_config.orgao');
+            $table->foreign('id_licitacao')->references('id')->on('licitacao_bb');
+            $table->foreign('id_orgao')->references('id')->on('orgao');
         });
     }
 
@@ -29,6 +29,5 @@ class CreateLicitacaoBBOrgaoMapfreTable extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql_bb')->dropIfExists('licitacao_orgao');
     }
 }

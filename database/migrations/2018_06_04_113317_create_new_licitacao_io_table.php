@@ -13,7 +13,7 @@ class CreateNewLicitacaoIoTable extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql_io')->create('licitacao', function (Blueprint $table) {
+        Schema::create('licitacao_io', function (Blueprint $table) {
             $table->increments('id');
             $table->char('portal')->default('io');
             $table->integer('nu_licitacao');
@@ -42,6 +42,5 @@ class CreateNewLicitacaoIoTable extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql_io')->dropIfExists('licitacao');
     }
 }

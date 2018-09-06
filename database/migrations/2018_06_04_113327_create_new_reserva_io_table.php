@@ -13,7 +13,7 @@ class CreateNewReservaIoTable extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql_io')->create('reserva', function (Blueprint $table) {
+        Schema::create('reserva_io', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('id_licitacao')->nullable();
             $table->string('nm_reserva')->nullable();
@@ -23,7 +23,7 @@ class CreateNewReservaIoTable extends Migration
             $table->timestamp('dt_inicio_upload')->nullable();
             $table->timestamp('dt_fim_upload')->nullable();
             $table->timestamps();
-            $table->foreign('id_licitacao')->references('id')->on('licitacao');
+            $table->foreign('id_licitacao')->references('id')->on('licitacao_io');
         });
     }
 
@@ -34,6 +34,5 @@ class CreateNewReservaIoTable extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql_io')->dropIfExists('reserva');
     }
 }

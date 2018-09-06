@@ -4,8 +4,7 @@ namespace App\Models;
 
 class ReservaIO extends AbstractReserva
 {
-    protected $connection = 'mysql_io';
-    protected $table = 'reserva';
+    protected $table = 'reserva_io';
 
     public function licitacao()
     {

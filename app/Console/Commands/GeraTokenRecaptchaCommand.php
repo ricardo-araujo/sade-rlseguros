@@ -68,8 +68,12 @@ class GeraTokenRecaptchaCommand extends Command
         while ($this->twoCaptcha->requisitaRespostaCaptcha()->identificaRespostaPadrao() == false)
             continue;
 
-        if ($this->option('output'))
-            dd($this->twoCaptcha->identificaRespostaPadrao());
+        if ($this->option('output')) {
+
+            $this->info($this->twoCaptcha->identificaRespostaPadrao());
+
+            return true;
+        }
 
         Log::debug('Token do recaptcha salvo no banco de dados', ['id_token' => $this->twoCaptcha->getIdCaptcha()]);
 

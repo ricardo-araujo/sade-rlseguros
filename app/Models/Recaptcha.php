@@ -9,7 +9,6 @@ class Recaptcha extends Model
 {
     use SoftDeletes;
 
-    protected $connection = 'mysql_config';
     protected $table = 'recaptcha';
     protected $primaryKey = 'id';
     protected $guarded = ['id'];
