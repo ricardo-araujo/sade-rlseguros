@@ -15,4 +15,14 @@ class ReservaIORepository extends Repository
                      ->whereNotNull('was_uploaded')
                      ->exists();
     }
+
+    public function create($nmReserva)
+    {
+        return $this->query()->create(['nm_reserva' => $nmReserva]);
+    }
+
+    public function searchAndDelete($numero)
+    {
+        return $this->query()->where('nm_reserva', $numero)->delete();
+    }
 }

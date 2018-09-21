@@ -34,9 +34,9 @@ class ProxyListRepository extends Repository
     public function proxy() //retorna primeiro proxy usado ha mais de 2 minutos ou nao usado e sem reserva associada ou falso
     {
         $model = $this->query()
+                      ->whereNull('reserva_id')
                       ->where('used_at', '<=', now()->subMinutes(2))
                       ->orWhereNull('used_at')
-                      ->whereNull('reserva_id')
                       ->sharedLock()
                       ->first();
 
@@ -46,5 +46,22 @@ class ProxyListRepository extends Repository
         $model->update(['used_at' => now()]);
 
         return $model;
+    }
+
+    public function resetLoggedProxies()
+    {
+        return $this->query()->where('is_logged', '=', true)->update(['is_logged' => false]);
+    }
+
+    public function notLogged()
+    {
+        $proxies = $this->query()->where('is_logged', '=', false)->get();
+
+        return ($proxies->isNotEmpty()) ? $proxies : null;
+    }
+
+    public function logged()
+    {
+        return !$this->notLogged();
     }
 }

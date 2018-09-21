@@ -24,7 +24,7 @@ class GeraTokenRecaptchaCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Gera e armazena token do recaptcha do site da Mapfre';
+    protected $description = 'Command auxiliar com mesma função do job de mesmo nome que gera e armazena/mostra em tela token do recaptcha do site da Mapfre p/ fins de teste';
 
     /**
      * @var TwoCaptchaWithGoogleKey

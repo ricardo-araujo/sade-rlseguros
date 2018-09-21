@@ -10,6 +10,7 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Support\Facades\Log;
 
 class ReservaBBCreatedEvent
 {
@@ -27,6 +28,8 @@ class ReservaBBCreatedEvent
      */
     public function __construct(ReservaBB $reserva)
     {
+        Log::info('Reserva inserida no banco de dados', ['reserva' => $reserva->toArray()]);
+
         $this->reserva = $reserva;
     }
 }

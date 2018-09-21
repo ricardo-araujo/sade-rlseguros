@@ -43,6 +43,6 @@ class IdentificaOrgaoMapfreIOJob implements ShouldQueue
 
         (!$orgao->nm_cod_mapfre)
             ? dispatch(new CriaOrgaoJob($licitacao, $orgao))->onQueue('io')
-            : dispatch(new IdentificaRamoReservaJob($licitacao))->onQueue('io');
+            : dispatch(new IdentificaRamoReservaJob($licitacao, $orgao))->onQueue('io');
     }
 }

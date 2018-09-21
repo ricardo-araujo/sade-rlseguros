@@ -9,7 +9,7 @@ $factory->define(App\Models\LicitacaoCN::class, function (Faker $faker) {
         'nm_uf' => ['SP', 'RJ', 'BA', 'MG', 'AM', 'RS', 'SC', 'BA'][rand(0, 7)],
         'nm_orgao' => $faker->company,
         'nu_uasg' => $faker->numberBetween(10000, 99999),
-        'nu_pregao' => $faker->numberBetween(10000, 99999),
+        'nm_pregao' => $faker->numberBetween(10000, 99999),
         'nm_endereco' => $faker->address,
         'nm_telefone' => $faker->phoneNumber,
         'nm_fax' => $faker->phoneNumber,

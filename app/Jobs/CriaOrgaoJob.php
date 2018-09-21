@@ -49,23 +49,18 @@ class CriaOrgaoJob implements ShouldQueue
     {
         $this->delete();
 
-        $client = $this->getClient();
-
-        $parser = (new CreateOrgaoPipeline($client))->process($this->orgao->nm_cnpj, $this->orgao->nm_razao_social);
-
-        $this->orgao->update(['nm_cod_mapfre' => $parser->getCodigo()]);
-
-        /** TODO: dispatch -> identifica ramo reserva */
-    }
-
-    private function getClient()
-    {
-        return new Client([
+        $client = new Client([
             'handler' => app(HandlerStack::class), //provider de Handler de retry, fiz o provider para nao poluir essa classe
             'cookies' => new FileCookieJar(storage_path('default.txt'), true),
             'headers' => [
                 'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36'
             ]
         ]);
+
+        $parser = (new CreateOrgaoPipeline($client))->process($this->orgao->nm_cnpj, $this->orgao->nm_razao_social);
+
+        $this->orgao->update(['nm_razao_social' => $parser->getNome(), 'nm_cod_mapfre' => $parser->getCodigo()]);
+
+        dispatch(new IdentificaRamoReservaJob($this->licitacao, $this->orgao))->onQueue($this->licitacao->portal);
     }
 }

@@ -8,7 +8,6 @@ use App\Jobs\DownloadAnexosBBJob;
 use App\Jobs\IdentificaOrgaoMapfreJob;
 use App\Jobs\ProcessaAnexosJob;
 use App\Jobs\ProcessaLicitacaoJob;
-use App\Jobs\ValidaOrgaoParaLicitacaoJob;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -39,9 +38,6 @@ class LicitacaoBBCreatedListener
             new ProcessaAnexosJob($licitacao),
             new BuscaCnpjsNosAnexosBBJob($licitacao),
             new IdentificaOrgaoMapfreJob($licitacao)
-            /**
-             * TODO: criação de orgaos e reserva
-             */
         ])->dispatch($licitacao)
           ->allOnQueue('bb');
     }

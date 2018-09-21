@@ -15,7 +15,7 @@ $factory->define(App\Models\LicitacaoBB::class, function (Faker $faker) {
         'nu_coordenador' => $faker->numberBetween(1, 100),
         'nm_coordenador' => $faker->name,
         'nu_presidente_comissao' => $faker->numberBetween(1, 100),
-        'nm_edital' => $faker->numerify('###/##'),
+        'nm_pregao' => $faker->numerify('###/##'),
         'nm_processo' => $faker->numerify('#.###/####'),
         'nu_modalidade' => $faker->numberBetween(1, 5),
         'nm_tipo' => 'Menor preço',

@@ -30,7 +30,7 @@
                                 <td style="padding: 0.5em;"><strong>UASG:</strong> {{ $licitacao->nu_uasg }}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 0.5em;"><strong>Pregão:</strong> {{ $licitacao->nu_pregao }}</td>
+                                <td style="padding: 0.5em;"><strong>Pregão:</strong> {{ $licitacao->nm_pregao }}</td>
                             </tr>
                             <tr>
                                 <td style="padding: 0.5em;"><strong>Modalidade:</strong> {{ $licitacao->nm_modalidade }}</td>

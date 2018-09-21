@@ -17,9 +17,15 @@ Route::get('/', 'HomeController@index');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::post('/home', 'ReservaCNController@create');
+Route::put('/senha/redefine', 'UserController@redefine');
 
-Route::delete('/home', 'ReservaCNController@delete');
+Route::post('/cn/reserva/create', 'ReservaCNController@create');
+
+Route::delete('/cn/reserva/delete', 'ReservaCNController@delete');
+
+Route::post('/io/reserva/create', 'ReservaIOController@create');
+
+Route::delete('/io/reserva/delete', 'ReservaIOController@delete');
 
 Route::get('/download/bb/{licitacao_bb}', 'AbstractLicitacaoController@download')->name('download-bb');
 

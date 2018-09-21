@@ -17,8 +17,6 @@ class CreateNewReservaIoTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('id_licitacao')->nullable();
             $table->string('nm_reserva')->nullable();
-            $table->text('nm_viewstate')->nullable();
-            $table->text('nm_eventvalidation')->nullable();
             $table->boolean('was_uploaded')->nullable();
             $table->timestamp('dt_inicio_upload')->nullable();
             $table->timestamp('dt_fim_upload')->nullable();

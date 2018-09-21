@@ -12,16 +12,22 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
+        User::firstOrCreate([
             'name' => 'Suporte',
             'email' => 'suporte.licitacao@forseti.com.br',
             'password' => env('SENHA_USUARIO_SUPORTE')
         ]);
 
-        User::create([
+        User::firstOrCreate([
             'name' => 'Rezende',
             'email' => 'rlseguro@uol.com.br',
             'password' => env('SENHA_USUARIO_REZENDE')
+        ]);
+
+        User::firstOrCreate([
+            'name' => 'sadebb',
+            'email' => 'sade@forseti.com.br',
+            'password' => env('SENHA_USUARIO_SADE')
         ]);
     }
 }

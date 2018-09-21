@@ -33,7 +33,7 @@
                                 <td style="padding: 0.5em;"><strong>Objeto:</strong> {{ $licitacao->txt_objeto }}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 0.5em;"><strong>Edital:</strong> {{ $licitacao->nm_edital }}</td>
+                                <td style="padding: 0.5em;"><strong>Edital:</strong> {{ $licitacao->nm_pregao }}</td>
                             </tr>
                             <tr>
                                 <td style="padding: 0.5em;"><strong>Processo:</strong> {{ $licitacao->nm_processo }}</td>
@@ -42,7 +42,7 @@
                                 <td style="padding: 0.5em;"><strong>Publicação:</strong> {{ $licitacao->dt_publicacao->format('d/m/Y H:i:s') }}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 0.5em;"><strong>Abertura:</strong> {{ $licitacao->dt_abertura->format('d/m/Y H:i:s') }}</td>
+                                <td style="padding: 0.5em;"><strong>Abertura:</strong> {{ $licitacao->dt_disputa->format('d/m/Y H:i:s') }}</td>
                             </tr>
                             <tr>
                                 <td style="padding: 0.5em;">

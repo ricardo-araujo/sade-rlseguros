@@ -4,7 +4,7 @@
     @foreach($oportunidades as $oportunidade)
     <h4>{{ $oportunidade->nm_orgao}} </h4>
     <p> UASG: {{ $oportunidade->nu_uasg }} </p>
-    <p> Pregão: {{ $oportunidade->nu_pregao }} </p>
+    <p> Pregão: {{ $oportunidade->nm_pregao }} </p>
     <p> Oportunidade capturada às {{ $oportunidade->created_at->format('H:i:s') }} </p>
 
     @if($oportunidade->reserva->isEmpty())

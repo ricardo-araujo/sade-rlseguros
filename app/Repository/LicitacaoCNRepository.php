@@ -12,7 +12,7 @@ class LicitacaoCNRepository extends Repository
     public function create(array $attributes)
     {
         if ($this->query()
-                 ->where([['nu_pregao', '=', $attributes['nu_pregao']], ['nu_uasg', '=', $attributes['nu_uasg']]])
+                 ->where([['nm_pregao', '=', $attributes['nu_pregao']], ['nu_uasg', '=', $attributes['nu_uasg']]])
                  ->doesntExist()) {
 
             return $this->query()->create([
@@ -21,7 +21,7 @@ class LicitacaoCNRepository extends Repository
                 'nm_orgao' => app()->make(PesquisarUasgPage::class)->get($attributes['nu_uasg'])->getNomeUasg(),
                 'nu_uasg' => $attributes['nu_uasg'],
                 'txt_objeto' => $attributes['objeto'],
-                'nu_pregao' => $attributes['nu_pregao'],
+                'nm_pregao' => $attributes['nu_pregao'],
                 'nm_endereco' => $attributes['endereco'],
                 'nm_fax' => $attributes['fax'],
                 'nm_telefone' => $attributes['telefone'],

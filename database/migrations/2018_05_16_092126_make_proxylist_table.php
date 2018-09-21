@@ -22,7 +22,7 @@ class MakeProxylistTable extends Migration
             $table->timestamp('used_at')->nullable()->comment('Data em que o proxy foi usado pela ultima vez');
             $table->timestamps();
             $table->softDeletes()->comment('Soft delete para caso o proxy tenha que ser invalidado');
-            $table->index(['reserva_id', 'reserva_type']); #
+            $table->index(['reserva_id', 'reserva_type', 'used_at']);
         });
     } #Simulacao do metodo '$table->nullableMorphs()'. //Ver 'Polymorphic Relations' do Laravel para maiores entendimentos)
 

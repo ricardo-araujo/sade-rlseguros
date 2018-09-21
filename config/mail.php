@@ -57,7 +57,7 @@ return [
 
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'sade@forseti.com.br'),
-        'name' => env('MAIL_FROM_NAME', 'Sade Comprasnet'),
+        'name' => env('MAIL_FROM_NAME', 'Sade'),
     ],
 
     /*

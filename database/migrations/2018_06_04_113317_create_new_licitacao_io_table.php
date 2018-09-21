@@ -22,8 +22,8 @@ class CreateNewLicitacaoIoTable extends Migration
             $table->string('nm_modalidade')->nullable();
             $table->text('txt_objeto')->nullable();
             $table->timestamp('dt_publicacao')->nullable();
-            $table->timestamp('dt_abertura')->nullable();
-            $table->string('nm_edital')->nullable();
+            $table->timestamp('dt_disputa')->nullable()->comment('Data de abertura');
+            $table->string('nm_pregao')->nullable();
             $table->string('nm_area')->nullable();
             $table->string('nm_subarea')->nullable();
             $table->string('nm_processo')->nullable();

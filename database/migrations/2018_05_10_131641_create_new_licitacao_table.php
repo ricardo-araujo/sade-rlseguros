@@ -19,7 +19,7 @@ class CreateNewLicitacaoTable extends Migration
             $table->string('nm_uf')->nullable();
             $table->string('nm_orgao')->nullable();
             $table->integer('nu_uasg')->nullable();
-            $table->integer('nu_pregao')->nullable();
+            $table->integer('nm_pregao')->nullable();
             $table->string('nm_endereco')->nullable();
             $table->string('nm_telefone')->nullable();
             $table->string('nm_fax')->nullable();

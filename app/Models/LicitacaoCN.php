@@ -29,6 +29,16 @@ class LicitacaoCN extends AbstractLicitacao
         $this->attributes['nm_fax'] = blank($value) ? null : $value;
     }
 
+    public function setDtEntregaPropostaAttribute($value)
+    {
+        $this->attributes['dt_entrega_proposta'] = (blank($value) || $value == '0000-00-00 00:00:00') ? null : $value;
+    }
+
+    public function setDtAberturaPropostaAttribute($value)
+    {
+        $this->attributes['dt_abertura_proposta'] = (blank($value) || $value == '0000-00-00 00:00:00') ? null : $value;
+    }
+
     public function reserva()
     {
         return $this->hasMany(ReservaCN::class, 'id_licitacao', 'id');

@@ -13,9 +13,9 @@ class LicitacaoBBRepository extends Repository
     public function create(array $attributes)
     {
         if ($attributes['id_modalidade'] == LicitacaoBBRepository::MODALIDADE_CORRETA && $this->query()
+
                                                                                               ->where(['nu_licitacao' => $attributes['nu_licitacao']])
                                                                                               ->doesntExist()) {
-
             return $this->query()->create([
                 'portal' => 'bb',
                 'nu_licitacao' => $attributes['nu_licitacao'],
@@ -27,7 +27,7 @@ class LicitacaoBBRepository extends Repository
                 'nu_coordenador' => $attributes['id_coordenador'],
                 'nm_coordenador' => $attributes['nm_coordenador'],
                 'nu_presidente_comissao' => $attributes['id_presidente_comissao'],
-                'nm_edital' => $attributes['nm_edital'],
+                'nm_pregao' => $attributes['nm_edital'],
                 'nm_processo' => $attributes['nm_processo'],
                 'nu_modalidade' => $attributes['id_modalidade'],
                 'nm_tipo' => $attributes['nm_tipo'],

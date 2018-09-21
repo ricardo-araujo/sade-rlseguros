@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\ReservaIO;
+use App\Models\ReservaCN;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -12,12 +12,12 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Support\Facades\Log;
 
-class ReservaIOCreatedEvent
+class ReservaCNCreatedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var ReservaIO
+     * @var ReservaCN
      */
     public $reserva;
 
@@ -26,7 +26,7 @@ class ReservaIOCreatedEvent
      *
      * @return void
      */
-    public function __construct(ReservaIO $reserva)
+    public function __construct(ReservaCN $reserva)
     {
         Log::info('Reserva inserida no banco de dados', ['reserva' => $reserva->toArray()]);
 

@@ -38,7 +38,7 @@ class DownloadAnexosBBJob implements ShouldQueue
      */
     public function handle(DocumentoCrawler $crawler)
     {
-        Log::debug('Iniciando download dos anexos da licitacao no BB', ['licitacao' => $this->licitacao->toArray()]);
+        Log::debug('Iniciando download dos anexos da licitacao no BB', ['licitacao' => $this->licitacao->id]);
 
         $this->delete();
 
@@ -57,7 +57,7 @@ class DownloadAnexosBBJob implements ShouldQueue
 
             } catch (\Exception $e) {
 
-                Log::warning('Erro ao tentar download de anexos da licitacao no BB', ['exception' => $e->getMessage()]);
+                Log::warning('Erro ao tentar download de anexos da licitacao no BB', ['licitacao' => $this->licitacao->id, 'exception' => $e->getMessage()]);
 
             }
         }

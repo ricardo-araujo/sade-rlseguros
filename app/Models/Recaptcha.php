@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Recaptcha extends Model
 {
-    use SoftDeletes;
-
     protected $table = 'recaptcha';
     protected $primaryKey = 'id';
     protected $guarded = ['id'];

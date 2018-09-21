@@ -2,20 +2,12 @@
 
 namespace App\Console;
 
+use App\Jobs\GeraTokenRecaptchaJob;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
-    /**
-     * The Artisan commands provided by your application.
-     *
-     * @var array
-     */
-    protected $commands = [
-        //
-    ];
-
     /**
      * Define the application's command schedule.
      *
@@ -40,36 +32,36 @@ class Kernel extends ConsoleKernel
             ->everyMinute();
 
         //Command para gerar tokens do recaptcha
-        $schedule->command('sade:gera-token-recaptcha')
+        $schedule->job(new GeraTokenRecaptchaJob(), 'recaptcha')
             ->description('Requisita token de resolução do recaptcha da Mapfre e salva-os no banco de dados, das 07h00 às 09h00')
             ->weekdays()
             ->between('05:30', '05:50')
             ->timezone('America/Sao_Paulo')
             ->everyMinute();
 
+        $schedule->job(new GeraTokenRecaptchaJob(), 'recaptcha')
+            ->description('Requisita token de resolução do recaptcha da Mapfre e salva-os no banco de dados, das 06h27 às 06h59')
+            ->weekdays()
+            ->between('06:27', '06:59')
+            ->timezone('America/Sao_Paulo')
+            ->everyMinute();
+
         //commands para gerar tokens nos horarios de pico do CN de disponibilidade de edital, cada um iniciando 15 seg apos o outro, nos horarios definidos:
-        $schedule->command('sade:gera-token-recaptcha')
+        $schedule->job(new GeraTokenRecaptchaJob(15), 'recaptcha')
             ->description('Requisita token de resolução do recaptcha da Mapfre e salva-os no banco de dados, das 06h27 às 06h59')
             ->weekdays()
             ->between('06:27', '06:59')
             ->timezone('America/Sao_Paulo')
             ->everyMinute();
 
-        $schedule->command('sade:gera-token-recaptcha', ['--delay' => 15])
+        $schedule->job(new GeraTokenRecaptchaJob(30), 'recaptcha')
             ->description('Requisita token de resolução do recaptcha da Mapfre e salva-os no banco de dados, das 06h27 às 06h59')
             ->weekdays()
             ->between('06:27', '06:59')
             ->timezone('America/Sao_Paulo')
             ->everyMinute();
 
-        $schedule->command('sade:gera-token-recaptcha', ['--delay' => 30])
-            ->description('Requisita token de resolução do recaptcha da Mapfre e salva-os no banco de dados, das 06h27 às 06h59')
-            ->weekdays()
-            ->between('06:27', '06:59')
-            ->timezone('America/Sao_Paulo')
-            ->everyMinute();
-
-        $schedule->command('sade:gera-token-recaptcha', ['--delay' => 45])
+        $schedule->job(new GeraTokenRecaptchaJob(45), 'recaptcha')
             ->description('Requisita token de resolução do recaptcha da Mapfre e salva-os no banco de dados, das 06h27 às 06h59')
             ->weekdays()
             ->between('06:27', '06:59')
@@ -77,30 +69,38 @@ class Kernel extends ConsoleKernel
             ->everyMinute();
 
         //commands para gerar token, mas apos o horario de pico para todos os portais que possam necessitar:
-        $schedule->command('sade:gera-token-recaptcha')
+        $schedule->job(new GeraTokenRecaptchaJob(), 'recaptcha')
             ->description('Requisita token de resolução do recaptcha da Mapfre e salva-os no banco de dados, das 07h00 às 09h00')
             ->weekdays()
             ->between('07:00', '21:00')
             ->timezone('America/Sao_Paulo')
             ->everyMinute();
 
-        $schedule->command('sade:gera-token-recaptcha', ['--delay' => 20])
+        $schedule->job(new GeraTokenRecaptchaJob(30), 'recaptcha')
             ->description('Requisita token de resolução do recaptcha da Mapfre e salva-os no banco de dados, das 07h00 às 09h00')
             ->weekdays()
             ->between('07:00', '21:00')
             ->timezone('America/Sao_Paulo')
             ->everyMinute();
 
-        $schedule->command('sade:gera-token-recaptcha', ['--delay' => 40])
+        //commands para gerar token do recaptcha aos sabados, devido à necessidade do io
+        $schedule->job(new GeraTokenRecaptchaJob(), 'recaptcha')
             ->description('Requisita token de resolução do recaptcha da Mapfre e salva-os no banco de dados, das 07h00 às 09h00')
-            ->weekdays()
-            ->between('07:00', '21:00')
+            ->saturdays()
+            ->between('07:00', '09:00')
             ->timezone('America/Sao_Paulo')
             ->everyMinute();
+
+        //login na Mapfre
+        $schedule->command('sade:mapfre-login')
+            ->description('')
+            ->days([1, 2, 3, 4, 5 , 6])
+            ->at('05:30')
+            ->timezone('America/Sao_Paulo');
 
         //email de oportunidades do dia
         $schedule->command('sade:email-oportunidades')
-            ->description('Envia e-mail com resuma das possiveis oportunidades e reserva do dia')
+            ->description('Envia e-mail com resumo das possiveis oportunidades e reserva do dia')
             ->weekdays()
             ->at('10:00')
             ->timezone('America/Sao_Paulo');
@@ -133,12 +133,6 @@ class Kernel extends ConsoleKernel
             ->at('19:00')
             ->timezone('America/Sao_Paulo');
 
-        //login na Mapfre
-        $schedule->command('sade:mapfre-login')
-            ->description('')
-            ->days([1, 2, 3, 4, 5 , 6])
-            ->at('06:00')
-            ->timezone('America/Sao_Paulo');
         /**
          * TODO: Command para eliminar arquivos html retornados das reservas
          */
@@ -184,6 +178,24 @@ class Kernel extends ConsoleKernel
             ->description('Para no supervisor, os workers do IO, funcionando de terça à sábado')
             ->days([2, 3, 4, 5, 6])
             ->at('10:00')
+            ->timezone('America/Sao_Paulo');
+
+        $schedule->exec('/usr/local/bin/supervisorctl start recaptcha:*')
+            ->description('Inicia no supervisor, os workers para gerar tokens do recaptcha, funcionando de segunda à sábado')
+            ->days([1, 2, 3, 4, 5, 6])
+            ->at('06:00')
+            ->timezone('America/Sao_Paulo');
+
+        $schedule->exec('/usr/local/bin/supervisorctl restart recaptcha:*')
+            ->description('Reinicia no supervisor, os workers para gerar tokens do recaptcha, funcionando de segunda à sábado')
+            ->days([1, 2, 3, 4, 5, 6])
+            ->at('14:00')
+            ->timezone('America/Sao_Paulo');
+
+        $schedule->exec('/usr/local/bin/supervisorctl stop recaptcha:*')
+            ->description('Para no supervisor, os workers para gerar tokens do recaptcha, funcionando de segunda à sábado')
+            ->days([1, 2, 3, 4, 5, 6])
+            ->at('21:00')
             ->timezone('America/Sao_Paulo');
 
         $schedule->exec('/usr/local/bin/supervisorctl start default:*')

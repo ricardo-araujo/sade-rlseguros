@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\ReservaCN;
 use Illuminate\Bus\Queueable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;
@@ -37,6 +38,10 @@ class UploadEditalCNJob implements ShouldQueue
     {
         $this->delete();
 
-        dd($this->licitacao->reserva);
+        $this->licitacao->reserva->each(function(ReservaCN $reserva) {
+
+            dispatch(new AnexaEditalNaReservaJob($reserva))->onQueue('cn');
+
+        });
     }
 }

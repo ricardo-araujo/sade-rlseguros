@@ -151,14 +151,6 @@ if (!function_exists('edital_path')) {
     }
 }
 
-if (!function_exists('cookie_reserva_path')) {
-
-    function cookie_reserva_path(\App\Models\AbstractReserva $reserva) {
-
-        return storage_path("{$reserva->licitacao->portal}_{$reserva->id}.txt");
-    }
-}
-
 if (!function_exists('check_upload')) {
 
     function check_upload($html) {

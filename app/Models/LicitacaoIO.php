@@ -16,7 +16,7 @@ class LicitacaoIO extends AbstractLicitacao
         return ($value) ? new \DateTime($value) : null;
     }
 
-    public function getDtAberturaAttribute($value)
+    public function getDtDisputaAttribute($value)
     {
         return ($value) ? new \DateTime($value) : null;
     }

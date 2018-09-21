@@ -40,9 +40,6 @@ class LicitacaoIOCreatedListener
             new ProcessaAnexosJob($licitacao),
             new BuscaOrgaoNoBecIOJob($licitacao),
             new IdentificaOrgaoMapfreJob($licitacao)
-            /**
-             * TODO: validacao de orgao e criacao da reserva
-             */
         ])->dispatch($licitacao)
           ->allOnQueue('io');
     }
