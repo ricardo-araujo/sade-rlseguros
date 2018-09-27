@@ -2,14 +2,14 @@
 
 namespace App\Jobs;
 
-use App\Models\AbstractLicitacao;
+use App\Models\AbstractReserva;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class ProcessaLicitacaoJob implements ShouldQueue
+class ProcessaReservaJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -18,13 +18,13 @@ class ProcessaLicitacaoJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(AbstractLicitacao $licitacao)
+    public function __construct(AbstractReserva $reserva)
     {
         /**
-         * Classe wrapper pra juntar os processos de processamento de uma licitacao para cada portal
+         * Classe wrapper pra juntar os processos de processamento de uma reserva para cada portal
          *
          * https://laravel.com/docs/5.6/queues#job-chaining
-        */
+         */
     }
 
     /**

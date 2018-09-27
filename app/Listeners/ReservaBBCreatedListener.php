@@ -4,6 +4,8 @@ namespace App\Listeners;
 
 use App\Events\ReservaBBCreatedEvent;
 use App\Jobs\AnexaEditalNaReservaJob;
+use App\Jobs\ProcessaReservaJob;
+use App\Jobs\ValidaReservaJob;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -29,6 +31,10 @@ class ReservaBBCreatedListener
     {
         $reserva = $event->reserva;
 
-        dispatch(new AnexaEditalNaReservaJob($reserva))->onQueue('bb');
+        ProcessaReservaJob::withChain([
+            new ValidaReservaJob($reserva),
+            new AnexaEditalNaReservaJob($reserva),
+        ])->dispatch($reserva)
+          ->onQueue('bb');
     }
 }

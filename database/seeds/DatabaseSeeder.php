@@ -15,6 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ProxyListSeeder::class);
         $this->call(OrgaosMapfreSeeder::class);
         $this->call(OportunidadesSeeder::class);
-        //$this->call(ReservasSeeder::class);
+        $this->call(ReservasSeeder::class);
     }
 }

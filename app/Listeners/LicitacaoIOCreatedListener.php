@@ -6,10 +6,8 @@ use App\Events\LicitacaoIOCreatedEvent;
 use App\Jobs\BuscaOrgaoNoBecIOJob;
 use App\Jobs\DownloadAnexosIOJob;
 use App\Jobs\IdentificaOrgaoMapfreJob;
-use App\Jobs\IdentificaOrgaoIOJob;
 use App\Jobs\ProcessaAnexosJob;
 use App\Jobs\ProcessaLicitacaoJob;
-use App\Jobs\ValidaOrgaoParaLicitacaoJob;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 

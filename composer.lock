@@ -488,16 +488,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "2.1.5",
+            "version": "2.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "54859fabea8b3beecbb1a282888d5c990036b9e3"
+                "reference": "0578b32b30b22de3e8664f797cf846fc9246f786"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/54859fabea8b3beecbb1a282888d5c990036b9e3",
-                "reference": "54859fabea8b3beecbb1a282888d5c990036b9e3",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/0578b32b30b22de3e8664f797cf846fc9246f786",
+                "reference": "0578b32b30b22de3e8664f797cf846fc9246f786",
                 "shasum": ""
             },
             "require": {
@@ -541,7 +541,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2018-08-16T20:49:45+00:00"
+            "time": "2018-09-25T20:47:26+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -705,11 +705,11 @@
         },
         {
             "name": "forseti/bot-bb",
-            "version": "1.2.4",
+            "version": "1.2.5",
             "source": {
                 "type": "git",
                 "url": "git@github.com:git-forseti/forseti-bot-bb.git",
-                "reference": "0157c588099d1ad0ba9a0fc038682623928a6acc"
+                "reference": "01fd5e1229ad1476e174ff4d63e5deb3ba9c0af6"
             },
             "require": {
                 "forseti/captcha-sdk-php": "1.*",
@@ -751,7 +751,7 @@
                 "bot",
                 "forseti"
             ],
-            "time": "2018-09-06T20:46:19+00:00"
+            "time": "2018-09-24T17:02:21+00:00"
         },
         {
             "name": "forseti/bot-cn",
@@ -864,7 +864,7 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:git-forseti/forseti-bot-mapfre.git",
-                "reference": "2eeec131e67416c48e2dc5934f197a53c874299e"
+                "reference": "79ceb489351ceb59b65fea3ff20a2cef187d5148"
             },
             "require": {
                 "guzzlehttp/guzzle": "^6.3",
@@ -892,7 +892,7 @@
                 }
             ],
             "description": "Bot para automatizar ações do SADE",
-            "time": "2018-09-20T20:29:54+00:00"
+            "time": "2018-09-26T16:46:45+00:00"
         },
         {
             "name": "forseti/captcha-sdk-php",

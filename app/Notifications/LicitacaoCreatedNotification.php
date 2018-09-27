@@ -43,9 +43,10 @@ class LicitacaoCreatedNotification extends Notification implements ShouldQueue
     {
         $portal = $this->getPortal($this->licitacao->portal);
         $checkMarkEmoji = "\xE2\x9C\x85";
+        $chatID = env('TELEGRAM_CHAT_ID');
 
         return TelegramMessage::create()
-                               ->to('-273987674')
+                               ->to($chatID)
                                ->content("*NOVA OPORTUNIDADE* {$checkMarkEmoji} \n*Portal*: {$portal}\n*Objeto*: _{$this->licitacao->txt_objeto}_");
     }
 

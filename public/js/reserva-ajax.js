@@ -37,9 +37,6 @@ $('#btn-redefinir-senha-modal').click(function() {
                 $('#modal-redefinir-senha').modal('toggle');
                 inputSenha.val('');
                 inputConfirmaSenha.val('');
-
-                console.log(data);
-
             },
             error: function(data) {
 

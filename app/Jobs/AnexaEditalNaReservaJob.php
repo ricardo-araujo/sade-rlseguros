@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\AbstractReserva;
 use App\Repository\RecaptchaRepository;
+use Forseti\Bot\Sade\PageObject\EditalPageObject;
 use Forseti\Bot\Sade\Pipeline\PostEditalPipeline;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\FileCookieJar;
@@ -66,12 +67,14 @@ class AnexaEditalNaReservaJob implements ShouldQueue
 
         try {
 
-            $parser = (new PostEditalPipeline($client))->process(
+            $parser = (new EditalPageObject($client))->postCadastroArquivoDigital(
                 $token,
                 $this->reserva->nm_reserva,
                 $this->reserva->nm_subtipo,
                 $this->reserva->nm_descricao,
-                edital_path($this->reserva->licitacao)
+                edital_path($this->reserva->licitacao),
+                $this->reserva->viewstate,
+                $this->reserva->eventvalidation
             );
 
             $this->reserva->update(['was_uploaded' => check_upload($parser->getHtml())]);

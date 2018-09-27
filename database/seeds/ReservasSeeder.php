@@ -67,5 +67,7 @@ class ReservasSeeder extends Seeder
                 ]);
             }
         }
+
+        DB::select('TRUNCATE jobs'); //remove os jobs que serao criados apos os seed acima
     }
 }
