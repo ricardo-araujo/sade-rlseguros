@@ -119,13 +119,6 @@ class Kernel extends ConsoleKernel
             ->at('00:00')
             ->timezone('America/Sao_Paulo');
 
-        //remover arquivos txt de cookie
-        $schedule->command('sade:remove-cookies')
-            ->description('Remove os arquivos txt criados pela reserva do diretorio storage')
-            ->weekdays()
-            ->at('23:00')
-            ->timezone('America/Sao_Paulo');
-
         //limpa anexos
         $schedule->command('sade:remove-anexos')
             ->description('Remove anexos criados há mais de 4 meses de todos os portais')
@@ -138,79 +131,79 @@ class Kernel extends ConsoleKernel
          */
 
         //start e stop dos workers definidos no supervisor (ver arquivo sade_rlseguros_supervisor.conf na raiz do projeto)
-        $schedule->exec('/usr/local/bin/supervisorctl start bb:*')
+        $schedule->exec('/usr/bin/supervisorctl start bb:*')
             ->description('Inicia no supervisor, os workers do BB')
             ->weekdays()
             ->at('08:00')
             ->timezone('America/Sao_Paulo');
 
-        $schedule->exec('/usr/local/bin/supervisorctl restart bb:*')
+        $schedule->exec('/usr/bin/supervisorctl restart bb:*')
             ->description('Reinicia no supervisor, os workers do BB')
             ->weekdays()
             ->at('14:00')
             ->timezone('America/Sao_Paulo');
 
-        $schedule->exec('/usr/local/bin/supervisorctl stop bb:*')
+        $schedule->exec('/usr/bin/supervisorctl stop bb:*')
             ->description('Para no supervisor, os workers do BB')
             ->weekdays()
             ->at('21:00')
             ->timezone('America/Sao_Paulo');
 
-        $schedule->exec('/usr/local/bin/supervisorctl start cn:*')
+        $schedule->exec('/usr/bin/supervisorctl start cn:*')
             ->description('Para no supervisor, os workers do CN')
             ->weekdays()
             ->at('06:10')
             ->timezone('America/Sao_Paulo');
 
-        $schedule->exec('/usr/local/bin/supervisorctl stop cn:*')
+        $schedule->exec('/usr/bin/supervisorctl stop cn:*')
             ->description('Para no supervisor, os workers do CN')
             ->weekdays()
             ->at('11:00')
             ->timezone('America/Sao_Paulo');
 
-        $schedule->exec('/usr/local/bin/supervisorctl start io:*')
+        $schedule->exec('/usr/bin/supervisorctl start io:*')
             ->description('Inicia no supervisor, os workers do IO, funcionando de terça à sábado')
             ->days([2, 3, 4, 5, 6])
             ->at('06:30')
             ->timezone('America/Sao_Paulo');
 
-        $schedule->exec('/usr/local/bin/supervisorctl stop io:*')
+        $schedule->exec('/usr/bin/supervisorctl stop io:*')
             ->description('Para no supervisor, os workers do IO, funcionando de terça à sábado')
             ->days([2, 3, 4, 5, 6])
             ->at('10:00')
             ->timezone('America/Sao_Paulo');
 
-        $schedule->exec('/usr/local/bin/supervisorctl start recaptcha:*')
+        $schedule->exec('/usr/bin/supervisorctl start recaptcha:*')
             ->description('Inicia no supervisor, os workers para gerar tokens do recaptcha, funcionando de segunda à sábado')
             ->days([1, 2, 3, 4, 5, 6])
             ->at('06:00')
             ->timezone('America/Sao_Paulo');
 
-        $schedule->exec('/usr/local/bin/supervisorctl restart recaptcha:*')
+        $schedule->exec('/usr/bin/supervisorctl restart recaptcha:*')
             ->description('Reinicia no supervisor, os workers para gerar tokens do recaptcha, funcionando de segunda à sábado')
             ->days([1, 2, 3, 4, 5, 6])
             ->at('14:00')
             ->timezone('America/Sao_Paulo');
 
-        $schedule->exec('/usr/local/bin/supervisorctl stop recaptcha:*')
+        $schedule->exec('/usr/bin/supervisorctl stop recaptcha:*')
             ->description('Para no supervisor, os workers para gerar tokens do recaptcha, funcionando de segunda à sábado')
             ->days([1, 2, 3, 4, 5, 6])
             ->at('21:00')
             ->timezone('America/Sao_Paulo');
 
-        $schedule->exec('/usr/local/bin/supervisorctl start default:*')
+        $schedule->exec('/usr/bin/supervisorctl start default:*')
             ->description('Inicia no supervisor, os workers default (emails, telegram e etc..), funcionando de segunda à sábado')
             ->days([1, 2, 3, 4, 5, 6])
             ->at('06:00')
             ->timezone('America/Sao_Paulo');
 
-        $schedule->exec('/usr/local/bin/supervisorctl restart default:*')
+        $schedule->exec('/usr/bin/supervisorctl restart default:*')
             ->description('Reinicia no supervisor, os workers default (emails, telegram e etc..), funcionando de segunda à sábado')
             ->days([1, 2, 3, 4, 5, 6])
             ->at('14:00')
             ->timezone('America/Sao_Paulo');
 
-        $schedule->exec('/usr/local/bin/supervisorctl stop default:*')
+        $schedule->exec('/usr/bin/supervisorctl stop default:*')
             ->description('Para no supervisor, os workers default (emails, telegram e etc..), funcionando de segunda à sábado')
             ->days([1, 2, 3, 4, 5, 6])
             ->at('21:00')
