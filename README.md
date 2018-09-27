@@ -22,13 +22,14 @@ php artisan list sade
 ```
 
 ## Estrutura lógica
-Os crons definidos p/ captura de oportunidades (CN e IO) e o envio de oportunidades do BB são os gatilhos que iniciam os processos do SADE.
+Os crons definidos p/ captura de oportunidades (CN e IO) e o envio de oportunidades do BB p/ o SADE são os gatilhos que iniciam os processos do SADE.
 Assim que uma oportunidade é inserida no banco de dados, o sistema utiliza a funcionalidade de [Observers](https://laravel.com/docs/5.6/eloquent#observers), e no observer de criação de um model de licitacao é disparado um [Event](https://laravel.com/docs/5.6/events) de criação de licitação. Após disparado, existem os [Listeners](https://laravel.com/docs/5.6/events#defining-listeners) que 'escutam' o devido evento, e são esses listeners que dão início aos [Jobs](https://laravel.com/docs/5.6/queues) pertinentes a rotina de cada portal.
-Os jobs podem ser compartilhados entre os processos dos três portais ou caso um portal tenha um processo diferente, o nome do job tem o sufico do portal ao qual ele pertence (Ex.: UploadEditalCNJob).
+Os jobs podem ser compartilhados entre os processos dos três portais ou caso um portal tenha um processo diferente, o nome do job tem o sufixo do portal ao qual ele pertence (Ex.: UploadEditalCNJob).
 Os jobs dos portais BB e IO compartilham da mesma sequencia de uso, pois tem seu processo feito de forma automatizada, são eles:
+
 _Após recebida uma oportunidade:_
-- Faz o download dos arquivos em anexo;
-- Processa os arquivos, descompactando e adequando seu nome p/ remover caracteres diferentes e identificando qual é o arquivo principal p/upload;
+- Faz o download dos arquivos de anexo;
+- Processa os arquivos, descompactando e adequando seu nome p/ remover caracteres diferentes e identificando qual é o arquivo principal p/ upload;
 - Busca CNPJs nos arquivos, para criar as reservas dos possiveis órgãos;
 - Identifica se os órgãos possuem código da Mapfre, caso não, tenta criá-los no portal e criam reservas p/ o órgao.
 
@@ -37,7 +38,7 @@ Tendo sido criada a reserva no job acima, é disparado o evento de criação de 
 - Anexar edital na reserva criada.
 
 O processo das oportunidades do CN é feito de forma diferente, pois não libera o edital no momento da captura da oportunidade:
-Às 05h00 é iniciado o processo de captura de oportunidades do CN, e uma vez capturada, a oportunidade pode ter uma reserva criada manualmente pelo cliente do portal da Mapfre. Uma vez criada, a reserva possui dos Jobs que são encadeados no listener de reserva do CN, são eles:
+Às 05h00 é iniciado o processo de captura de oportunidades do CN, e uma vez capturada, a oportunidade pode ter uma reserva criada manualmente pelo cliente do portal da Mapfre. Uma vez criada, a reserva possui os Jobs que são encadeados no listeners de reserva do CN, são eles:
 - Validar a reserva, conforme BB e IO;
 - Atribuição de um proxy logado a cada reserva;
 
@@ -63,5 +64,5 @@ No crontab:
 * * * * * php /sade-cn-rl-seguro/artisan schedule:run >> /dev/null 2>&1
 ```
 
-##TODO
+## TODO
 Conforme SadeIO, criar alternativa p/ cadastro manual de reservas do cliente.
