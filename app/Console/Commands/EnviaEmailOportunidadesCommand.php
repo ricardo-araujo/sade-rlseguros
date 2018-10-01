@@ -39,7 +39,7 @@ class EnviaEmailOportunidadesCommand extends Command
      */
     public function handle()
     {
-        Mail::send(new OportunidadesDoDiaMail()); //Command apenas faz uso da classe de mail, para adicionar ou alterar, entrar na respectiva classe
+        Mail::queue(new OportunidadesDoDiaMail()); //Command apenas faz uso da classe de mail, para adicionar ou alterar, entrar na respectiva classe
 
         return true;
     }

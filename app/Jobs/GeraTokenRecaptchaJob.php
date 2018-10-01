@@ -2,7 +2,11 @@
 
 namespace App\Jobs;
 
+use App\Repository\ProxyListRepository;
 use App\Repository\RecaptchaRepository;
+use App\Repository\ReservaBBRepository;
+use App\Repository\ReservaCNRepository;
+use App\Repository\ReservaIORepository;
 use Forseti\Crawler\NoRecaptcha\TwoCaptcha\TwoCaptchaWithGoogleKey;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -34,9 +38,12 @@ class GeraTokenRecaptchaJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle(TwoCaptchaWithGoogleKey $twoCaptcha, RecaptchaRepository $repository)
+    public function handle(TwoCaptchaWithGoogleKey $twoCaptcha, RecaptchaRepository $repository, ReservaBBRepository $reservasBB, ReservaCNRepository $reservasCN, ReservaIORepository $reservasIO, ProxyListRepository $proxies)
     {
         $this->delete();
+
+        if ($reservasBB->wasUploaded() && $reservasCN->wasUploaded() && $reservasIO->wasUploaded() && $proxies->logged())
+            return; //Verificacao tem como objetivo minimizar a criação de tokens em caso de dias sem reserva, para que creditos da api nao sejam gastos sem necessidade
 
         while ($twoCaptcha->requisitaRespostaCaptcha()->identificaRespostaPadrao() == false)
             continue;

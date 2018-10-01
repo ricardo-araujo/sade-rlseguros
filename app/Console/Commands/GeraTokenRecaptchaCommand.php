@@ -57,7 +57,7 @@ class GeraTokenRecaptchaCommand extends Command
     {
         sleep((int)$this->option('delay'));
 
-        if ($this->option('force') || $repoBB->existsToday() || $repoCN->existsToday() || $repoIO->existsToday()) //Verificacao tem como objetivo minimizar a criação de tokens em caso de dias sem reserva, para que creditos da api nao sejam gastos sem necessidade
+        if ($this->option('force') || !$repoBB->wasUploaded() || !$repoCN->wasUploaded() || !$repoIO->wasUploaded()) //Verificacao tem como objetivo minimizar a criação de tokens em caso de dias sem reserva, para que creditos da api nao sejam gastos sem necessidade
             return $this->generateToken();
 
         return false;

@@ -2,7 +2,9 @@
 
 namespace App\Mail;
 
+use App\Repository\LicitacaoBBRepository;
 use App\Repository\LicitacaoCNRepository;
+use App\Repository\LicitacaoIORepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -29,13 +31,19 @@ class OportunidadesDoDiaMail extends Mailable
      */
     public function build()
     {
-        $oportunidades = (new LicitacaoCNRepository())->fromDate(new \DateTime());
-        /**
-         * TODO: Enviar as oportunidades dos demais portais
-        */
+        $currentDate = new \DateTime();
+        $dateBefore = (new \DateTime())->modify('-1 day');
+
+        $oportunidadesBB = (new LicitacaoBBRepository())->fromDate($dateBefore);
+        $oportunidadesCN = (new LicitacaoCNRepository())->fromDate($currentDate);
+        $oportunidadesIO = (new LicitacaoIORepository())->fromDate($currentDate);
 
         return $this->to('ricardo.araujo@forseti.com.br', 'Ricardo Araujo')
                      ->subject('[Forseti - Sade] Resumo das oportunidades do dia')
-                     ->view('mail.oportunidades-do-dia', ['oportunidades' => $oportunidades]);
+                     ->view('mail.oportunidades-do-dia', [
+                         'oportunidadesBB' => $oportunidadesBB,
+                         'oportunidadesCN' => $oportunidadesCN,
+                         'oportunidadesIO' => $oportunidadesIO
+                     ]);
     }
 }

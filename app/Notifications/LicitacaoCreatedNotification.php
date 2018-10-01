@@ -64,7 +64,6 @@ class LicitacaoCreatedNotification extends Notification implements ShouldQueue
 
             default:
                 return false;
-
         }
     }
 }

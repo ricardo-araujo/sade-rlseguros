@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
 
-            @include('button-inclui-reserva-io')
+            <!-->
 
             <div style="margin-bottom: 15px;">
                 <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">

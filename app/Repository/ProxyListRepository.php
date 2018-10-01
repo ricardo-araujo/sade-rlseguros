@@ -57,11 +57,13 @@ class ProxyListRepository extends Repository
     {
         $proxies = $this->query()->where('is_logged', '=', false)->get();
 
-        return ($proxies->isNotEmpty()) ? $proxies : null;
+        return ($proxies->isNotEmpty()) ? $proxies : false;
     }
 
     public function logged()
     {
-        return !$this->notLogged();
+        $proxies = $this->query()->where('is_logged', '=', true)->get();
+
+        return ($proxies->isNotEmpty()) ? $proxies : false;
     }
 }

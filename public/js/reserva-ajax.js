@@ -185,7 +185,7 @@ function deleteReserva(nuReserva) {
             success: function(data) {
                 button.remove();
 
-                if (parentDiv.html() === '') {
+                if (parentDiv.html().trim() === '') {
                     parentDiv.html('Nenhuma Reserva para a oportunidade.');
                 }
             },
