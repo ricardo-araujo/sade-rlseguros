@@ -10,9 +10,4 @@ class ReservaIO extends AbstractReserva
     {
         return $this->belongsTo(LicitacaoIO::class, 'id_licitacao', 'id');
     }
-
-    public function proxy()
-    {
-        return $this->morphOne(ProxyList::class, 'reserva'); //Ver 'Polymorphic Relations' do Laravel para maiores entendimentos
-    }
 }

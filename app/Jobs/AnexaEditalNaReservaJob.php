@@ -77,7 +77,16 @@ class AnexaEditalNaReservaJob implements ShouldQueue
                 $this->reserva->eventvalidation
             );
 
-            $this->reserva->update(['was_uploaded' => check_upload($parser->getHtml())]);
+            $html = $parser->getHtml();
+
+            if (wrong_recaptcha_token($html)) {
+
+                dispatch(new self($this->reserva))->onQueue($this->reserva->licitacao->portal);
+
+                return;
+            }
+
+            $this->reserva->update(['was_uploaded' => check_upload($html)]);
 
         } catch (\Exception $e) {
 
@@ -88,5 +97,7 @@ class AnexaEditalNaReservaJob implements ShouldQueue
         $this->reserva->proxy->reserva()->dissociate()->save(); // retira proxy da reserva, p/ ser usado novamente
 
         $this->reserva->update(['dt_fim_upload' => now()]);
+
+        file_put_contents("/tmp/sade_{$this->reserva->nm_reserva}.html", $html);
     }
 }

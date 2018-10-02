@@ -159,3 +159,12 @@ if (!function_exists('check_upload')) {
 
     }
 }
+
+if (!function_exists('wrong_recaptcha_token')) {
+
+    function wrong_recaptcha_token($html) {
+
+        return (bool) preg_match('#Código incorreto#ui', $html);
+
+    }
+}

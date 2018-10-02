@@ -8,7 +8,7 @@ class DefaultReservaRepository extends Repository
     {
         return $this->query()
                     ->whereDate('created_at', today())
-                    ->whereNotNull('dt_inicio_upload')
+                    ->whereNotNull('was_uploaded')
                     ->exists();
     }
 

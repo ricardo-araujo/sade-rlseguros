@@ -76,7 +76,21 @@ class Kernel extends ConsoleKernel
             ->timezone('America/Sao_Paulo')
             ->everyMinute();
 
+        $schedule->job(new GeraTokenRecaptchaJob(15), 'recaptcha')
+            ->description('Requisita token de resolução do recaptcha da Mapfre e salva-os no banco de dados, das 07h00 às 09h00')
+            ->weekdays()
+            ->between('07:00', '21:00')
+            ->timezone('America/Sao_Paulo')
+            ->everyMinute();
+
         $schedule->job(new GeraTokenRecaptchaJob(30), 'recaptcha')
+            ->description('Requisita token de resolução do recaptcha da Mapfre e salva-os no banco de dados, das 07h00 às 09h00')
+            ->weekdays()
+            ->between('07:00', '21:00')
+            ->timezone('America/Sao_Paulo')
+            ->everyMinute();
+
+        $schedule->job(new GeraTokenRecaptchaJob(45), 'recaptcha')
             ->description('Requisita token de resolução do recaptcha da Mapfre e salva-os no banco de dados, das 07h00 às 09h00')
             ->weekdays()
             ->between('07:00', '21:00')
@@ -91,11 +105,31 @@ class Kernel extends ConsoleKernel
             ->timezone('America/Sao_Paulo')
             ->everyMinute();
 
+        $schedule->job(new GeraTokenRecaptchaJob(20), 'recaptcha')
+            ->description('Requisita token de resolução do recaptcha da Mapfre e salva-os no banco de dados, das 07h00 às 09h00')
+            ->saturdays()
+            ->between('07:00', '09:00')
+            ->timezone('America/Sao_Paulo')
+            ->everyMinute();
+
+        $schedule->job(new GeraTokenRecaptchaJob(40), 'recaptcha')
+            ->description('Requisita token de resolução do recaptcha da Mapfre e salva-os no banco de dados, das 07h00 às 09h00')
+            ->saturdays()
+            ->between('07:00', '09:00')
+            ->timezone('America/Sao_Paulo')
+            ->everyMinute();
+
         //login na Mapfre
         $schedule->command('sade:mapfre-login')
             ->description('')
-            ->days([1, 2, 3, 4, 5 , 6])
+            ->days([1, 2, 3, 4, 5, 6])
             ->at('05:30')
+            ->timezone('America/Sao_Paulo');
+
+        $schedule->command('sade:mapfre-login')
+            ->description('')
+            ->days([1, 2, 3, 4, 5])
+            ->at('13:00')
             ->timezone('America/Sao_Paulo');
 
         //email de oportunidades do dia
@@ -125,10 +159,6 @@ class Kernel extends ConsoleKernel
             ->weekdays()
             ->at('19:00')
             ->timezone('America/Sao_Paulo');
-
-        /**
-         * TODO: Command para eliminar arquivos html retornados das reservas
-         */
 
         //start e stop dos workers definidos no supervisor (ver arquivo sade_rlseguros_supervisor.conf na raiz do projeto)
         $schedule->exec('/usr/bin/supervisorctl start bb:*')

@@ -63,5 +63,8 @@ class SadeHelpersTest extends TestCase
 
         $this->assertFalse(check_upload('String nao contem frase a ser parseada'));
         $this->assertTrue(check_upload('Arquivo enviado com sucesso'));
+
+        $this->assertFalse(wrong_recaptcha_token('String nao contem frase a ser parseada'));
+        $this->assertTrue(wrong_recaptcha_token('Código incorreto. Tente novamente.'));
     }
 }
