@@ -139,13 +139,6 @@ class Kernel extends ConsoleKernel
             ->at('10:00')
             ->timezone('America/Sao_Paulo');
 
-        //zerar tabela de jobs
-        $schedule->command('sade:truncate-jobs-table')
-            ->description('Zera os registros de jobs que tentaram ser processados durante o dia')
-            ->days([1, 2, 3, 4, 5, 6])
-            ->at('23:30')
-            ->timezone('America/Sao_Paulo');
-
         //backup das bases do Sade
         $schedule->command('sade:backup')
             ->description('Realiza backup da base de dados do Sade CN e exclui arquivos criados a mais de 20 dias')

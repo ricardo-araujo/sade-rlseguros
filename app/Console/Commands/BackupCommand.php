@@ -40,13 +40,13 @@ class BackupCommand extends Command
     {
         try {
 
-            $databases = 'sadecn_new sadeio_new sadebb_new sade_config';
+            $database = env('DB_DATABASE');
             $user = env('DB_USERNAME');
             $password = env('DB_PASSWORD');
 
-            $file = storage_path(sprintf('sade_%s.sql', today()->format('Ymd')));
+            $file = storage_path(sprintf('sade_new_%s.sql', today()->format('Ymd')));
 
-            $process = new Process(sprintf('mysqldump -u %s -p%s --databases %s > %s', $user, $password, $databases, $file)); //realiza o dump na pasta storage da aplicação
+            $process = new Process(sprintf('mysqldump -u %s -p%s --databases %s > %s', $user, $password, $database, $file)); //realiza o dump na pasta storage da aplicação
             $process->run();
 
             $process = new Process(sprintf('find %s -maxdepth 1 -type f -mtime +20 | xargs rm', storage_path('*.sql'))); // busca todos os arquivos sql em storage criados a mais de 20 dias e remove-os
