@@ -35,6 +35,6 @@ class ReservaBBCreatedListener
             new ValidaReservaJob($reserva),
             new AnexaEditalNaReservaJob($reserva),
         ])->dispatch($reserva)
-          ->onQueue('bb');
+          ->allOnQueue('bb');
     }
 }

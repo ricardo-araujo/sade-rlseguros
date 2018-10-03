@@ -30,7 +30,9 @@ class GeraTokenRecaptchaJob implements ShouldQueue
      */
     public function __construct($delay = 0)
     {
-        $this->delay((int) $delay);
+        $seconds = (int) $delay;
+
+        $this->delay(now()->addSeconds($seconds));
     }
 
     /**

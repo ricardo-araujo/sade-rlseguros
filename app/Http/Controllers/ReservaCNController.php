@@ -26,7 +26,6 @@ class ReservaCNController extends Controller
      */
     public function __construct(LicitacaoCNRepository $licitacaoRepo, ReservaCNRepository $reservaRepo)
     {
-        $this->middleware('auth');
         $this->licitacaoRepo = $licitacaoRepo;
         $this->reservaRepo = $reservaRepo;
     }

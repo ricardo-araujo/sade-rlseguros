@@ -31,7 +31,6 @@ class HomeController extends Controller
      */
     public function __construct(LicitacaoBBRepository $repoBB, LicitacaoCNRepository $repoCN, LicitacaoIORepository $repoIO)
     {
-        $this->middleware('auth');
         $this->repoBB = $repoBB;
         $this->repoCN = $repoCN;
         $this->repoIO = $repoIO;

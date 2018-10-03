@@ -14,7 +14,6 @@ class ReservaIOController extends Controller
 
     public function __construct(ReservaIORepository $reservaRepo)
     {
-        $this->middleware('auth');
         $this->reservaRepo = $reservaRepo;
     }
 

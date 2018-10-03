@@ -35,6 +35,6 @@ class ReservaIOCreatedListener
             new ValidaReservaJob($reserva),
             new AnexaEditalNaReservaJob($reserva),
         ])->dispatch($reserva)
-          ->onQueue('io');
+          ->allOnQueue('io');
     }
 }

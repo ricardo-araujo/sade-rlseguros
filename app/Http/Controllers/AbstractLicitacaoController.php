@@ -7,12 +7,6 @@ use Illuminate\Http\Request;
 
 class AbstractLicitacaoController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth')->except('create');
-        $this->middleware('auth.basic')->only('create');
-    }
-
     public function download(AbstractLicitacao $licitacao)
     {
         $zipName = "lic_{$licitacao->portal}_{$licitacao->id}.zip";

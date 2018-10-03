@@ -23,9 +23,14 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function getNameAttribute($value)
+    {
+        return mb_strtoupper($value);
+    }
+
     public function setNameAttribute($value)
     {
-        $this->attributes['name'] = mb_strtoupper($value);
+        $this->attributes['name'] = mb_strtolower($value);
     }
 
     public function setEmailAttribute($value)

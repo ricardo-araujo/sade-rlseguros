@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\LicitacaoRecebidaBBJob;
 use App\Models\AbstractLicitacao;
-use App\Models\LicitacaoBB;
 use App\Repository\LicitacaoBBRepository;
 use Illuminate\Http\Request;
 

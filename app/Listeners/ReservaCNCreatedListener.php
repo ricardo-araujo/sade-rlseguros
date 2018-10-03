@@ -35,6 +35,6 @@ class ReservaCNCreatedListener
             new ValidaReservaJob($reserva),
             new AtribuiProxyReservaCNJob($reserva)
         ])->dispatch($reserva)
-          ->onQueue('cn');
+          ->allOnQueue('cn');
     }
 }
