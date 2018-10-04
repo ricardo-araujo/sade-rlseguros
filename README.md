@@ -55,13 +55,12 @@ Além dos commands principais para a aplicação, foram adicionados alguns comma
 - Command de geração de tokens do recaptcha, que como a aplicação antiga, gera tokens e grava-os no banco de dados para utilização no login e anexo de edital.
 - Command de gerenciamento de proxies, que grava, remove, altera ou restaura um proxy. Os proxies são necessários na aplicação pois a Mapfre bloqueia tentativas de anexar edital feitas em menos de 2 minutos para um IP;
 - Command para enviar e-mail das oportunidades do dia;
-- Command para truncar a tabela de jobs ao final do dia e remover jobs que não conseguiram ser processados;
 - Command para login na Mapfre, com o objetivo de deixar os proxies disponveis com um cookie logado p/ cada, para realizar as tarefas na Mapfre (buscar/criar orgao e reserva, anexar edital);
 
 **Os commands descritos nos passos acima, foram definidos utilizando o mecanismo de [Task Scheduling](https://laravel.com/docs/5.6/scheduling) do Laravel, para que possam funcionar, devem seguir a documentação. Ex.:**
 ```
 No crontab:
-* * * * * php /sade-cn-rl-seguro/artisan schedule:run >> /dev/null 2>&1
+* * * * * php artisan schedule:run >> /dev/null 2>&1
 ```
 
 ## TODO

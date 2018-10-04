@@ -43,13 +43,17 @@ class IdentificaRamoReservaJob implements ShouldQueue
      */
     public function handle()
     {
-        $textoObjeto = $this->licitacao->txt_objeto;
+        $ramosCollection = collect(SadeRamos::RAMOS);
 
-        foreach (SadeRamos::RAMOS as $regex => $ramos) {
-            if ((bool) preg_match($regex, $textoObjeto))
-                foreach ($ramos as $ramo) {
-                    dispatch(new CriaReservaJob($this->licitacao, $this->orgao, $ramo))->onQueue($this->licitacao->portal);
-                }
-        }
+        $ramosCollection
+            ->filter(function($ramos, $regex) {
+                return preg_match($regex, $this->licitacao->txt_objeto);
+            })
+            ->values()
+            ->flatten()
+            ->unique()
+            ->each(function($ramo) {
+                dispatch(new CriaReservaJob($this->licitacao, $this->orgao, $ramo))->onQueue($this->licitacao->portal);
+            });
     }
 }
