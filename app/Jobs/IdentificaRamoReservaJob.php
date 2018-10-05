@@ -61,6 +61,8 @@ class IdentificaRamoReservaJob implements ShouldQueue
      */
     public function handle()
     {
+        $this->delete();
+
         (new Collection([
             self::AUTOMOVEIS_REGEX => self::AUTOMOVEIS_VALOR,
             self::DIFERENCIADOS_MASSIFICADOS_REGEX => self::DIFERENCIADOS_MASSIFICADOS_VALOR,

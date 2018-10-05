@@ -123,13 +123,19 @@ class Kernel extends ConsoleKernel
         $schedule->command('sade:mapfre-login')
             ->description('')
             ->days([1, 2, 3, 4, 5, 6])
-            ->at('05:30')
+            ->at('05:00')
             ->timezone('America/Sao_Paulo');
 
         $schedule->command('sade:mapfre-login')
             ->description('')
             ->days([1, 2, 3, 4, 5])
             ->at('13:00')
+            ->timezone('America/Sao_Paulo');
+
+        $schedule->command('sade:mapfre-login')
+            ->description('')
+            ->days([1, 2, 3, 4, 5])
+            ->at('20:50')
             ->timezone('America/Sao_Paulo');
 
         //email de oportunidades do dia
@@ -141,14 +147,14 @@ class Kernel extends ConsoleKernel
 
         //backup das bases do Sade
         $schedule->command('sade:backup')
-            ->description('Realiza backup da base de dados do Sade CN e exclui arquivos criados a mais de 20 dias')
+            ->description('Realiza backup da base de dados do Sade')
             ->saturdays()
             ->at('00:00')
             ->timezone('America/Sao_Paulo');
 
         //limpa anexos
         $schedule->command('sade:remove-anexos')
-            ->description('Remove anexos criados há mais de 4 meses de todos os portais')
+            ->description('Remove anexos criados há mais de 3 meses de todos os portais')
             ->weekdays()
             ->at('19:00')
             ->timezone('America/Sao_Paulo');

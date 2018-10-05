@@ -54,9 +54,9 @@ class CargaCNCommand extends Command
     {
         $data = new \DateTime();
 
-        $parser = $this->consultaPageObject->buscarLicitacaoSeguro($data, $data);
-
         try {
+
+            $parser = $this->consultaPageObject->buscarLicitacaoSeguro($data, $data);
 
             Log::info('Iniciando busca de licitacoes no CN');
 

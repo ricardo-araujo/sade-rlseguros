@@ -40,7 +40,7 @@ class RemoveAnexosAntigosCommand extends Command
     {
         $path = public_path('anexos' . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . '*');
 
-        $process = new Process(sprintf('find %s -maxdepth 2 -type d -mtime +120 | xargs rm -rf', $path));
+        $process = new Process(sprintf('find %s -maxdepth 2 -type d -mtime +90 | xargs rm -rf', $path));
         $process->run();
 
         return;

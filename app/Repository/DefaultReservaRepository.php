@@ -6,10 +6,12 @@ class DefaultReservaRepository extends Repository
 {
     public function wasUploaded()
     {
-        return $this->query()
-                    ->whereDate('created_at', today())
-                    ->whereNotNull('was_uploaded')
-                    ->exists();
+        $reservas = $this->query()
+                         ->whereNull('was_uploaded') //fizeram upload bem sucedido ou não
+                         ->whereDate('created_at', today())
+                         ->get();
+
+        return $reservas->isEmpty(); //estando vazia, significa que as reservas da data atual ja tiveram seu upload feito
     }
 
     public function searchAndDelete($numero)

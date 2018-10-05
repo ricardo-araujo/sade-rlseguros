@@ -49,7 +49,7 @@ class BackupCommand extends Command
             $process = new Process(sprintf('mysqldump -u %s -p%s --databases %s > %s', $user, $password, $database, $file)); //realiza o dump na pasta storage da aplicação
             $process->run();
 
-            $process = new Process(sprintf('find %s -maxdepth 1 -type f -mtime +20 | xargs rm', storage_path('*.sql'))); // busca todos os arquivos sql em storage criados a mais de 20 dias e remove-os
+            $process = new Process(sprintf('find %s -maxdepth 1 -type f -mtime +1 | xargs rm', storage_path('*.sql'))); // busca todos os arquivos sql em storage criados a mais de 2 dias e remove-os p/ manter versao mais atual
             $process->run();
 
         } catch (\Exception $e) {
