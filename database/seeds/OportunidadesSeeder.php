@@ -5,6 +5,7 @@ use App\Models\LicitacaoCN;
 use App\Models\LicitacaoIO;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 
 class OportunidadesSeeder extends Seeder
 {
@@ -36,7 +37,7 @@ class OportunidadesSeeder extends Seeder
                 'dt_fim_acolhimento_proposta' => $oportunidade->dt_fim_acolhimento_prop,
                 'dt_abertura_proposta' => $oportunidade->dt_abertura_prop,
                 'dt_disputa' => $oportunidade->dt_disputa,
-                'nm_link_anexo' => $oportunidade->nm_link,
+                'nm_link_anexo' => (array) $oportunidade->nm_link,
                 'nm_anexo_principal' => $oportunidade->nm_arquivo,
                 'created_at' => $oportunidade->created_at,
                 'updated_at' => $oportunidade->updated_at,
@@ -86,6 +87,6 @@ class OportunidadesSeeder extends Seeder
             ]);
         }
 
-        DB::select('TRUNCATE jobs'); //remove os jobs que serao criados apos os seed acima
+        Redis::flushall(); //remove os jobs que serao criados apos os seed acima
     }
 }

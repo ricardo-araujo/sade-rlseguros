@@ -52,7 +52,11 @@ class AnexaEditalNaReservaJob implements ShouldQueue
             return;
         }
 
-        Log::info('Tentando enviar edital para a reserva na Mapfre', ['reserva' => $this->reserva->id]);
+        Log::info('Tentando enviar edital para a reserva na Mapfre', [
+            'portal' => $this->reserva->licitacao->portal ,
+            'licitacao' => $this->reserva->licitacao->id ,
+            'reserva' => $this->reserva->id
+        ]);
 
         $this->reserva->update(['dt_inicio_upload' => now()]);
 
@@ -90,7 +94,12 @@ class AnexaEditalNaReservaJob implements ShouldQueue
 
         } catch (\Exception $e) {
 
-            Log::error('Erro ao tentar enviar edital para reserva', ['reserva' => $this->reserva->id, 'exception' => $e]);
+            Log::error('Erro ao tentar enviar edital para reserva', [
+                'portal' => $this->reserva->licitacao->portal ,
+                'licitacao' => $this->reserva->licitacao->id ,
+                'reserva' => $this->reserva->id,
+                'exception' => $e
+            ]);
 
         }
 

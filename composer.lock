@@ -864,7 +864,7 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:git-forseti/forseti-bot-mapfre.git",
-                "reference": "79e93a62da5eb36ad7079898bfd1feccb6de47ea"
+                "reference": "1d65d45846c759d4ce163f2928f3820569008678"
             },
             "require": {
                 "guzzlehttp/guzzle": "^6.3",
@@ -892,7 +892,7 @@
                 }
             ],
             "description": "Bot para automatizar ações do SADE",
-            "time": "2018-10-05T12:47:23+00:00"
+            "time": "2018-10-08T12:44:39+00:00"
         },
         {
             "name": "forseti/captcha-sdk-php",

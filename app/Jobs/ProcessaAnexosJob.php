@@ -40,7 +40,10 @@ class ProcessaAnexosJob implements ShouldQueue
     {
         $this->delete();
 
-        Log::debug('Processando anexo da licitacao', ['licitacao' => $this->licitacao->id]);
+        Log::debug('Processando anexo da licitacao', [
+            'portal' => $this->licitacao->portal,
+            'licitacao' => $this->licitacao->id
+        ]);
 
         $path = public_path('anexos' . DIRECTORY_SEPARATOR . $this->licitacao->portal . DIRECTORY_SEPARATOR . $this->licitacao->id . DIRECTORY_SEPARATOR);
 

@@ -59,6 +59,9 @@ class CriaOrgaoJob implements ShouldQueue
 
         $parser = (new CreateOrgaoPipeline($client))->process($this->orgao->nm_cnpj, $this->orgao->nm_razao_social);
 
+        if ($parser->orgaoInvalido())
+            return;
+
         $this->orgao->update(['nm_razao_social' => $parser->getNome(), 'nm_cod_mapfre' => $parser->getCodigo()]);
 
         dispatch(new IdentificaRamoReservaJob($this->licitacao, $this->orgao))->onQueue($this->licitacao->portal);

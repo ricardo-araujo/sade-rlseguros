@@ -8,6 +8,7 @@ use App\Models\ReservaCN;
 use App\Models\ReservaIO;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 
 class ReservasSeeder extends Seeder
 {
@@ -68,6 +69,6 @@ class ReservasSeeder extends Seeder
             }
         }
 
-        DB::select('TRUNCATE jobs'); //remove os jobs que serao criados apos os seed acima
+        Redis::flushall(); //remove os jobs que serao criados apos os seed acima
     }
 }
