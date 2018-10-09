@@ -26,11 +26,6 @@ class LicitacaoBB extends AbstractLicitacao
         return json_decode($value, true);
     }
 
-    public function setTxtObjetoAttribute($value)
-    {
-        $this->attributes['txt_objeto'] = mb_strtoupper($value);
-    }
-
     public function setNuPregoeiroAttribute($value)
     {
         $this->attributes['nu_pregoeiro'] = (filled($value)) ? $value : null;

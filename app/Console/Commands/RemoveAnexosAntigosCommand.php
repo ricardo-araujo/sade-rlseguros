@@ -19,7 +19,7 @@ class RemoveAnexosAntigosCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Busca anexos de bb, cn e io criados há mais de quatro meses e remove-os';
+    protected $description = 'Busca anexos de bb, cn e io criados há mais de três meses e remove-os';
 
     /**
      * Create a new command instance.

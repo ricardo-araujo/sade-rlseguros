@@ -33,6 +33,7 @@ class LicitacaoIORepository extends Repository
                 'nm_processo' => $attributes['nmNumeroProcesso'],
                 'nm_anexo_principal' => $attributes['nmAnexo'],
                 'nm_link_anexo' => $attributes['nmLinkAnexo'],
+                'licitacao_raw' => $attributes
             ]);
         }
 

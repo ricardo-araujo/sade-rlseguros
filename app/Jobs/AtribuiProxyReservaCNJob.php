@@ -26,7 +26,7 @@ class AtribuiProxyReservaCNJob implements ShouldQueue
      *
      * @var int
      */
-    public $timeout = 900;
+    public $timeout = 1000;
 
     /**
      * @var AbstractReserva

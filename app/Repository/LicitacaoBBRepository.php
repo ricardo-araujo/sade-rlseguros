@@ -13,7 +13,6 @@ class LicitacaoBBRepository extends Repository
     public function create(array $attributes)
     {
         if ($attributes['id_modalidade'] == LicitacaoBBRepository::MODALIDADE_CORRETA && $this->query()
-
                                                                                               ->where(['nu_licitacao' => $attributes['nu_licitacao']])
                                                                                               ->doesntExist()) {
             return $this->query()->create([
@@ -50,7 +49,8 @@ class LicitacaoBBRepository extends Repository
                 'dt_abertura_proposta' => $attributes['dt_abertura_prop'],
                 'dt_disputa' => $attributes['dt_disputa'],
                 'dt_criado' => $attributes['dt_criado'],
-                'nm_link_anexo' => $attributes['arquivoList']
+                'nm_link_anexo' => $attributes['arquivoList'],
+                'licitacao_raw' => $attributes
             ]);
         }
 

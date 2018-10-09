@@ -4,17 +4,16 @@ namespace App\Jobs;
 
 use App\Models\OrgaoMapfre;
 use App\Repository\ProxyListRepository;
-use Forseti\Bot\Sade\Enums\SadeLink;
 use Forseti\Bot\Sade\Pipeline\CreateReservaPipeline;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\FileCookieJar;
 use GuzzleHttp\HandlerStack;
 use Illuminate\Bus\Queueable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
 class CriaReservaJob implements ShouldQueue

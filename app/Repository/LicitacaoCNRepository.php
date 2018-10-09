@@ -28,7 +28,8 @@ class LicitacaoCNRepository extends Repository
                 'dt_entrega_proposta' => $attributes['entregaProposta'],
                 'dt_abertura_proposta' => $attributes['aberturaProposta'],
                 'nu_modalidade' => $attributes['nu_modalidade'],
-                'nm_modalidade' => $attributes['modalidade']
+                'nm_modalidade' => $attributes['modalidade'],
+                'licitacao_raw' => $attributes
             ]);
         }
 

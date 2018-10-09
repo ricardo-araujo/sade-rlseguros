@@ -5,7 +5,6 @@ namespace App\Jobs;
 use App\Models\AbstractReserva;
 use App\Repository\RecaptchaRepository;
 use Forseti\Bot\Sade\PageObject\EditalPageObject;
-use Forseti\Bot\Sade\Pipeline\PostEditalPipeline;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\FileCookieJar;
 use GuzzleHttp\HandlerStack;
@@ -90,23 +89,21 @@ class AnexaEditalNaReservaJob implements ShouldQueue
                 return;
             }
 
-            $this->reserva->update(['was_uploaded' => check_upload($html)]);
-
         } catch (\Exception $e) {
 
             Log::error('Erro ao tentar enviar edital para reserva', [
                 'portal' => $this->reserva->licitacao->portal ,
                 'licitacao' => $this->reserva->licitacao->id ,
                 'reserva' => $this->reserva->id,
-                'exception' => $e
+                'exception' => $e->getMessage()
             ]);
 
         }
 
+        $this->reserva->update(['dt_fim_upload' => now(), 'was_uploaded' => check_upload($html)]);
+
         $this->reserva->proxy->reserva()->dissociate()->save(); // retira proxy da reserva, p/ ser usado novamente
 
-        $this->reserva->update(['dt_fim_upload' => now()]);
-
-        file_put_contents("/tmp/sade_{$this->reserva->nm_reserva}.html", $html);
+        file_put_contents("/tmp/sade_{$this->reserva->licitacao->portal}_{$this->reserva->nm_reserva}.html", $html);
     }
 }

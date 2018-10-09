@@ -26,9 +26,21 @@ abstract class AbstractLicitacao extends Model
     {
         return ($value) ? new \DateTime($value) : null;
     }
+
+    public function getLicitacaoRawAttribute($value)
+    {
+        return json_decode($value, true);
+    }
     
     public function setTxtObjetoAttribute($value)
     {
         $this->attributes['txt_objeto'] = blank($value) ? null : mb_strtoupper($value);
     }
+
+    public function setLicitacaoRawAttribute($value)
+    {
+        $this->attributes['licitacao_raw'] = json_encode($value);
+    }
+
+    abstract public function reserva();
 }
