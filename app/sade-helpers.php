@@ -42,7 +42,7 @@ if (!function_exists('content_from_pdf')) {
     function content_from_pdf($pathToFile) {
 
         $tmpFile = '/tmp/' . md5($pathToFile) . '.txt';
-        shell_exec("pdftotext $pathToFile $tmpFile -raw >/dev/null 2>&1");
+        shell_exec("pdftotext \"$pathToFile\" $tmpFile -raw >/dev/null 2>&1");
         $content = file_get_contents($tmpFile);
         unlink($tmpFile);
 
@@ -148,6 +148,16 @@ if (!function_exists('edital_path')) {
         $ds = DIRECTORY_SEPARATOR;
 
         return public_path('anexos' . $ds . $licitacao->portal . $ds . $licitacao->id . $ds . $licitacao->nm_anexo_principal);
+    }
+}
+
+if (!function_exists('anexos_path')) {
+
+    function anexos_path(\App\Models\AbstractLicitacao $licitacao) {
+
+        $ds = DIRECTORY_SEPARATOR;
+
+        return public_path('anexos' . $ds . $licitacao->portal . $ds . $licitacao->id . $ds);
     }
 }
 

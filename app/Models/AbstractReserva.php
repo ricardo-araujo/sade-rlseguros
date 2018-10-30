@@ -8,16 +8,7 @@ abstract class AbstractReserva extends Model
 {
     protected $primaryKey = 'id';
     protected $guarded = ['id'];
-
-    public function getDtInicioUploadAttribute($value)
-    {
-        return ($value) ? new \DateTime($value) : null;
-    }
-
-    public function getDtFimUploadAttribute($value)
-    {
-        return ($value) ? new \DateTime($value) : null;
-    }
+    protected $dates = ['dt_inicio_upload', 'dt_fim_upload'];
 
     public function proxy()
     {

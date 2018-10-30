@@ -55,7 +55,7 @@ class CriaReservaJob implements ShouldQueue
 
         if (!$proxy = (new ProxyListRepository())->proxy()) {
 
-            dispatch(new self($this->licitacao, $this->orgao, $this->ramo))->onQueue($this->licitacao->portal)->delay(10);
+            dispatch(new self($this->licitacao, $this->orgao, $this->ramo))->onQueue($this->licitacao->portal);
 
             return;
         }

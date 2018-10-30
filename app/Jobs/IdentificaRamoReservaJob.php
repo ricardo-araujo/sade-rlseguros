@@ -33,6 +33,17 @@ class IdentificaRamoReservaJob implements ShouldQueue
     const TRANSPORTE_VALOR = ['8'];
     const RESPONSABILIDADE_CIVIL_VALOR = ['9'];
 
+    const REGEX_VALORES = [
+        self::AUTOMOVEIS_REGEX => self::AUTOMOVEIS_VALOR,
+        self::DIFERENCIADOS_MASSIFICADOS_REGEX => self::DIFERENCIADOS_MASSIFICADOS_VALOR,
+        self::MASSIFICADOS_REGEX => self::MASSIFICADOS_VALOR,
+        self::GARANTIA_REGEX => self::GARANTIA_VALOR,
+        self::AERONAUTICO_REGEX => self::AERONAUTICO_VALOR,
+        self::VIDA_REGEX => self::VIDA_VALOR,
+        self::TRANSPORTE_REGEX => self::TRANSPORTE_VALOR,
+        self::RESPONSABILIDADE_CIVIL_REGEX => self::RESPONSABILIDADE_CIVIL_VALOR
+    ];
+
     /**
      * @var Model
      */
@@ -63,24 +74,15 @@ class IdentificaRamoReservaJob implements ShouldQueue
     {
         $this->delete();
 
-        (new Collection([
-            self::AUTOMOVEIS_REGEX => self::AUTOMOVEIS_VALOR,
-            self::DIFERENCIADOS_MASSIFICADOS_REGEX => self::DIFERENCIADOS_MASSIFICADOS_VALOR,
-            self::MASSIFICADOS_REGEX => self::MASSIFICADOS_VALOR,
-            self::GARANTIA_REGEX => self::GARANTIA_VALOR,
-            self::AERONAUTICO_REGEX => self::AERONAUTICO_VALOR,
-            self::VIDA_REGEX => self::VIDA_VALOR,
-            self::TRANSPORTE_REGEX => self::TRANSPORTE_VALOR,
-            self::RESPONSABILIDADE_CIVIL_REGEX => self::RESPONSABILIDADE_CIVIL_VALOR
-        ]))
-        ->filter(function($ramos, $regex) {
-            return (bool) preg_match($regex, $this->licitacao->txt_objeto);
-        })
-        ->values()
-        ->flatten()
-        ->unique()
-        ->each(function($ramo) {
-            dispatch(new CriaReservaJob($this->licitacao, $this->orgao, $ramo))->onQueue($this->licitacao->portal);
-        });
+        (new Collection(self::REGEX_VALORES))
+            ->filter(function($ramos, $regex) {
+                return (bool) preg_match($regex, $this->licitacao->txt_objeto);
+            })
+            ->values()
+            ->flatten()
+            ->unique()
+            ->each(function($ramo) {
+                dispatch(new CriaReservaJob($this->licitacao, $this->orgao, $ramo))->onQueue($this->licitacao->portal);
+            });
     }
 }
