@@ -5,20 +5,11 @@ namespace App\Models;
 class LicitacaoIO extends AbstractLicitacao
 {
     protected $table = 'licitacao_io';
+    protected $dates = ['dt_publicacao', 'dt_disputa', 'dt_registro_anexo'];
 
     public function setNmOrgaoAttribute($value)
     {
         $this->attributes['nm_orgao'] = mb_strtoupper($value);
-    }
-
-    public function getDtPublicacaoAttribute($value)
-    {
-        return ($value) ? new \DateTime($value) : null;
-    }
-
-    public function getDtDisputaAttribute($value)
-    {
-        return ($value) ? new \DateTime($value) : null;
     }
 
     public function reserva()

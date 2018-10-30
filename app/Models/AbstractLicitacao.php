@@ -22,11 +22,6 @@ abstract class AbstractLicitacao extends Model
         return $value;
     }
 
-    public function getDtRegistroAnexoAttribute($value)
-    {
-        return ($value) ? new \DateTime($value) : null;
-    }
-
     public function getLicitacaoRawAttribute($value)
     {
         return json_decode($value, true);

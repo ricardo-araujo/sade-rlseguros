@@ -35,17 +35,12 @@ class ProxyListRepository extends Repository
     {
         $model = $this->query()
                       ->whereNull('reserva_id')
-                      ->where('used_at', '<=', now()->subMinutes(2))
+                      ->where('used_at', '<', now()->subMinutes(2))
                       ->orWhereNull('used_at')
                       ->sharedLock()
                       ->first();
 
-        if (!$model)
-            return false;
-
-        $model->update(['used_at' => now()]);
-
-        return $model;
+        return $model ?? false;
     }
 
     public function resetLoggedProxies()
@@ -53,16 +48,16 @@ class ProxyListRepository extends Repository
         return $this->query()->where('is_logged', '=', true)->update(['is_logged' => false]);
     }
 
-    public function notLogged()
+    public function logged()
     {
-        $proxies = $this->query()->where('is_logged', '=', false)->get();
+        $proxies = $this->query()->where('is_logged', '=', true)->get();
 
         return ($proxies->isNotEmpty()) ? $proxies : false;
     }
 
-    public function logged()
+    public function notLogged()
     {
-        $proxies = $this->query()->where('is_logged', '=', true)->get();
+        $proxies = $this->query()->where('is_logged', '=', false)->get();
 
         return ($proxies->isNotEmpty()) ? $proxies : false;
     }

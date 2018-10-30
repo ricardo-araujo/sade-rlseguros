@@ -5,14 +5,7 @@ namespace App\Models;
 class LicitacaoCN extends AbstractLicitacao
 {
     protected $table = 'licitacao_cn';
-
-    public function getDtAberturaPropostaAttribute($value)
-    {
-        if (!$value)
-            return null;
-
-        return ($value instanceof \DateTime) ? $value : new \DateTime($value);
-    }
+    protected $dates = ['dt_entrega_proposta', 'dt_abertura_proposta', 'dt_registro_anexo'];
 
     public function getHasAnexoAttribute($value)
     {
@@ -31,12 +24,12 @@ class LicitacaoCN extends AbstractLicitacao
 
     public function setDtEntregaPropostaAttribute($value)
     {
-        $this->attributes['dt_entrega_proposta'] = (blank($value) || $value == '0000-00-00 00:00:00') ? null : $value;
+        $this->attributes['dt_entrega_proposta'] = (blank($value) || str_is('0000-00-00 00:00:00', $value)) ? null : $value;
     }
 
     public function setDtAberturaPropostaAttribute($value)
     {
-        $this->attributes['dt_abertura_proposta'] = (blank($value) || $value == '0000-00-00 00:00:00') ? null : $value;
+        $this->attributes['dt_abertura_proposta'] = (blank($value) || str_is('0000-00-00 00:00:00', $value)) ? null : $value;
     }
 
     public function reserva()

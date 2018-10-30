@@ -102,7 +102,9 @@ class AnexaEditalNaReservaJob implements ShouldQueue
 
         $this->reserva->update(['dt_fim_upload' => now(), 'was_uploaded' => check_upload($html)]);
 
-        $this->reserva->proxy->reserva()->dissociate()->save(); // retira proxy da reserva, p/ ser usado novamente
+        $this->reserva->proxy->update(['used_at' => now()]); //atualiza ultima data de uso p/ que nao seja usado em menos de 2 minutos por outra reserva
+
+        $this->reserva->proxy->reserva()->dissociate()->save(); //retira proxy da reserva, p/ ser usado novamente
 
         file_put_contents("/tmp/sade_{$this->reserva->licitacao->portal}_{$this->reserva->nm_reserva}.html", $html);
     }
