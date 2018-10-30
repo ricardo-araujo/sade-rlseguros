@@ -9,6 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\Process\Process;
 
@@ -45,7 +46,7 @@ class ProcessaAnexosJob implements ShouldQueue
             'licitacao' => $this->licitacao->id
         ]);
 
-        $path = public_path('anexos' . DIRECTORY_SEPARATOR . $this->licitacao->portal . DIRECTORY_SEPARATOR . $this->licitacao->id . DIRECTORY_SEPARATOR);
+        $path = anexos_path($this->licitacao);
 
         beggining:
         $it = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
@@ -77,45 +78,41 @@ class ProcessaAnexosJob implements ShouldQueue
             }
         }
 
-        if (count($files) == 1) {
+        $collection = new Collection($files);
 
-            $name = array_keys($files)[0];
+        if ($collection->count() === 1) {
+
+            $name = $collection->keys()->first();
 
         } else {
 
-            krsort($files); //ordena pelo nome dos arquivos (chave), do maior p/ o menor
+            if ($match = $collection->sortKeysDesc()->keys()->first(function($arquivo) { //orderna os nomes dos arquivos e retorna o primeiro que satisfaz a regex abaixo
 
-            if ($match = preg_grep('#^preg.o.*|^edital.*|.*preg.o.*|.*edital.*|^PE\s?.*|.*Seguro.*#ui', array_keys($files))) {
+                return (bool) preg_match('#^preg.o.*|^edital.*|^pe.*|.*preg.o.*|.*edital.*#iu', $arquivo);
 
-                $name = reset($match);
+            })) {
+
+                $name = $match;
 
             } else {
 
-                arsort($files); //ordena pelo tamanho dos arquivos (valor), do maior p/ o menor
+                $name = $collection->sort()->keys()->last(); //ordena pelo tamanho dos arquivos e traz o maior
 
-                $files = array_keys($files);
-
-                $name = reset($files);
             }
         }
 
-        if (preg_match('#\.rtf$#i', $name)) { //verifica extensao do arquivo para transforma-lo em pdf, atraves do libreoffice (particularidade da Mapfre)
+        if (ends_with($name, ['rtf', 'RTF'])) { //verifica extensao do arquivo para transforma-lo em pdf, atraves do libreoffice (particularidade da Mapfre)
 
-            $process = new Process(sprintf('soffice --headless --invisible --norestore --convert-to pdf:writer_pdf_Export --outdir %s "%s%s"', $path, $path, $name));
-
-            $process->run();
+            (new Process(sprintf('soffice --headless --invisible --norestore --convert-to pdf:writer_pdf_Export --outdir %s "%s%s"', $path, $path, $name)))->run();
 
             $name = preg_replace('#\.rtf$#i', '.pdf', $name);
         }
 
-        if (preg_match('#[^a-zA-Z0-9\-_\.]#', $name)) { //normaliza o nome do arquivo
+        $cleanName = preg_replace(['#[^a-zA-Z0-9\-_\.]#', '#_{2,}#'], '_', $name); //normaliza o nome do arquivo
 
-            $newName = preg_replace('#[^a-zA-Z0-9\-_\.]#', '_', $name);
-            $newName = preg_replace('#_{2,}#', '_', $newName);
-            rename($path.$name, $path.$newName);
+        rename($path.$name, $path.$cleanName);
 
-            $name = $newName;
-        }
+        $name = $cleanName;
 
         $this->licitacao->update(['dt_registro_anexo' => now(), 'nm_anexo_principal' => $name]);
     }

@@ -40,7 +40,7 @@ class BuscaCnpjsNosAnexosBBJob implements ShouldQueue
     {
         $this->delete();
 
-        $path = public_path('anexos' . DIRECTORY_SEPARATOR . $this->licitacao->portal . DIRECTORY_SEPARATOR . $this->licitacao->id . DIRECTORY_SEPARATOR);
+        $path = anexos_path($this->licitacao);
 
         $it = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
 

@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AbstractLicitacao;
 use App\Repository\LicitacaoBBRepository;
 use Illuminate\Http\Request;
 
-class LicitacaoBBController extends AbstractLicitacao
+class LicitacaoBBController extends AbstractLicitacaoController
 {
     public function create(Request $request)
     {
         $oportunidade = json_decode($request->get('json'), true);
 
         if (!$oportunidade)
-            return response('Oportunidade nao recebida', 404);
+            return response()->json('Oportunidade nao recebida', 404);
 
         $lic = (new LicitacaoBBRepository())->create($oportunidade);
 
         return ($lic)
-            ? response('Oportunidade enviada para processamento', 201)
-            : response('Oportunidade já existente ou modalide incorreta', 404);
+            ? response()->json('Oportunidade enviada para processamento', 201)
+            : response()->json('Oportunidade já existente ou modalidade incorreta', 404);
     }
 }

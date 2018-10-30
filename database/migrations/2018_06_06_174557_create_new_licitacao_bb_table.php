@@ -22,9 +22,6 @@ class CreateNewLicitacaoBbTable extends Migration
             $table->string('nm_cliente')->nullable();
             $table->integer('nu_pregoeiro')->nullable();
             $table->string('nm_pregoeiro')->nullable();
-            $table->integer('nu_coordenador')->nullable();
-            $table->string('nm_coordenador')->nullable();
-            $table->integer('nu_presidente_comissao')->nullable();
             $table->string('nm_pregao')->nullable();
             $table->string('nm_processo')->nullable();
             $table->integer('nu_modalidade')->nullable();

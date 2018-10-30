@@ -12,12 +12,7 @@ class ProxyList extends Model
     protected $table = 'proxylist';
     protected $primaryKey = 'id';
     protected $guarded = ['id'];
-    protected $dates = ['deleted_at'];
-
-    public function getUsedAtAttribute($value)
-    {
-        return ($value) ? new \DateTime($value) : null;
-    }
+    protected $dates = ['used_at', 'deleted_at'];
 
     public function setNomeAttribute($value)
     {

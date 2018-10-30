@@ -5,21 +5,7 @@ namespace App\Models;
 class LicitacaoBB extends AbstractLicitacao
 {
     protected $table = 'licitacao_bb';
-
-    public function getDtPublicacaoAttribute($value)
-    {
-        return ($value) ? new \DateTime($value) : null;
-    }
-
-    public function getDtAberturaPropostaAttribute($value)
-    {
-        return ($value) ? new \DateTime($value) : null;
-    }
-
-    public function getDtDisputaAttribute($value)
-    {
-        return ($value) ? new \DateTime($value) : null;
-    }
+    protected $dates = ['dt_publicacao', 'dt_ini_acolhimento_proposta', 'dt_fim_acolhimento_proposta', 'dt_abertura_proposta', 'dt_disputa', 'dt_criado', 'dt_registro_anexo'];
 
     public function getNmLinkAnexoAttribute($value)
     {
@@ -43,7 +29,7 @@ class LicitacaoBB extends AbstractLicitacao
 
     public function setDtDisputaAttribute($value)
     {
-        $this->attributes['dt_disputa'] = ($value == '0000-00-00 00:00:00') ? null : $value;
+        $this->attributes['dt_disputa'] = (blank($value) || str_is('0000-00-00 00:00:00', $value)) ? null : $value;
     }
 
     public function setNmLinkAnexoAttribute($value)

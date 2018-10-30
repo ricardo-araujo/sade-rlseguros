@@ -57,7 +57,7 @@ class CriaOrgaoJob implements ShouldQueue
             ]
         ]);
 
-        $parser = (new CreateOrgaoPipeline($client))->process($this->orgao->nm_cnpj, $this->orgao->nm_razao_social);
+        $parser = (new CreateOrgaoPipeline($client))->process($this->orgao->nm_cnpj, env('FORSETI_PROXY'));
 
         if ($parser->orgaoInvalido())
             return;
