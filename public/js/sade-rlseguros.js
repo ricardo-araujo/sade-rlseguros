@@ -11,6 +11,7 @@ $('#btn-fecha-redefinir-senha-modal').click(function() {
 
     $('#senha').val('');
     $('#senha_confirmation').val('');
+    $('#div-alert-senha-alterada').remove();
 });
 
 $('#btn-redefinir-senha-modal').click(function() {
@@ -34,9 +35,11 @@ $('#btn-redefinir-senha-modal').click(function() {
             dataType: 'json',
             success: function(data) {
 
-                $('#modal-redefinir-senha').modal('toggle');
+                $('#modal-body-senha').prepend('<div id="div-alert-senha-alterada" class="alert alert-success text-center" role="alert"> Senha alterada com sucesso!</div>');
+
                 inputSenha.val('');
                 inputConfirmaSenha.val('');
+
             },
             error: function(data) {
 

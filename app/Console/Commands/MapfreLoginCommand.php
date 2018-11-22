@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Models\ProxyList;
 use App\Repository\ProxyListRepository;
-use App\Repository\RecaptchaRepository;
 use Forseti\Bot\Sade\PageObject\LoginPageObject;
 use Forseti\Bot\Sade\Pipeline\LoginPipeline;
 use GuzzleHttp\Client;
@@ -77,10 +76,7 @@ class MapfreLoginCommand extends Command
 
                     $this->info("Proxy {$proxy->nome} não logado. Tentando...");
 
-                    while (!$token = (new RecaptchaRepository())->token())
-                        sleep(5);
-
-                    $parser = (new LoginPipeline($client))->process($user, $pass, $token);
+                    $parser = (new LoginPipeline($client))->process($user, $pass);
 
                     if ($parser->isLogged()) {
 

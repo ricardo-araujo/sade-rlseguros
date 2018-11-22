@@ -60,27 +60,51 @@ class CriaReservaJob implements ShouldQueue
             return;
         }
 
-        Log::info('Tentando criar reserva na Mapfre', ['licitacao' => $this->licitacao->id, 'orgao' => $this->orgao->id, 'ramo' => $this->ramo]);
+        Log::info('Tentando criar reserva na Mapfre', ['portal' => $this->licitacao->portal, 'licitacao' => $this->licitacao->id, 'orgao' => $this->orgao->id, 'ramo' => $this->ramo]);
 
         $client = new Client([
             'handler' => app(HandlerStack::class), //provider de Handler de retry, fiz o provider para nao poluir essa classe
             'proxy' => $proxy->proxy,
-            'cookies' => new FileCookieJar(storage_path("{$proxy->nome}.txt"), true),
+            'cookies' => new FileCookieJar(cookie_path($proxy), true),
             'headers' => [
                 'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36'
             ]
         ]);
 
-        $parser = (new CreateReservaPipeline($client))->process($this->orgao->nm_cod_mapfre,
-                                                                $this->licitacao->nm_pregao,
-                                                                $this->ramo,
-                                                                $this->licitacao->dt_disputa);
+        try {
 
-        if (!$parser->getNumero())
-            return;
+            $parser = (new CreateReservaPipeline($client))->process($this->orgao->nm_cod_mapfre,
+                                                                    $this->licitacao->nm_pregao,
+                                                                    $this->ramo,
+                                                                    $this->licitacao->dt_disputa);
 
-        $reserva = $this->licitacao->reserva()->create(['nm_reserva' => $parser->getNumero()]);
+            if ((bool) $parser->getNumero()) {
 
-        $proxy->reserva()->associate($reserva)->save();
+                $reserva = $this->licitacao->reserva()->create(['nm_reserva' => $parser->getNumero()]);
+
+                $proxy->reserva()->associate($reserva)->save();
+
+            } else {
+
+                Log::info('Reserva nao criada', [
+                    'portal' => $this->licitacao->portal,
+                    'licitacao' => $this->licitacao->id,
+                    'orgao' => $this->orgao->id,
+                    'ramo' => $this->ramo,
+                    'motivo' => $parser->getMotivoReservaInvalida() ?? 'motivo nao identificado'
+                ]);
+
+            }
+
+        } catch (\Exception $e) {
+
+            Log::error('Erro ao tentar criar reserva na Mapfre', [
+                'portal' => $this->licitacao->portal,
+                'licitacao' => $this->licitacao->id,
+                'orgao' => $this->orgao->id,
+                'exception' => $e->getMessage()
+            ]);
+
+        }
     }
 }

@@ -12,7 +12,6 @@
                             <strong>{{ $licitacao->id }} - </strong>{{ $licitacao->nm_cliente }}
                         </button>
                         @if($licitacao->nm_anexo_principal)
-                            {{--<a href="{{ action('AbstractLicitacaoController@download', [$licitacao]) }}" class="btn btn-outline-dark" style="float: right" title="Clique para baixar os arquivos da oportunidade. (Disponibilizado às {{$licitacao->dt_registro_anexo->format('H:i:s')}})" download>--}}
                             <a href="{{ route('download-bb', [$licitacao]) }}" class="btn btn-outline-dark" style="float: right" title="Clique para baixar os arquivos da oportunidade. (Disponibilizado às {{$licitacao->dt_registro_anexo->format('H:i:s')}})" download>
                                 <strong> Download </strong>
                             </a>
@@ -53,7 +52,7 @@
                                         Nenhuma Reserva para a oportunidade.
                                     @else
                                         @foreach($licitacao->reserva as $reserva)
-                                            <button class="btn btn-outline-primary btn-sm" disabled>{{ $reserva->nm_reserva }}</button>
+                                            <span class="border border-primary rounded text-primary" style="padding: .35rem .5rem; font-size: .7875rem; line-height: 1.5; border-radius: .2rem;">{{ $reserva->nm_reserva }}</span>
                                         @endforeach
                                     @endif
                                     </div>

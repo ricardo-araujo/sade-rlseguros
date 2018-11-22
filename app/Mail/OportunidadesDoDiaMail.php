@@ -31,12 +31,9 @@ class OportunidadesDoDiaMail extends Mailable
      */
     public function build()
     {
-        $currentDate = new \DateTime();
-        $dateBefore = (new \DateTime())->modify('-1 day');
-
-        $oportunidadesBB = (new LicitacaoBBRepository())->fromDate($dateBefore);
-        $oportunidadesCN = (new LicitacaoCNRepository())->fromDate($currentDate);
-        $oportunidadesIO = (new LicitacaoIORepository())->fromDate($currentDate);
+        $oportunidadesBB = (new LicitacaoBBRepository())->fromDate(yesterday());
+        $oportunidadesCN = (new LicitacaoCNRepository())->fromDate(today());
+        $oportunidadesIO = (new LicitacaoIORepository())->fromDate(today());
 
         return $this->to('ricardo.araujo@forseti.com.br', 'Ricardo Araujo')
                      ->subject('[Forseti - Sade] Resumo das oportunidades do dia')

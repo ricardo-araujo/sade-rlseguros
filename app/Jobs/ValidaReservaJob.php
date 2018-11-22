@@ -12,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Log;
 
 class ValidaReservaJob implements ShouldQueue
 {
@@ -41,16 +42,33 @@ class ValidaReservaJob implements ShouldQueue
     {
         $this->delete();
 
+        Log::debug('Buscando parametros da reserva na Mapfre', [
+            'portal' => $this->reserva->licitacao->portal,
+            'reserva' => $this->reserva->id
+        ]);
+
         $client = new Client([
             'handler' => app(HandlerStack::class), //provider de Handler de retry, fiz o provider para nao poluir essa classe
-            'cookies' => new FileCookieJar(storage_path('default.txt'), true),
+            'cookies' => new FileCookieJar(default_cookie_path(), true),
             'headers' => [
                 'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36'
             ]
         ]);
 
-        $parser = (new EditalPageObject($client))->getCadastroArquivoDigital($this->reserva->nm_reserva);
+        try {
 
-        $this->reserva->update(['viewstate' => $parser->getViewState(), 'eventvalidation' => $parser->getEventValidation()]);
+            $parser = (new EditalPageObject($client))->getCadastroArquivoDigital($this->reserva->nm_reserva);
+
+            $this->reserva->update(['viewstate' => $parser->getViewState(), 'eventvalidation' => $parser->getEventValidation()]);
+
+        } catch (\Exception $e) {
+
+            Log::error('Erro ao buscar parametros da reserva', [
+                'portal' => $this->reserva->licitacao->portal,
+                'reserva' => $this->reserva->id,
+                'exception' => $e->getMessage()
+            ]);
+
+        }
     }
 }

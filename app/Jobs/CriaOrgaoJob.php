@@ -13,6 +13,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Log;
 
 class CriaOrgaoJob implements ShouldQueue
 {
@@ -49,21 +50,35 @@ class CriaOrgaoJob implements ShouldQueue
     {
         $this->delete();
 
+        Log::info('Tentando criar orgao na Mapfre', ['portal' => $this->licitacao->portal, 'licitacao' => $this->licitacao->id]);
+
         $client = new Client([
             'handler' => app(HandlerStack::class), //provider de Handler de retry, fiz o provider para nao poluir essa classe
-            'cookies' => new FileCookieJar(storage_path('default.txt'), true),
+            'cookies' => new FileCookieJar(default_cookie_path(), true),
             'headers' => [
                 'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36'
             ]
         ]);
 
-        $parser = (new CreateOrgaoPipeline($client))->process($this->orgao->nm_cnpj, env('FORSETI_PROXY'));
+        try {
 
-        if ($parser->orgaoInvalido())
-            return;
+            $parser = (new CreateOrgaoPipeline($client))->process($this->orgao->nm_cnpj, env('FORSETI_PROXY'));
 
-        $this->orgao->update(['nm_razao_social' => $parser->getNome(), 'nm_cod_mapfre' => $parser->getCodigo()]);
+            if ($parser->orgaoInvalido())
+                return;
 
-        dispatch(new IdentificaRamoReservaJob($this->licitacao, $this->orgao))->onQueue($this->licitacao->portal);
+            $this->orgao->update(['nm_razao_social' => $parser->getNome(), 'nm_cod_mapfre' => $parser->getCodigo()]);
+
+            dispatch(new IdentificaRamoReservaJob($this->licitacao, $this->orgao))->onQueue($this->licitacao->portal);
+
+        } catch (\Exception $e) {
+
+            Log::error('Erro ao tentar criar orgao na Mapfre', [
+                'portal' => $this->licitacao->portal,
+                'licitacao' => $this->licitacao->id,
+                'exception' => $e->getMessage()
+            ]);
+
+        }
     }
 }

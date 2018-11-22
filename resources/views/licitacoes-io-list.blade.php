@@ -52,7 +52,7 @@
                                             Nenhuma Reserva para a oportunidade.
                                         @else
                                             @foreach($licitacao->reserva as $reserva)
-                                                <button class="btn btn-outline-primary btn-sm" disabled>{{ $reserva->nm_reserva }}</button>
+                                                <span class="border border-primary rounded text-primary" style="padding: .35rem .5rem; font-size: .7875rem; line-height: 1.5; border-radius: .2rem;">{{ $reserva->nm_reserva }}</span>
                                             @endforeach
                                         @endif
                                     </div>
