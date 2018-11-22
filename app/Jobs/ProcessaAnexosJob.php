@@ -46,74 +46,86 @@ class ProcessaAnexosJob implements ShouldQueue
             'licitacao' => $this->licitacao->id
         ]);
 
-        $path = anexos_path($this->licitacao);
+        try {
 
-        beggining:
-        $it = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
+            $path = anexos_path($this->licitacao);
 
-        foreach ($it as $item) {
+            beggining:
+            $it = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
 
-            if (strtolower($item->getExtension()) == 'zip') { //caso arquivo seja zip, é extraido e excluido, retornando ao 'beggining' para o caso de um haver outro zip dentro do arquivo anterior
+            foreach ($it as $item) {
 
-                $zip = new \ZipArchive();
-                $zip->open($item->getRealPath());
-                $zip->extractTo($path);
-                $zip->close();
+                if (strtolower($item->getExtension()) == 'zip') { //caso arquivo seja zip, é extraido e excluido, retornando ao 'beggining' para o caso de um haver outro zip dentro do arquivo anterior
 
-                unlink($item->getRealPath());
+                    $zip = new \ZipArchive();
+                    $zip->open($item->getRealPath());
+                    $zip->extractTo($path);
+                    $zip->close();
 
-                goto beggining;
+                    unlink($item->getRealPath());
+
+                    goto beggining;
+                }
             }
-        }
 
-        $files = [];
-        foreach ($it as $item) {
+            $files = [];
+            foreach ($it as $item) {
 
-            if ($item->getExtension() == 'zip')
-                goto beggining;
+                if ($item->getExtension() == 'zip')
+                    goto beggining;
 
-            if ($item->isFile()) {
-                $files[$item->getFilename()] = $item->getSize(); //cria array com chave sendo nome, e valor sendo o tamanho dos arquivos do diretorio
-                rename($item->getRealPath(), $path . $item->getFilename()); //caso o arquivo atual esteja dentro de uma pasta, joga-o p/ o dir principal
+                if ($item->isFile()) {
+                    $files[$item->getFilename()] = $item->getSize(); //cria array com chave sendo nome, e valor sendo o tamanho dos arquivos do diretorio
+                    rename($item->getRealPath(), $path . $item->getFilename()); //caso o arquivo atual esteja dentro de uma pasta, joga-o p/ o dir principal
+                }
             }
-        }
 
-        $collection = new Collection($files);
+            $collection = new Collection($files);
 
-        if ($collection->count() === 1) {
+            if ($collection->count() === 1) {
 
-            $name = $collection->keys()->first();
-
-        } else {
-
-            if ($match = $collection->sortKeysDesc()->keys()->first(function($arquivo) { //orderna os nomes dos arquivos e retorna o primeiro que satisfaz a regex abaixo
-
-                return (bool) preg_match('#^preg.o.*|^edital.*|^pe.*|.*preg.o.*|.*edital.*#iu', $arquivo);
-
-            })) {
-
-                $name = $match;
+                $name = $collection->keys()->first();
 
             } else {
 
-                $name = $collection->sort()->keys()->last(); //ordena pelo tamanho dos arquivos e traz o maior
+                if ($match = $collection->sortKeysDesc()->keys()->first(function($arquivo) { //orderna os nomes dos arquivos e retorna o primeiro que satisfaz a regex abaixo
 
+                    return (bool) preg_match('#^preg.o.*|^edital.*|^pe.*|.*preg.o.*|.*edital.*#iu', $arquivo);
+
+                })) {
+
+                    $name = $match;
+
+                } else {
+
+                    $name = $collection->sort()->keys()->last(); //ordena pelo tamanho dos arquivos e traz o maior
+
+                }
             }
+
+            if (ends_with($name, ['rtf', 'RTF'])) { //verifica extensao do arquivo para transforma-lo em pdf, atraves do libreoffice (particularidade da Mapfre)
+
+                (new Process(sprintf('soffice --headless --invisible --norestore --convert-to pdf:writer_pdf_Export --outdir %s "%s%s"', $path, $path, $name)))->run();
+
+                $name = preg_replace('#\.rtf$#i', '.pdf', $name);
+            }
+
+            $cleanName = preg_replace(['#[^a-zA-Z0-9\-_\.]#', '#_{2,}#'], '_', $name); //normaliza o nome do arquivo
+
+            rename($path.$name, $path.$cleanName);
+
+            $name = $cleanName;
+
+            $this->licitacao->update(['dt_registro_anexo' => now(), 'nm_anexo_principal' => $name]);
+
+        } catch (\Exception $e) {
+
+            Log::error('Erro ao processar anexos da licitação', [
+                'portal' => $this->licitacao->portal,
+                'licitacao' => $this->licitacao->id,
+                'exception' => $e->getMessage()
+            ]);
+
         }
-
-        if (ends_with($name, ['rtf', 'RTF'])) { //verifica extensao do arquivo para transforma-lo em pdf, atraves do libreoffice (particularidade da Mapfre)
-
-            (new Process(sprintf('soffice --headless --invisible --norestore --convert-to pdf:writer_pdf_Export --outdir %s "%s%s"', $path, $path, $name)))->run();
-
-            $name = preg_replace('#\.rtf$#i', '.pdf', $name);
-        }
-
-        $cleanName = preg_replace(['#[^a-zA-Z0-9\-_\.]#', '#_{2,}#'], '_', $name); //normaliza o nome do arquivo
-
-        rename($path.$name, $path.$cleanName);
-
-        $name = $cleanName;
-
-        $this->licitacao->update(['dt_registro_anexo' => now(), 'nm_anexo_principal' => $name]);
     }
 }

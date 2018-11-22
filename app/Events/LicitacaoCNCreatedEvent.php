@@ -20,13 +20,11 @@ class LicitacaoCNCreatedEvent
     /**
      * Create a new event instance.
      *
-     * @param Model $licitacao
-     *
      * @return void
      */
     public function __construct(Model $licitacao)
     {
-        Log::info('Licitacao inserida no banco de dados', ['licitacao' => $licitacao->toArray()]);
+        Log::info('Licitacao inserida no banco de dados', ['portal' => $licitacao->portal, 'licitacao' => $licitacao->id]);
 
         $this->licitacao = $licitacao;
     }

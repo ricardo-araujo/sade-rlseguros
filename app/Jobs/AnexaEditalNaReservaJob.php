@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use App\Models\AbstractReserva;
-use App\Repository\RecaptchaRepository;
 use Forseti\Bot\Sade\PageObject\EditalPageObject;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\FileCookieJar;
@@ -40,29 +39,25 @@ class AnexaEditalNaReservaJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle(RecaptchaRepository $recaptchaRepo)
+    public function handle()
     {
         $this->delete();
 
-        if (!$this->reserva->proxy or !$token = $recaptchaRepo->token()) {
+        if (!$this->reserva->proxy) {
 
             dispatch(new self($this->reserva))->onQueue($this->reserva->licitacao->portal);
 
             return;
         }
 
-        Log::info('Tentando enviar edital para a reserva na Mapfre', [
-            'portal' => $this->reserva->licitacao->portal ,
-            'licitacao' => $this->reserva->licitacao->id ,
-            'reserva' => $this->reserva->id
-        ]);
+        Log::info('Tentando enviar edital para a reserva na Mapfre', ['portal' => $this->reserva->licitacao->portal, 'reserva' => $this->reserva->id]);
 
         $this->reserva->update(['dt_inicio_upload' => now()]);
 
         $client = new Client([
             'handler' => app(HandlerStack::class), //provider de Handler de retry, fiz o provider para nao poluir essa classe
             'proxy' => $this->reserva->proxy->proxy,
-            'cookies' => new FileCookieJar(storage_path("{$this->reserva->proxy->nome}.txt"), true),
+            'cookies' => new FileCookieJar(cookie_path($this->reserva->proxy), true),
             'headers' => [
                 'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36'
             ]
@@ -70,42 +65,32 @@ class AnexaEditalNaReservaJob implements ShouldQueue
 
         try {
 
-            $parser = (new EditalPageObject($client))->postCadastroArquivoDigital(
-                $token,
-                $this->reserva->nm_reserva,
-                $this->reserva->nm_subtipo,
-                $this->reserva->nm_descricao,
-                edital_path($this->reserva->licitacao),
-                $this->reserva->viewstate,
-                $this->reserva->eventvalidation
-            );
-
-            $html = $parser->getHtml();
-
-            if (wrong_recaptcha_token($html)) {
-
-                dispatch(new self($this->reserva))->onQueue($this->reserva->licitacao->portal);
-
-                return;
-            }
+            $parser = (new EditalPageObject($client))->postCadastroArquivoDigital($this->reserva->nm_reserva,
+                                                                                  $this->reserva->nm_subtipo,
+                                                                                  $this->reserva->nm_descricao,
+                                                                                  edital_path($this->reserva->licitacao),
+                                                                                  $this->reserva->viewstate,
+                                                                                  $this->reserva->eventvalidation);
 
         } catch (\Exception $e) {
 
             Log::error('Erro ao tentar enviar edital para reserva', [
-                'portal' => $this->reserva->licitacao->portal ,
-                'licitacao' => $this->reserva->licitacao->id ,
+                'portal' => $this->reserva->licitacao->portal,
                 'reserva' => $this->reserva->id,
                 'exception' => $e->getMessage()
             ]);
 
         }
 
-        $this->reserva->update(['dt_fim_upload' => now(), 'was_uploaded' => check_upload($html)]);
+        $this->reserva->update(['dt_fim_upload' => now(), 'was_uploaded' => $parser->wasUploaded()]);
 
+        $this->resetProxy();
+    }
+
+    private function resetProxy()
+    {
         $this->reserva->proxy->update(['used_at' => now()]); //atualiza ultima data de uso p/ que nao seja usado em menos de 2 minutos por outra reserva
 
         $this->reserva->proxy->reserva()->dissociate()->save(); //retira proxy da reserva, p/ ser usado novamente
-
-        file_put_contents("/tmp/sade_{$this->reserva->licitacao->portal}_{$this->reserva->nm_reserva}.html", $html);
     }
 }
