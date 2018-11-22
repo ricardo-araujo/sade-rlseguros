@@ -45,10 +45,10 @@ class LicitacaoCNCreatedListener
 
     private function setDelayTime() //6:10 foi um horario padrao observado em que o CN libera os editais
     {
-        $jobTime = hour(06, 10, 00);
         $currentTime = now();
+        $jobTime = hour(06, 10, 00);
         $diff = $currentTime->diffInSeconds($jobTime, false);
 
-        return ($diff < 0 ) ? 0 : $currentTime->addSeconds($diff);
+        return ($diff <= 0 ) ? 0 : $currentTime->addSeconds($diff);
     }
 }

@@ -28,7 +28,7 @@ class ReservaCNCreatedEvent
      */
     public function __construct(ReservaCN $reserva)
     {
-        Log::info('Reserva inserida no banco de dados', ['reserva' => $reserva->toArray()]);
+        Log::info('Reserva inserida no banco de dados', ['reserva' => $reserva->id, 'licitacao' => $reserva->licitacao->id]);
 
         $this->reserva = $reserva;
     }

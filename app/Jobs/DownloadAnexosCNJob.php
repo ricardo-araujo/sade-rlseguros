@@ -39,7 +39,7 @@ class DownloadAnexosCNJob implements ShouldQueue
      */
     public function handle(DownloadPage $download)
     {
-        Log::debug('Iniciando download dos anexos da licitacao no CN', ['licitacao' => $this->licitacao->id]);
+        Log::debug('Iniciando download dos anexos da licitacao', ['portal' => $this->licitacao->portal, 'licitacao' => $this->licitacao->id]);
 
         $this->delete();
 
@@ -61,7 +61,7 @@ class DownloadAnexosCNJob implements ShouldQueue
 
             } catch (\Exception $e) {
 
-                Log::warning('Erro ao tentar download de anexos da licitacao no CN', ['licitacao' => $this->licitacao->id, 'exception' => $e->getMessage()]);
+                Log::error('Erro ao tentar download de anexos da licitacao no CN', ['licitacao' => $this->licitacao->id, 'exception' => $e->getMessage()]);
 
                 dispatch(new self($this->licitacao))->onQueue('cn'); //simula um 'while (true)' do SADE original, enquanto nao baixar os anexos, reinicia o mesmo job.
             }

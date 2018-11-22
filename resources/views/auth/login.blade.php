@@ -30,8 +30,13 @@
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+                                <div class="container">
+                                    <small class="text-muted">
+                                        Primeiro acesso? Use a senha de login no portal <a target="_blank" href="http://mapfrenegociospublicos.com.br">Mapfre!</a>
+                                    </small>
+                                </div>
 
-                                @if ($errors->has('password'))
+                            @if ($errors->has('password'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>

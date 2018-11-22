@@ -8,6 +8,8 @@ use Illuminate\Support\ServiceProvider;
 
 class TwoCaptchaProvider extends ServiceProvider
 {
+    protected $defer = true;
+
     /**
      * Bootstrap services.
      *
@@ -32,5 +34,10 @@ class TwoCaptchaProvider extends ServiceProvider
 
             return $twoCaptcha;
         });
+    }
+
+    public function provides()
+    {
+        return [TwoCaptchaWithGoogleKey::class];
     }
 }

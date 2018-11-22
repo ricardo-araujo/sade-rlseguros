@@ -12,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Log;
 
 class BuscaOrgaoNoBecIOJob implements ShouldQueue
 {
@@ -40,10 +41,21 @@ class BuscaOrgaoNoBecIOJob implements ShouldQueue
     {
         $this->delete();
 
-        $parser = (new UnidadeCompradoraPageObject($client))->getPage($this->licitacao->nu_orgao);
+        try {
 
-        $orgao = $orgaoRepo->firstOrCreate($parser->getCnpj(), $parser->getNome());
+            $parser = (new UnidadeCompradoraPageObject($client))->getPage($this->licitacao->nu_orgao);
 
-        $this->licitacao->orgao()->associate($orgao)->save();
+            $orgao = $orgaoRepo->firstOrCreate($parser->getCnpj(), $parser->getNome());
+
+            $this->licitacao->orgao()->associate($orgao)->save();
+
+        } catch (\Exception $e) {
+
+            Log::error('Erro ao tentar buscar orgao no BEC', [
+                'licitacao' => $this->licitacao->id,
+                'exception' => $e->getMessage()
+            ]);
+
+        }
     }
 }

@@ -42,7 +42,7 @@ if (!function_exists('content_from_pdf')) {
     function content_from_pdf($pathToFile) {
 
         $tmpFile = '/tmp/' . md5($pathToFile) . '.txt';
-        shell_exec("pdftotext \"$pathToFile\" $tmpFile -raw >/dev/null 2>&1");
+        exec("pdftotext \"{$pathToFile}\" $tmpFile -raw >/dev/null 2>&1");
         $content = file_get_contents($tmpFile);
         unlink($tmpFile);
 
@@ -141,6 +141,15 @@ if (!function_exists('hour')) {
     }
 }
 
+if (!function_exists('yesterday')) {
+
+    function yesterday($tz = null) {
+
+        return today($tz)->subDay();
+
+    }
+}
+
 if (!function_exists('edital_path')) {
 
     function edital_path(\App\Models\AbstractLicitacao $licitacao) {
@@ -161,20 +170,21 @@ if (!function_exists('anexos_path')) {
     }
 }
 
-if (!function_exists('check_upload')) {
+if (!function_exists('cookie_path')) {
 
-    function check_upload($html) {
+    function cookie_path(\App\Models\ProxyList $proxy) {
 
-        return (bool) preg_match('#enviado com sucesso#i', $html);
+        return storage_path("{$proxy->nome}.txt");
+
+    }
+}
+
+if (!function_exists('default_cookie_path')) {
+
+    function default_cookie_path() {
+
+        return storage_path('default.txt');
 
     }
 }
 
-if (!function_exists('wrong_recaptcha_token')) {
-
-    function wrong_recaptcha_token($html) {
-
-        return (bool) preg_match('#Código incorreto#ui', $html);
-
-    }
-}

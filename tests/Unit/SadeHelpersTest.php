@@ -60,11 +60,5 @@ class SadeHelpersTest extends TestCase
         $this->assertNotEmpty(edital_path($licBBFactory));
         $this->assertNotEmpty(edital_path($licCNFactory));
         $this->assertNotEmpty(edital_path($licIOFactory));
-
-        $this->assertFalse(check_upload('String nao contem frase a ser parseada'));
-        $this->assertTrue(check_upload('Arquivo enviado com sucesso'));
-
-        $this->assertFalse(wrong_recaptcha_token('String nao contem frase a ser parseada'));
-        $this->assertTrue(wrong_recaptcha_token('Código incorreto. Tente novamente.'));
     }
 }

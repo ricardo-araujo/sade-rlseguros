@@ -40,7 +40,7 @@ class DownloadAnexosIOJob implements ShouldQueue
      */
     public function handle(Client $client)
     {
-        Log::debug('Iniciando download dos anexos da licitacao no IO', ['licitacao' => $this->licitacao->id]);
+        Log::debug('Iniciando download dos anexos da licitacao', ['portal' => $this->licitacao->portal, 'licitacao' => $this->licitacao->id]);
 
         $this->delete();
 
@@ -60,7 +60,7 @@ class DownloadAnexosIOJob implements ShouldQueue
 
         } catch (GuzzleException | \Exception $e) {
 
-            Log::warning('Erro ao tentar download de anexos da licitacao no IO', ['licitacao' => $this->licitacao->id, 'exception' => $e->getMessage()]);
+            Log::error('Erro ao tentar download de anexos da licitacao no IO', ['licitacao' => $this->licitacao->id, 'exception' => $e->getMessage()]);
 
         }
     }

@@ -15,7 +15,7 @@
         "forseti/bot-bb": "^1.1",
         "forseti/bot-cn": "^1.5",
         "forseti/bot-io": "^1.0",
-        "forseti/bot-sade": "dev-master",
+        "forseti/bot-sade": "^1",
         "forseti/norecaptcha": "^1.5",
         "guzzlehttp/guzzle": "^6.3",
         "laravel-notification-channels/telegram": "^0.0.4",

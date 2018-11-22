@@ -82,7 +82,9 @@ class IdentificaRamoReservaJob implements ShouldQueue
             ->flatten()
             ->unique()
             ->each(function($ramo) {
+
                 dispatch(new CriaReservaJob($this->licitacao, $this->orgao, $ramo))->onQueue($this->licitacao->portal);
+
             });
     }
 }

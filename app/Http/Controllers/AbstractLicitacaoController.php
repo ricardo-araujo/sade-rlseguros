@@ -11,7 +11,7 @@ class AbstractLicitacaoController extends Controller
     {
         $zipName = "lic_{$licitacao->portal}_{$licitacao->id}.zip";
 
-        $path = public_path('anexos' . DIRECTORY_SEPARATOR . $licitacao->portal . DIRECTORY_SEPARATOR . $licitacao->id . DIRECTORY_SEPARATOR);
+        $path = anexos_path($licitacao);
 
         $it = new \DirectoryIterator($path);
 

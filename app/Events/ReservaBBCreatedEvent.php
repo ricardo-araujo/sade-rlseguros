@@ -28,7 +28,7 @@ class ReservaBBCreatedEvent
      */
     public function __construct(ReservaBB $reserva)
     {
-        Log::info('Reserva inserida no banco de dados', ['reserva' => $reserva->toArray()]);
+        Log::info('Reserva inserida no banco de dados', ['reserva' => $reserva->id, 'licitacao' => $reserva->licitacao->id]);
 
         $this->reserva = $reserva;
     }

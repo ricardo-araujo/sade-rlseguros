@@ -30,7 +30,6 @@ class OportunidadesSeeder extends Seeder
                     'nu_cliente' => $oportunidade->id_cliente,
                     'nm_cliente' => $oportunidade->nm_cliente,
                     'nm_pregoeiro' => $oportunidade->nm_pregoeiro,
-                    'nm_coordenador' => (trim($oportunidade->nm_coordenador) == '') ? null : trim($oportunidade->nm_coordenador),
                     'nm_pregao' => $oportunidade->nm_edital,
                     'nm_processo' => $oportunidade->nm_processo,
                     'nm_tipo' => $oportunidade->nm_tipo,
@@ -70,7 +69,6 @@ class OportunidadesSeeder extends Seeder
                     'dt_abertura_proposta' => $oportunidade->dt_abertura_prop,
                     'nu_modalidade' => $oportunidade->nu_modalidade,
                     'nm_modalidade' => $oportunidade->nm_modalidade,
-                    'licitacao_raw' => json_decode(json_encode($oportunidade), true),
                     'created_at' => $oportunidade->dt_registro_oportunidade,
                     'updated_at' => $oportunidade->dt_registro_oportunidade
                 ]
@@ -96,7 +94,6 @@ class OportunidadesSeeder extends Seeder
                     'nm_processo' =>$oportunidade->nm_processo,
                     'nm_anexo_principal' =>$oportunidade->nm_arquivo,
                     'nm_link_anexo' =>$oportunidade->nm_link,
-                    'licitacao_raw' => json_decode(json_encode($oportunidade), true),
                     'created_at' => $oportunidade->created_at,
                     'updated_at' => $oportunidade->updated_at
                 ]

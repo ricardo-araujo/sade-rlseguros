@@ -5,16 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Sistema Automatizado de Download de Editais</title>
+    <title>S.A.D.E. | Forseti</title>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="icon" href="{{ asset('favicon-sade.png') }}">
 </head>
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    S.A.D.E.
+                    <img src="{{ asset('favicon-sade.png') }}" width="30" height="30" class="d-inline-block align-top" alt="">
+                    Sistema de Automação de Download de Editais
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -53,12 +55,19 @@
         </nav>
 
         <main class="py-4">
+
             @yield('content')
 
             @include('modal-redefinir-senha')
+
         </main>
+
     </div>
+
+    @include('layouts.footer')
+
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/reserva-ajax.js') }}"></script>
+    <script src="{{ asset('js/sade-rlseguros.js') }}"></script>
+
 </body>
 </html>
