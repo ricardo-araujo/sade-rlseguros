@@ -10,7 +10,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Support\Collection;
 
 class BuscaCnpjsNosAnexosBBJob implements ShouldQueue
 {
@@ -53,7 +52,7 @@ class BuscaCnpjsNosAnexosBBJob implements ShouldQueue
         //duas regexes para identificar padroes de cnpjs:
         preg_match_all('#\d{2}[,\.]\d{3}[,\.]\d{3}[\/\.]\d{4}\s?[\.\-]\s?\d{2}|\d{8}\/\d{4}\-\d{2}#isu', $content, $m);
 
-        (new Collection($m))
+        collect($m)
             ->flatten()
             ->filter(function($cnpj) {
                 return cnpj_is_valid($cnpj);

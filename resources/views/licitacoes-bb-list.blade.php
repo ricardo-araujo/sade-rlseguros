@@ -9,7 +9,7 @@
                 <div class="card-header" id="licitacao-bb-{{ $licitacao->id }}">
                     <h5 class="mb-0">
                         <button class="btn btn-light" data-toggle="collapse" data-target="#collapse-bb-{{ $licitacao->id }}" aria-expanded="true" aria-controls="collapseOne">
-                            <strong>{{ $licitacao->id }} - </strong>{{ $licitacao->nm_cliente }}
+                            <strong>{{ $licitacao->id }} - </strong>{{ $licitacao->nm_orgao}}
                         </button>
                         @if($licitacao->nm_anexo_principal)
                             <a href="{{ route('download-bb', [$licitacao]) }}" class="btn btn-outline-dark" style="float: right" title="Clique para baixar os arquivos da oportunidade. (Disponibilizado às {{$licitacao->dt_registro_anexo->format('H:i:s')}})" download>

@@ -18,8 +18,8 @@ class CreateNewLicitacaoBbTable extends Migration
             $table->char('portal')->default('bb');
             $table->string('nu_licitacao')->nullable();
             $table->text('txt_objeto')->nullable();
-            $table->integer('nu_cliente')->nullable();
-            $table->string('nm_cliente')->nullable();
+            $table->integer('nu_orgao')->nullable();
+            $table->string('nm_orgao')->nullable();
             $table->integer('nu_pregoeiro')->nullable();
             $table->string('nm_pregoeiro')->nullable();
             $table->string('nm_pregao')->nullable();

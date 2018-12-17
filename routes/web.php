@@ -35,4 +35,7 @@ Route::middleware('auth')->group(function() {
 
     Route::get('/cn/{licitacao_cn}/download', 'AbstractLicitacaoController@download')->name('download-cn');
 
+    Route::get('/orgao', 'OrgaoMapfreController@show');
+
+    Route::put('/orgao', 'OrgaoMapfreController@update');
 });

@@ -19,7 +19,7 @@ class CreateOrgaoMapfreTable extends Migration
             $table->string('nm_cnpj')->nullable();
             $table->string('nm_cod_mapfre')->nullable();
             $table->timestamps();
-            $table->index(['nm_cnpj', 'nm_cod_mapfre']);
+            $table->index(['nm_razao_social', 'nm_cnpj', 'nm_cod_mapfre']);
         });
     }
 

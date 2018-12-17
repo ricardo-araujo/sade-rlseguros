@@ -9,6 +9,8 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="icon" href="{{ asset('favicon-sade.png') }}">
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/sade-rlseguros.js') }}"></script>
 </head>
 <body>
     <div id="app">
@@ -32,6 +34,11 @@
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                                    <a class="dropdown-item text-center" href="#" data-target="#modal-orgaos-validos" data-toggle="modal">
+                                        Órgãos Válidos
+                                    </a>
+
                                     <a class="dropdown-item text-center" href="#" data-target="#modal-redefinir-senha" data-toggle="modal">
                                         Redefinir Senha
                                     </a>
@@ -58,6 +65,7 @@
 
             @yield('content')
 
+            @include('modal-orgaos-validos')
             @include('modal-redefinir-senha')
 
         </main>
@@ -65,9 +73,6 @@
     </div>
 
     @include('layouts.footer')
-
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/sade-rlseguros.js') }}"></script>
 
 </body>
 </html>

@@ -9,7 +9,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Support\Collection;
 
 class IdentificaRamoReservaJob implements ShouldQueue
 {
@@ -74,7 +73,7 @@ class IdentificaRamoReservaJob implements ShouldQueue
     {
         $this->delete();
 
-        (new Collection(self::REGEX_VALORES))
+        collect(self::REGEX_VALORES)
             ->filter(function($ramos, $regex) {
                 return (bool) preg_match($regex, $this->licitacao->txt_objeto);
             })

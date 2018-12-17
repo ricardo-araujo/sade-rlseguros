@@ -12,4 +12,12 @@ class OrgaoMapfreRepository extends Repository
     {
         return $this->query()->firstOrCreate(['nm_cnpj' => $cnpj], ['nm_razao_social' => $razaoSocial]);
     }
+
+    public function firstByContent($content)
+    {
+        return $this->query()->where('nm_cnpj', '=', $content)
+                             ->orWhere('nm_cod_mapfre', '=', $content)
+                             ->orWhere('nm_razao_social', '=', $content)
+                             ->first();
+    }
 }

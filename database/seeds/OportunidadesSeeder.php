@@ -16,7 +16,7 @@ class OportunidadesSeeder extends Seeder
      */
     public function run()
     {
-        $oportunidadesBB = DB::select('SELECT * from sadebb.tb_bb_oportunidade');
+        $oportunidadesBB = DB::select('SELECT * FROM sadebb.tb_bb_oportunidade');
 
         foreach ($oportunidadesBB as $oportunidade) {
 
@@ -27,8 +27,8 @@ class OportunidadesSeeder extends Seeder
                 [
                     'portal' => 'bb',
                     'txt_objeto' => $oportunidade->txt_resumo,
-                    'nu_cliente' => $oportunidade->id_cliente,
-                    'nm_cliente' => $oportunidade->nm_cliente,
+                    'nu_orgao' => $oportunidade->id_cliente,
+                    'nm_orgao' => $oportunidade->nm_cliente,
                     'nm_pregoeiro' => $oportunidade->nm_pregoeiro,
                     'nm_pregao' => $oportunidade->nm_edital,
                     'nm_processo' => $oportunidade->nm_processo,
@@ -49,7 +49,7 @@ class OportunidadesSeeder extends Seeder
             );
         }
 
-        $oportunidadesCN = DB::select('SELECT * from sadecn.licitacao');
+        $oportunidadesCN = DB::select('SELECT * FROM sadecn.licitacao');
 
         foreach ($oportunidadesCN as $oportunidade) {
             LicitacaoCN::firstOrCreate(
@@ -75,7 +75,7 @@ class OportunidadesSeeder extends Seeder
             );
         }
 
-        $oportunidadesIO = DB::select('SELECT * from sadeio.tb_io_oportunidade');
+        $oportunidadesIO = DB::select('SELECT * FROM sadeio.tb_io_oportunidade');
 
         foreach ($oportunidadesIO as $oportunidade) {
             LicitacaoIO::firstOrCreate(
