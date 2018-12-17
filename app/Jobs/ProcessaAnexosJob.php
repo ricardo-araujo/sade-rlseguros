@@ -9,7 +9,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\Process\Process;
 
@@ -80,7 +79,7 @@ class ProcessaAnexosJob implements ShouldQueue
                 }
             }
 
-            $collection = new Collection($files);
+            $collection = collect($files);
 
             if ($collection->count() === 1) {
 

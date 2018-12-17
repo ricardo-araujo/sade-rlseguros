@@ -12,6 +12,11 @@ class LicitacaoBB extends AbstractLicitacao
         return json_decode($value, true);
     }
 
+    public function getLicitacaoRawAttribute($value)
+    {
+        return json_decode($value, true);
+    }
+
     public function setNuPregoeiroAttribute($value)
     {
         $this->attributes['nu_pregoeiro'] = (filled($value)) ? $value : null;
@@ -35,6 +40,11 @@ class LicitacaoBB extends AbstractLicitacao
     public function setNmLinkAnexoAttribute($value)
     {
         $this->attributes['nm_link_anexo'] = (filled($value)) ? json_encode($value) : null;
+    }
+
+    public function setLicitacaoRawAttribute($value)
+    {
+        $this->attributes['licitacao_raw'] = json_encode($value);
     }
 
     public function reserva()

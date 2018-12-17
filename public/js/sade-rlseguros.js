@@ -1,200 +1,263 @@
-$('#btn-fecha-redefinir-senha-modal').click(function() {
+$(document).ready(() => {
 
-    $('#modal-redefinir-senha').modal('toggle');
+    const body = $('body');
 
-    let errorSpam = $('.invalid-feedback');
+    body.on('click', '#btn-redefinir-senha-modal', () => {
 
-    if (errorSpam.length > 0) {
-        errorSpam.remove();
-        $('.is-invalid').removeClass('is-invalid');
-    }
-
-    $('#senha').val('');
-    $('#senha_confirmation').val('');
-    $('#div-alert-senha-alterada').remove();
-});
-
-$('#btn-redefinir-senha-modal').click(function() {
-
-    let inputSenha = $('#senha');
-    let inputConfirmaSenha = $('#senha_confirmation');
-    let token = $('meta[name="csrf-token"]').attr('content');
-    let errorSpam = $('.invalid-feedback');
-
-    if (errorSpam.length > 0) {
-        errorSpam.remove();
-        $('.is-invalid').removeClass('is-invalid');
-    }
-
-    $(document).ready(function() {
+        const input = $('#senha');
 
         $.ajax({
             type: 'PUT',
             url: '/senha/redefine',
-            data: { '_token': token, 'senha': inputSenha.val(), 'senha_confirmation': inputConfirmaSenha.val() },
             dataType: 'json',
-            success: function(data) {
-
-                $('#modal-body-senha').prepend('<div id="div-alert-senha-alterada" class="alert alert-success text-center" role="alert"> Senha alterada com sucesso!</div>');
-
-                inputSenha.val('');
-                inputConfirmaSenha.val('');
-
-            },
-            error: function(data) {
-
-                let errors = data.responseJSON.errors;
-
-                for (let err in errors) {
-                    if (errors.hasOwnProperty(err)) {
-                        let input = $('#' + err);
-                        input.removeClass('form-control').addClass('form-control is-invalid');
-                        let errorMsg = errors[err][0];
-                        input.after('<span class="invalid-feedback"><strong>' + errorMsg + '</strong></span>')
-                    }
-                }
+            data: {
+                '_token': $('meta[name="csrf-token"]').attr('content'),
+                'senha': input.val(),
+                'senha_confirmation': $('#senha_confirmation').val()
             }
+        })
+        .done(() => {
+
+            criaDivSenhaAlteradaComSucesso();
+            resetaValoresSenha();
+            removeSpanDeErro();
+
+        })
+        .fail(data => {
+
+            renderizaErros('senha', data.responseJSON.errors, input);
+
         });
     });
-});
 
-$('#btn-fecha-reserva-io-modal').click(function() {
 
-    $('#modal-inclui-reserva-io').modal('toggle');
+    body.on('click', '#btn-fecha-redefinir-senha-modal', () => {
 
-    let errorSpam = $('.invalid-feedback');
+        $('#modal-redefinir-senha').modal('toggle');
 
-    if (errorSpam.length > 0) {
-        errorSpam.remove();
-        $('.is-invalid').removeClass('is-invalid');
-    }
+        removeSpanDeErro();
 
-    $('#input-reserva').val('');
-    $('#input-cnpj').val('');
-    $('#input-processo').val('');
-});
+        $('#senha').val('');
+        $('#senha_confirmation').val('');
+        $('#div-alert-senha-alterada').remove();
 
-$('#btn-grava-reserva-io-modal').click(function() {
-
-    let inputReserva = $('#input-reserva');
-    let inputCNPJ = $('#input-cnpj');
-    let inputProcesso = $('#input-processo');
-    let divReserva = $('#div-reserva-io');
-    let token = $('meta[name="csrf-token"]').attr('content');
-    let errorSpam = $('.invalid-feedback');
-
-    //remove as respectivas classes de erro caso elas estejam presentes
-    if (errorSpam.length > 0) {
-        errorSpam.remove();
-        $('.is-invalid').removeClass('is-invalid');
-    }
-
-    //ajax para cadastrar a reserva
-    $(document).ready(function() {
-
-        $.ajax({
-            type: 'POST',
-            url: '/io/reserva/create',
-            data: { '_token': token, 'reserva': inputReserva.val(), 'cnpj': inputCNPJ.val(), 'processo': inputProcesso.val() },
-            dataType: 'json',
-            success: function(data) {
-
-                inputReserva.val('');
-                inputCNPJ.val('');
-                inputProcesso.val('');
-
-                let buttonReserva = $('<button>').addClass('btn btn-outline-primary btn-sm ml-1').text(data.nm_reserva).prop('title', 'Clique na reserva para excluí-la');
-                divReserva.append(buttonReserva);
-
-            },
-            error: function(data) {
-                let errors = data.responseJSON.errors;
-
-                for (let err in errors) {
-                    if (errors.hasOwnProperty(err)) {
-                        let input = $('#input-' + err);
-                        input.removeClass('form-control').addClass('form-control is-invalid');
-                        let errorMsg = errors[err][0];
-                        input.after('<span class="invalid-feedback"><strong>' + errorMsg + '</strong></span>')
-                    }
-                }
-            }
-        });
-    });
-});
-
-function addReserva(idLicitacao) {
-
-    let div = $('#div-reserva-' + idLicitacao);
-    let input = $('#input-reserva-' + idLicitacao);
-    let token = $('meta[name="csrf-token"]').attr('content');
-    let errorSpam = $('.invalid-feedback');
-
-    //remove as respectivas classes de erro caso elas estejam presentes
-    if (errorSpam.length > 0) {
-        errorSpam.remove();
-        $('.is-invalid').removeClass('is-invalid');
-    }
-
-    //zera o valor de todos os inputs exceto o atual
-    $('input').not(input).each(function() {
-        $(this).val('');
     });
 
-    //ajax para cadastrar a reserva
-    $(document).ready(function() {
+    body.on('click', '.btn-cadastro', event => {
+
+        const licitacao = event.currentTarget.id.match(/\d+/g)[0];
+        const input = $(`#input-reserva-${licitacao}`);
 
         $.ajax({
             type: 'POST',
             url: '/cn/reserva/create',
-            data: { '_token': token, 'licitacao': idLicitacao, 'reserva': input.val() },
             dataType: 'json',
-            success: function(data) {
-                // para nao fazer append no html atual, remove ele antes de adicionar o button da reserva
-                if (div.html().trim() === 'Nenhuma Reserva para a oportunidade.') { div.html(''); }
-
-                div.append('<button id="btn-reserva-' + data.nm_reserva + '" type="button" onclick="deleteReserva(\'' + data.nm_reserva + '\')" title="Clique na reserva para excluí-la" class="btn btn-outline-primary btn-sm ml-1">' + data.nm_reserva+ '</button>');
-                input.val('').focus();
-            },
-            error: function(data) {
-
-                let message = data.responseJSON.errors['reserva'][0];
-
-                input.removeClass('form-control')
-                     .addClass('form-control is-invalid')
-                     .focus();
-                if ($('.invalid-feedback').length === 0) {
-                    input.parent()
-                         .append('<span class="invalid-feedback"><strong>' + message + '</strong></span>');
-                }
+            data: {
+                '_token': $('meta[name="csrf-token"]').attr('content'),
+                'licitacao': licitacao,
+                'reserva': input.val()
             }
+        })
+        .done(reserva => {
+
+            removeTextoDivLicitacao(licitacao);
+            criaBotaoReservaCN(licitacao, reserva);
+            input.val('').focus();
+            removeSpanDeErro();
+
+        })
+        .fail(err => {
+
+            renderizaErros('reserva', err.responseJSON.errors, input);
+
         });
     });
-}
 
-function deleteReserva(nuReserva) {
+    body.on('click', '.btn-reserva', event => {
 
-    $(document).ready(function() {
-
-        let token = $('meta[name="csrf-token"]').attr('content');
-        let button = $('#btn-reserva-' + nuReserva);
-        let parentDiv = button.parent();
+        const reserva = event.currentTarget.id.match(/\d+/g)[0];
+        const btn = $(event.currentTarget);
+        const div = btn.parent();
 
         $.ajax({
             type: 'DELETE',
             url: '/cn/reserva/delete',
-            data: {'_token': token, 'reserva': nuReserva},
             dataType: 'json',
-            success: function(data) {
-                button.remove();
-
-                if (parentDiv.html().trim() === '') {
-                    parentDiv.html('Nenhuma Reserva para a oportunidade.');
-                }
+            data: {
+                '_token': $('meta[name="csrf-token"]').attr('content'),
+                'reserva': reserva
             },
-            error: function(data) {
-                console.log(data.responseJSON.message);
-            }
+        })
+        .done(() => {
+
+            btn.remove();
+
+            if (div.html().trim() === '')
+                div.html('Nenhuma reserva para a oportunidade.');
+
+        })
+        .fail(err => {
+
+            console.error(err);
+
         });
     });
-}
+
+    body.on('click', '#btn-orgao', () => {
+        $.ajax({
+            url: '/orgao',
+            data: {
+                'content': $('#input-orgao').val()
+            },
+        })
+        .done(orgao => {
+
+            criaDivOrgaoEncontrado(orgao);
+
+        })
+        .fail(() => {
+
+            criaDivOrgaoNaoEncontrado();
+
+        });
+    });
+
+    body.on('click', '.btn-manual', () => {
+
+        $.ajax({
+            type: 'PUT',
+            url: '/orgao',
+            dataType: 'json',
+            data: {
+                '_token': $('meta[name="csrf-token"]').attr('content'),
+                'content' : $('#input-orgao').val()
+            }
+        })
+        .done(orgao => {
+
+            criaDivOrgaoEncontrado(orgao);
+
+        })
+        .fail(err => {
+
+            console.error(err);
+
+        });
+    });
+
+    function criaDivSenhaAlteradaComSucesso() {
+
+        const div = $('<div>').addClass('alert alert-success text-center')
+            .attr('id', 'div-alert-senha-alterada')
+            .attr('role', 'alert')
+            .text('Senha alterada com sucesso!');
+
+        $('#modal-body-senha').prepend(div);
+    }
+
+    function resetaValoresSenha() {
+
+        $('#senha').val('');
+        $('#senha_confirmation').val('');
+    }
+
+    function renderizaErros(key, erros, targetElement) {
+
+        const msgErro = erros[key][0];
+        const spanErro = $('<span>').addClass('invalid-feedback');
+        const strongTag = $('<strong>').text(msgErro);
+
+        targetElement.focus();
+
+        if (targetElement.siblings('span').text() === msgErro)
+            return;
+
+        removeSpanDeErro();
+
+        spanErro.append(strongTag);
+        targetElement.addClass('is-invalid').parent().append(spanErro);
+    }
+
+    function removeTextoDivLicitacao(licitacao) {
+
+        const div = $(`#div-reserva-${licitacao}`);
+
+        if (div.html().trim() === 'Nenhuma reserva para a oportunidade.') //Remove texto antes de adicionar o button da reserva
+            div.html('');
+    }
+
+    function criaBotaoReservaCN(licitacao, reserva) {
+
+        const div = $(`#div-reserva-${licitacao}`);
+        const btn = $('<button>').attr('id', `btn-reserva-${reserva.nm_reserva}`)
+                                 .attr('type', 'button')
+                                 .addClass('btn btn-outline-primary btn-sm btn-reserva ml-1')
+                                 .attr('title', 'Clique na reserva para excluí-la')
+                                 .text(reserva.nm_reserva);
+
+        div.append(btn);
+    }
+
+    function removeSpanDeErro() {
+
+        const spanFeedback = $('.invalid-feedback');
+
+        if (spanFeedback.length > 0)
+            spanFeedback.remove();
+
+        $('.is-invalid').removeClass('is-invalid');
+    }
+
+    function criaDivOrgaoEncontrado(orgao) {
+
+        const div = $('#div-orgao').html('').addClass('container border rounded p-3');
+        const dl = $('<dl>');
+        const dtOrgao = $('<dt>').text('Órgão');
+        const ddOrgao = $('<dd>').text(orgao.nm_razao_social);
+        const dtCnpj = $('<dt>').text('Cnpj');
+        const ddCnpj = $('<dd>').text(orgao.nm_cnpj);
+        const dtCodMapfre = $('<dt>').text('Cód. Mapfre');
+        const ddCodMapfre = $('<dd>').text(orgao.nm_cod_mapfre);
+        const btnManual = botaoManual(orgao);
+
+        dl.append(dtOrgao);
+        dl.append(ddOrgao);
+        dl.append(dtCnpj);
+        dl.append(ddCnpj);
+        dl.append(dtCodMapfre);
+        dl.append(ddCodMapfre);
+        div.append(dl);
+        div.append($('<hr>'));
+        div.append(btnManual);
+    }
+
+    function botaoManual(orgao) {
+
+        const btnManual = $('<button>').attr('type', 'button').addClass('btn btn-outline-primary btn-manual');
+        const i = $('<i>').attr('aria-hidden', true);
+
+        if (orgao.is_manual) {
+
+            btnManual.attr('title', 'Modo manual');
+            i.addClass('fa fa-hand-paper-o');
+
+        } else {
+
+            btnManual.attr('title', 'Modo automático');
+            i.addClass('fa fa-laptop');
+
+        }
+
+        btnManual.append(i);
+
+        return btnManual;
+    }
+
+    function criaDivOrgaoNaoEncontrado() {
+
+        const div = $('#div-orgao').html('');
+        const small = $('<small>').addClass('text-danger').text('Órgão não encontrado');
+
+        div.append(small);
+    }
+});

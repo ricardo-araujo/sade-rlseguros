@@ -46,10 +46,10 @@
                                     <strong>Reserva:</strong>
                                     <div id="div-reserva-{{ $licitacao->id }}" class="d-inline">
                                         @if($licitacao->reserva->isEmpty())
-                                        Nenhuma Reserva para a oportunidade.
+                                        Nenhuma reserva para a oportunidade.
                                         @else
                                             @foreach($licitacao->reserva as $reserva)
-                                            <button id="btn-reserva-{{ $reserva->nm_reserva }}" type="button" class="btn btn-outline-primary btn-sm" onclick="deleteReserva('{{ $reserva->nm_reserva }}')" title="Clique na reserva para excluí-la">{{ $reserva->nm_reserva }}</button>
+                                            <button id="btn-reserva-{{ $reserva->nm_reserva }}" type="button" class="btn btn-outline-primary btn-sm btn-reserva" title="Clique na reserva para excluí-la">{{ $reserva->nm_reserva }}</button>
                                             @endforeach
                                         @endif
                                     </div>
@@ -65,7 +65,7 @@
                                     <div class="input-group mb-3" style="width: 300px;">
                                         <input id="input-reserva-{{ $licitacao->id }}" name="input-reserva-{{ $licitacao->id }}" type="number" class="form-control" placeholder="Número da Reserva" aria-label="Número da Reserva">
                                         <div class="input-group-append">
-                                            <button type="button" class="btn btn-primary btn-reserva" onclick="addReserva({{ $licitacao->id }})"> Cadastrar </button>
+                                            <button type="button" id="btn-cadastro-{{ $licitacao->id }}" class="btn btn-primary btn-cadastro"> Cadastrar </button>
                                         </div>
                                     </div>
                                 </td>

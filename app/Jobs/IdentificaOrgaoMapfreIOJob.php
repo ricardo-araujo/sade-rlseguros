@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use function Composer\Autoload\includeFile;
 use Illuminate\Bus\Queueable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;
@@ -40,6 +41,9 @@ class IdentificaOrgaoMapfreIOJob implements ShouldQueue
         $licitacao = $this->licitacao;
 
         $orgao = $this->licitacao->orgao;
+
+        if ($orgao->is_manual)
+            return;
 
         (!$orgao->nm_cod_mapfre)
             ? dispatch(new CriaOrgaoJob($licitacao, $orgao))->onQueue('io')

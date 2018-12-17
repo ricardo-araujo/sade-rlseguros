@@ -41,6 +41,10 @@ class IdentificaOrgaoMapfreBBJob implements ShouldQueue
         $licitacao = $this->licitacao;
 
         $licitacao->orgao->each(function (OrgaoMapfre $orgao) use ($licitacao) {
+
+            if ($orgao->is_manual)
+                return;
+
             (!$orgao->nm_cod_mapfre)
                 ? dispatch(new CriaOrgaoJob($licitacao, $orgao))->onQueue('bb')
                 : dispatch(new IdentificaRamoReservaJob($licitacao, $orgao))->onQueue('bb');

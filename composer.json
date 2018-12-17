@@ -14,7 +14,7 @@
         "fideloper/proxy": "^4.0",
         "forseti/bot-bb": "^1.1",
         "forseti/bot-cn": "^1.5",
-        "forseti/bot-io": "^1.0",
+        "forseti/bot-io": "^1.1",
         "forseti/bot-sade": "^1",
         "forseti/norecaptcha": "^1.5",
         "guzzlehttp/guzzle": "^6.3",
