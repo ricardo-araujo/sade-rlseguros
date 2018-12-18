@@ -147,12 +147,16 @@ $(document).ready(() => {
 
     function criaDivSenhaAlteradaComSucesso() {
 
-        const div = $('<div>').addClass('alert alert-success text-center')
-            .attr('id', 'div-alert-senha-alterada')
-            .attr('role', 'alert')
-            .text('Senha alterada com sucesso!');
+        if ($('#div-alert-senha-alterada').length > 0)
+            return true;
 
-        $('#modal-body-senha').prepend(div);
+        const modal = $('#modal-body-senha');
+        const div = $('<div>').attr('id', 'div-alert-senha-alterada')
+                              .addClass('alert alert-success text-center')
+                              .attr('role', 'alert')
+                              .text('Senha alterada com sucesso!');
+
+        modal.prepend(div.hide().fadeIn(500));
     }
 
     function resetaValoresSenha() {
