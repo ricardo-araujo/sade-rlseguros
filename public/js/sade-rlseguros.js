@@ -2,6 +2,12 @@ $(document).ready(() => {
 
     const body = $('body');
 
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     body.on('click', '#btn-redefinir-senha-modal', () => {
 
         const input = $('#senha');
@@ -11,7 +17,6 @@ $(document).ready(() => {
             url: '/senha/redefine',
             dataType: 'json',
             data: {
-                '_token': $('meta[name="csrf-token"]').attr('content'),
                 'senha': input.val(),
                 'senha_confirmation': $('#senha_confirmation').val()
             }
@@ -53,7 +58,6 @@ $(document).ready(() => {
             url: '/cn/reserva/create',
             dataType: 'json',
             data: {
-                '_token': $('meta[name="csrf-token"]').attr('content'),
                 'licitacao': licitacao,
                 'reserva': input.val()
             }
@@ -84,7 +88,6 @@ $(document).ready(() => {
             url: '/cn/reserva/delete',
             dataType: 'json',
             data: {
-                '_token': $('meta[name="csrf-token"]').attr('content'),
                 'reserva': reserva
             },
         })
@@ -129,7 +132,6 @@ $(document).ready(() => {
             url: '/orgao',
             dataType: 'json',
             data: {
-                '_token': $('meta[name="csrf-token"]').attr('content'),
                 'content' : $('#input-orgao').val()
             }
         })

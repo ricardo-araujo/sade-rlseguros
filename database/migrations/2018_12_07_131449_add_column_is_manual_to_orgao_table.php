@@ -14,7 +14,7 @@ class AddColumnIsManualToOrgaoTable extends Migration
     public function up()
     {
         Schema::table('orgao', function (Blueprint $table) {
-            $table->boolean('is_manual')->default(false)->after('nm_cod_mapfre')->comment('Reserva automatica quando valor for true');
+            $table->boolean('is_manual')->default(false)->after('nm_cod_mapfre')->comment('Reserva manual quando valor for true');
         });
     }
 

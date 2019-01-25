@@ -17,8 +17,8 @@
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{{ asset('favicon-sade.png') }}" width="30" height="30" class="d-inline-block align-top" alt="">
-                    Sistema de Automação de Download de Editais
+                    <img src="{{ asset('favicon-sade.png') }}" width="30" height="30" class="d-inline-block align-top" alt="Logo SADE">
+                    S.AD.E.
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

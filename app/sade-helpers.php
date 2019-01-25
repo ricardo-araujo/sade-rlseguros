@@ -188,3 +188,11 @@ if (!function_exists('default_cookie_path')) {
     }
 }
 
+if (!function_exists('io_cookie_path')) {
+
+    function io_cookie_path() {
+
+        return storage_path('io.txt');
+
+    }
+}

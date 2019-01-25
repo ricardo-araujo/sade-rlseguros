@@ -3,8 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\LicitacaoIO;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
+use Forseti\Bot\IO\PageObject\LicitacaoDownloadEditalPageObject;
 use Illuminate\Bus\Queueable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;
@@ -35,10 +34,9 @@ class DownloadAnexosIOJob implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param Client $client
      * @return void
      */
-    public function handle(Client $client)
+    public function handle(LicitacaoDownloadEditalPageObject $po)
     {
         Log::debug('Iniciando download dos anexos da licitacao', ['portal' => $this->licitacao->portal, 'licitacao' => $this->licitacao->id]);
 
@@ -50,15 +48,9 @@ class DownloadAnexosIOJob implements ShouldQueue
 
             @mkdir($path, 0775, true);
 
-            $response = $client->request('GET', $this->licitacao->nm_link_anexo);
+            $po->get($this->licitacao->nm_link_anexo)->saveTo($path);
 
-            preg_match('#filename="(.*)"#', $response->getHeader('Content-Disposition')[0],$m);
-
-            $nome = $m[1] ?? 'anexos.zip';
-
-            file_put_contents($path . $nome, $response->getBody()->getContents());
-
-        } catch (GuzzleException | \Exception $e) {
+        } catch (\Exception $e) {
 
             Log::error('Erro ao tentar download de anexos da licitacao no IO', ['licitacao' => $this->licitacao->id, 'exception' => $e->getMessage()]);
 

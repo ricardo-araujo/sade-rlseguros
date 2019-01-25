@@ -49,7 +49,7 @@
                                     <strong>Reserva:</strong>
                                     <div id="div-reserva-bb-{{ $licitacao->id }}" class="d-inline">
                                     @if($licitacao->reserva->isEmpty())
-                                        Nenhuma Reserva para a oportunidade.
+                                        Nenhuma reserva para a oportunidade.
                                     @else
                                         @foreach($licitacao->reserva as $reserva)
                                             <span class="border border-primary rounded text-primary" style="padding: .35rem .5rem; font-size: .7875rem; line-height: 1.5; border-radius: .2rem;">{{ $reserva->nm_reserva }}</span>

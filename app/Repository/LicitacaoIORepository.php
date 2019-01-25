@@ -14,25 +14,25 @@ class LicitacaoIORepository extends Repository
      */
     public function create(array $attributes)
     {
-        if (mb_strtolower($attributes['nmSubarea']) == 'seguros' and $this->query()
-                                                                           ->where(['nu_licitacao' => $attributes['idLicitacao']])
-                                                                           ->doesntExist()) {
+        if (mb_strtolower($attributes['subarea']) == 'seguros' and $this->query()
+                                                                        ->where(['nu_licitacao' => $attributes['id_licitacao']])
+                                                                        ->doesntExist()) {
 
             return $this->query()->create([
                 'portal' => 'io',
-                'nu_licitacao' => $attributes['idLicitacao'],
-                'nu_orgao' => $attributes['idUnidadeGestoraExecucao'],
-                'nm_orgao' => $attributes['nmOrgao'],
-                'nm_modalidade' => $attributes['nmModalidade'],
-                'txt_objeto' => $attributes['txtObjeto'],
-                'dt_publicacao' => $attributes['dt_publicacao'],
-                'dt_disputa' => $attributes['dt_abertura'],
-                'nm_pregao' => $attributes['nmNumeroEdital'],
-                'nm_area' => $attributes['nmArea'],
-                'nm_subarea' => $attributes['nmSubarea'],
-                'nm_processo' => $attributes['nmNumeroProcesso'],
-                'nm_anexo_principal' => $attributes['nmAnexo'],
-                'nm_link_anexo' => $attributes['nmLinkAnexo'],
+                'nu_licitacao' => $attributes['id_licitacao'],
+                'nu_orgao' => $attributes['nu_unidade_gestora_executora'],
+                'nm_orgao' => $attributes['orgao'],
+                'nm_modalidade' => $attributes['modalidade'],
+                'txt_objeto' => $attributes['objeto'],
+                'dt_publicacao' => $attributes['data_publicacao'],
+                'dt_disputa' => $attributes['data_abertura'],
+                'nm_pregao' => $attributes['numero'],
+                'nm_area' => $attributes['area'],
+                'nm_subarea' => $attributes['subarea'],
+                'nm_processo' => $attributes['processo'],
+                'nm_anexo_principal' => $attributes['nome_edital'],
+                'nm_link_anexo' => $attributes['link_edital'],
             ]);
         }
 

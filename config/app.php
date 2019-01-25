@@ -162,10 +162,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         \App\Providers\BotCNProvider::class,
+        \App\Providers\BotIOProvider::class,
         \App\Providers\TwoCaptchaProvider::class,
         \App\Providers\HandlerForGuzzleProvider::class,
         \App\Providers\GuzzleProvider::class,
-        \App\Providers\ParseListaLicitacaoProvider::class,
 
     ],
 

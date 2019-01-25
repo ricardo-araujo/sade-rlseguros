@@ -36,11 +36,11 @@ class OportunidadesDoDiaMail extends Mailable
         $oportunidadesIO = (new LicitacaoIORepository())->fromDate(today());
 
         return $this->to('ricardo.araujo@forseti.com.br', 'Ricardo Araujo')
-                     ->subject('[Forseti - Sade] Resumo das oportunidades do dia')
-                     ->view('mail.oportunidades-do-dia', [
-                         'oportunidadesBB' => $oportunidadesBB,
-                         'oportunidadesCN' => $oportunidadesCN,
-                         'oportunidadesIO' => $oportunidadesIO
-                     ]);
+                    ->subject('[Forseti - Sade] Resumo das oportunidades do dia')
+                    ->view('mail.oportunidades-do-dia', [
+                        'oportunidadesBB' => $oportunidadesBB,
+                        'oportunidadesCN' => $oportunidadesCN,
+                        'oportunidadesIO' => $oportunidadesIO
+                    ]);
     }
 }

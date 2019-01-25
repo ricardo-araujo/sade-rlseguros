@@ -22,7 +22,7 @@ php artisan list sade
 ```
 
 ## Estrutura lógica
-Os crons definidos p/ captura de oportunidades (CN e IO) e o envio de oportunidades do BB p/ o SADE são os gatilhos que iniciam os processos do SADE.
+Os crons definidos p/ captura de oportunidades (CN e IO) e o envio de oportunidades do BB p/ o sistema são os gatilhos que iniciam os processos do SADE.
 Assim que uma oportunidade é inserida no banco de dados, o sistema utiliza a funcionalidade de [Observers](https://laravel.com/docs/5.6/eloquent#observers), e no observer de criação de um model de licitacao é disparado um [Event](https://laravel.com/docs/5.6/events) de criação de licitação. Após disparado, existem os [Listeners](https://laravel.com/docs/5.6/events#defining-listeners) que 'escutam' o devido evento, e são esses listeners que dão início aos [Jobs](https://laravel.com/docs/5.6/queues) pertinentes a rotina de cada portal.
 Os jobs podem ser compartilhados entre os processos dos três portais ou caso um portal tenha um processo diferente, o nome do job tem o sufixo do portal ao qual ele pertence (Ex.: UploadEditalCNJob).
 Os jobs dos portais BB e IO compartilham da mesma sequencia de uso, pois tem seu processo feito de forma automatizada, são eles:

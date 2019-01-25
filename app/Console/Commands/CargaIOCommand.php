@@ -3,8 +3,10 @@
 namespace App\Console\Commands;
 
 use App\Repository\LicitacaoIORepository;
+use Forseti\Bot\IO\Enums\LicitacaoEnums;
+use Forseti\Bot\IO\PageObject\LicitacaoDetalhesPageObject;
+use Forseti\Bot\IO\PageObject\LicitacaoPageObject;
 use Forseti\Bot\IO\Seguro\Crawler\ParseLicitacao;
-use Forseti\Bot\IO\Seguro\Crawler\ParseListaLicitacao;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -25,24 +27,30 @@ class CargaIOCommand extends Command
     protected $description = 'Captura licitações do portal Imprensa Oficial no dia atual';
 
     /**
-     * @var ParseListaLicitacao
-     */
-    private $parserList;
-
-    /**
      * @var LicitacaoIORepository
      */
     private $repository;
+
+    /**
+     * @var LicitacaoPageObject
+     */
+    private $licPageObject;
+
+    /**
+     * @var LicitacaoDetalhesPageObject
+     */
+    private $licDetPageObject;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(ParseListaLicitacao $parserList, LicitacaoIORepository $repository)
+    public function __construct(LicitacaoPageObject $licPageObject, LicitacaoDetalhesPageObject $licDetPageObject, LicitacaoIORepository $repository)
     {
         parent::__construct();
-        $this->parserList = $parserList;
+        $this->licPageObject = $licPageObject;
+        $this->licDetPageObject = $licDetPageObject;
         $this->repository = $repository;
     }
 
@@ -55,20 +63,27 @@ class CargaIOCommand extends Command
     {
         try {
 
-            $licitacoes = $this->parserList->getAllLicitacao();
-
             Log::info('Iniciando busca de licitacoes no portal IO');
 
-            foreach ($licitacoes as $numeroLicitacao) {
+            $parser = $this->licPageObject->withArea(LicitacaoEnums::AREA_SERVICOS_COMUNS)
+                                          ->withSubarea(LicitacaoEnums::SUBAREA_SEGUROS)
+                                          ->withModalidade(LicitacaoEnums::MODALIDADE_PREGAO_ELETRONICO)
+                                          ->withStatus(LicitacaoEnums::STATUS_EM_ABERTO)
+                                          ->post();
 
-                $licitacao = (new ParseLicitacao((int) $numeroLicitacao))->parseData();
+            $licitacoes = $parser->getLicitacoesIterator();
 
-                $this->repository->create($licitacao); //internamente verifica se licitacao é de seguro ou nao existe antes de gravar
+            foreach ($licitacoes as $licitacao) {
+
+                $parser = $this->licDetPageObject->get($licitacao['id_licitacao']);
+
+                $this->repository->create($parser->asArray()); //internamente verifica se licitacao é de seguro ou nao existe antes de gravar
+
             }
 
         } catch (\Exception $e) {
 
-            Log::warning('Erro ao buscar licitacoes do portal IO', ['licitacao' => $numeroLicitacao, 'exception' => $e->getMessage()]);
+            Log::warning('Erro ao buscar licitacoes do portal IO', ['licitacao' => $licitacao['id_licitacao'], 'exception' => $e->getMessage()]);
 
         }
 
