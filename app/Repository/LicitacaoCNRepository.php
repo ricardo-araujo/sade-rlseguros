@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Models\LicitacaoCN;
-use Forseti\Bot\CN\PageObject\ConsultaLicitacoes\PesquisarUasgPage;
 
 class LicitacaoCNRepository extends Repository
 {
