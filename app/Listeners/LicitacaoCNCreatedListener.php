@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\LicitacaoCNCreatedEvent;
+use App\Jobs\BuscaOrgaoCNJob;
 use App\Jobs\DownloadAnexosCNJob;
 use App\Jobs\ProcessaAnexosJob;
 use App\Jobs\ProcessaLicitacaoJob;
@@ -31,6 +32,10 @@ class LicitacaoCNCreatedListener
     public function handle(LicitacaoCNCreatedEvent $event)
     {
         $licitacao = $event->licitacao;
+
+        dispatch(
+            new BuscaOrgaoCNJob($licitacao) //busca feita no momento da criação, não devendo ser atrasada como abaixo
+        )->onQueue('cn');
 
         ProcessaLicitacaoJob::withChain([
             new DownloadAnexosCNJob($licitacao),
