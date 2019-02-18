@@ -18,7 +18,6 @@ class LicitacaoCNRepository extends Repository
             return $this->query()->create([
                 'portal' => 'cn',
                 'nm_uf' => $attributes['uf'],
-                'nm_orgao' => app()->make(PesquisarUasgPage::class)->get($attributes['nu_uasg'])->getNomeUasg(),
                 'nu_uasg' => $attributes['nu_uasg'],
                 'txt_objeto' => $attributes['objeto'],
                 'nm_pregao' => $attributes['nu_pregao'],
