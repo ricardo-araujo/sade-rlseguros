@@ -42,8 +42,12 @@ class IdentificaOrgaoMapfreIOJob implements ShouldQueue
 
         $orgao = $this->licitacao->orgao;
 
-        if ($orgao->is_manual)
+        if ($orgao->is_manual) {
+
+            $this->fail();
+
             return;
+        }
 
         (!$orgao->nm_cod_mapfre)
             ? dispatch(new CriaOrgaoJob($licitacao, $orgao))->onQueue('io')
