@@ -44,8 +44,12 @@ class DownloadAnexosBBJob implements ShouldQueue
 
         $links = $this->licitacao->nm_link_anexo; //caso nao seja nulo, retorna um array, devido aos accessors do Laravel
 
-        if (blank($links))
+        if (blank($links)) {
+
+            $this->fail();
+
             return;
+        }
 
         $path = anexos_path($this->licitacao);
 
