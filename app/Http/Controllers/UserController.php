@@ -11,7 +11,7 @@ class UserController extends Controller
     public function redefine(Request $request)
     {
         $this->validate($request, [
-            'senha' => 'bail|required|confirmed|min:1',
+            'senha' => 'bail|required|confirmed|min:5',
         ]);
 
         $user = $request->user();

@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\LicitacaoBB;
 use App\Models\OrgaoMapfre;
 use Illuminate\Bus\Queueable;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +23,7 @@ class IdentificaOrgaoMapfreBBJob implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param Model|LicitacaoBB $licitacao
      */
     public function __construct(Model $licitacao)
     {
@@ -40,18 +41,12 @@ class IdentificaOrgaoMapfreBBJob implements ShouldQueue
 
         $licitacao = $this->licitacao;
 
-        $licitacao->orgao->each(function (OrgaoMapfre $orgao) use ($licitacao) {
-
-            if ($orgao->is_manual) {
-
-                $this->fail();
-
-                return;
-            }
-
-            (!$orgao->nm_cod_mapfre)
-                ? dispatch(new CriaOrgaoJob($licitacao, $orgao))->onQueue('bb')
-                : dispatch(new IdentificaRamoReservaJob($licitacao, $orgao))->onQueue('bb');
+        $licitacao->orgao()
+                  ->where('is_manual', '=', false)
+                  ->each(function (OrgaoMapfre $orgao) use ($licitacao) {
+                      (!$orgao->nm_cod_mapfre)
+                          ? dispatch(new CriaOrgaoJob($licitacao, $orgao))->onQueue('bb')
+                          : dispatch(new IdentificaRamoReservaJob($licitacao, $orgao))->onQueue('bb');
         });
     }
 }

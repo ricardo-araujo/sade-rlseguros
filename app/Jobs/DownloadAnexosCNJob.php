@@ -39,9 +39,9 @@ class DownloadAnexosCNJob implements ShouldQueue
      */
     public function handle(DownloadPage $download)
     {
-        Log::debug('Iniciando download dos anexos da licitacao', ['portal' => $this->licitacao->portal, 'licitacao' => $this->licitacao->id]);
-
         $this->delete();
+
+        Log::debug('Iniciando download dos anexos da licitacao', ['portal' => $this->licitacao->portal, 'licitacao' => $this->licitacao->id]);
 
         while (!$this->licitacao->has_anexo) {
 

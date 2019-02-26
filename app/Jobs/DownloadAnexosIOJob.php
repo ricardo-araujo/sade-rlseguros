@@ -38,13 +38,13 @@ class DownloadAnexosIOJob implements ShouldQueue
      */
     public function handle(LicitacaoDownloadEditalPageObject $po)
     {
-        Log::debug('Iniciando download dos anexos da licitacao', ['portal' => $this->licitacao->portal, 'licitacao' => $this->licitacao->id]);
-
         $this->delete();
 
-        $path = anexos_path($this->licitacao);
+        Log::debug('Iniciando download dos anexos da licitacao', ['portal' => $this->licitacao->portal, 'licitacao' => $this->licitacao->id]);
 
         try {
+
+            $path = anexos_path($this->licitacao);
 
             @mkdir($path, 0775, true);
 

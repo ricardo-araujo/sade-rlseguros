@@ -15,9 +15,10 @@ class OrgaoMapfreRepository extends Repository
 
     public function firstByContent($content)
     {
-        return $this->query()->where('nm_cnpj', '=', $content)
-                             ->orWhere('nm_cod_mapfre', '=', $content)
-                             ->orWhere('nm_razao_social', '=', $content)
-                             ->first();
+        return $this->query()
+                    ->where('nm_cnpj', '=', $content)
+                    ->orWhere('nm_cod_mapfre', '=', $content)
+                    ->orWhere('nm_razao_social', '=', $content)
+                    ->first();
     }
 }

@@ -52,13 +52,13 @@ class CargaCNCommand extends Command
      */
     public function handle()
     {
-        $data = new \DateTime();
+        Log::info('Iniciando busca de licitacoes no CN');
 
         try {
 
-            $parser = $this->consultaPageObject->buscarLicitacaoSeguro($data, $data);
+            $data = new \DateTime();
 
-            Log::info('Iniciando busca de licitacoes no CN');
+            $parser = $this->consultaPageObject->buscarLicitacaoSeguro($data, $data);
 
             $pagina = 0; $totalPaginas = $parser->getTotalPaginas();
             while ($totalPaginas >= ++$pagina) {

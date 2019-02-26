@@ -4,7 +4,7 @@ namespace App\Repository;
 
 class DefaultReservaRepository extends Repository
 {
-    public function wasUploaded()
+    public function wereUploaded()
     {
         $reservas = $this->query()
                          ->whereNull('was_uploaded') //fizeram upload bem sucedido ou não

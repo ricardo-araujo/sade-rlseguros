@@ -14,9 +14,9 @@ class LicitacaoIORepository extends Repository
      */
     public function create(array $attributes)
     {
-        if (mb_strtolower($attributes['subarea']) == 'seguros' and $this->query()
-                                                                        ->where(['nu_licitacao' => $attributes['id_licitacao']])
-                                                                        ->doesntExist()) {
+        if (filled($attributes['nu_unidade_gestora_executora']) and filled($attributes['link_edital']) and $this->query()
+                                                                                                                ->where(['nu_licitacao' => $attributes['id_licitacao']])
+                                                                                                                ->doesntExist()) {
 
             return $this->query()->create([
                 'portal' => 'io',

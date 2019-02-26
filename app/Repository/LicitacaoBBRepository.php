@@ -12,9 +12,10 @@ class LicitacaoBBRepository extends Repository
 
     public function create(array $attributes)
     {
-        if ($attributes['id_modalidade'] == LicitacaoBBRepository::MODALIDADE_CORRETA && $this->query()
-                                                                                              ->where(['nu_licitacao' => $attributes['nu_licitacao']])
-                                                                                              ->doesntExist()) {
+        if ($attributes['id_modalidade'] == LicitacaoBBRepository::MODALIDADE_CORRETA and filled($attributes['arquivoList']) and $this->query()
+                                                                                                                                      ->where(['nu_licitacao' => $attributes['nu_licitacao']])
+                                                                                                                                      ->doesntExist()) {
+
             return $this->query()->create([
                 'portal' => 'bb',
                 'nu_licitacao' => $attributes['nu_licitacao'],

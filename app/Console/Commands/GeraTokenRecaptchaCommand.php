@@ -53,14 +53,19 @@ class GeraTokenRecaptchaCommand extends Command
      *
      * @return mixed
      */
-    public function handle(ReservaBBRepository $repoBB, ReservaCNRepository $repoCN, ReservaIORepository $repoIO)
+    public function handle(ReservaBBRepository $reservasBB, ReservaCNRepository $reservasCN, ReservaIORepository $reservasIO)
     {
         sleep((int)$this->option('delay'));
 
-        if ($this->option('force') || !$repoBB->wasUploaded() || !$repoCN->wasUploaded() || !$repoIO->wasUploaded()) //Verificacao tem como objetivo minimizar a criação de tokens em caso de dias sem reserva, para que creditos da api nao sejam gastos sem necessidade
-            return $this->generateToken();
+        return (
+            $this->option('force') ||
+            $reservasBB->wereUploaded() ||
+            $reservasCN->wereUploaded() ||
+            $reservasIO->wereUploaded()
+        )
 
-        return false;
+        ?  false
+        : $this->generateToken();
     }
 
     private function generateToken()

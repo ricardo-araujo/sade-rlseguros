@@ -9,7 +9,7 @@ class AbstractLicitacaoController extends Controller
 {
     public function download(AbstractLicitacao $licitacao)
     {
-        $zipName = "lic_{$licitacao->portal}_{$licitacao->id}.zip";
+        $zipname = "lic_{$licitacao->portal}_{$licitacao->id}.zip";
 
         $path = anexos_path($licitacao);
 
@@ -17,7 +17,7 @@ class AbstractLicitacaoController extends Controller
 
         $zip = new \ZipArchive();
 
-        if ($zip->open($path . $zipName, \ZipArchive::CREATE | \ZipArchive::OVERWRITE)) {
+        if ($zip->open($path . $zipname, \ZipArchive::CREATE | \ZipArchive::OVERWRITE)) {
 
             foreach ($it as $item) {
                 if ($item->isFile())
@@ -27,6 +27,6 @@ class AbstractLicitacaoController extends Controller
             $zip->close();
         }
 
-        return response()->download($path . $zipName, $zipName)->deleteFileAfterSend(true);
+        return response()->download($path . $zipname, $zipname)->deleteFileAfterSend();
     }
 }

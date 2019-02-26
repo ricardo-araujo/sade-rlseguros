@@ -41,13 +41,6 @@ class BuscaOrgaoNoBecIOJob implements ShouldQueue
     {
         $this->delete();
 
-        if (!$this->licitacao->nu_orgao) {
-
-            $this->fail();
-
-            return;
-        }
-
         try {
 
             $parser = (new UnidadeCompradoraPageObject($client))->getPage($this->licitacao->nu_orgao);

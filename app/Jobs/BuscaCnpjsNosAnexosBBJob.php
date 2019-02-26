@@ -43,29 +43,27 @@ class BuscaCnpjsNosAnexosBBJob implements ShouldQueue
 
         $it = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
 
-        $content = '';
         foreach ($it as $item) {
 
-            if ($item->isFile())
-                $content .= content_from_file($item->getRealPath());
+            if (!$item->isFile()) continue;
+
+            preg_match_all('#\d{2}[,\.]\d{3}[,\.]\d{3}[\/\.]\d{4}\s?[\.\-]\s?\d{2}|\d{8}\/\d{4}\-\d{2}#isu', content_from_file($item->getRealPath()), $m); //duas regexes para identificar padroes de cnpjs
+
+            collect($m)
+                ->flatten()
+                ->filter(function ($cnpj) {
+                    return valid_cnpj($cnpj);
+                })
+                ->map(function ($cnpj) {
+                    return only_numbers($cnpj);
+                })
+                ->unique()
+                ->each(function ($cnpj) use ($orgaoRepo) {
+
+                    $orgao = $orgaoRepo->firstOrCreate($cnpj, $this->licitacao->nm_cliente);
+
+                    $this->licitacao->orgao()->attach($orgao->id);
+                });
         }
-        //duas regexes para identificar padroes de cnpjs:
-        preg_match_all('#\d{2}[,\.]\d{3}[,\.]\d{3}[\/\.]\d{4}\s?[\.\-]\s?\d{2}|\d{8}\/\d{4}\-\d{2}#isu', $content, $m);
-
-        collect($m)
-            ->flatten()
-            ->filter(function($cnpj) {
-                return cnpj_is_valid($cnpj);
-            })
-            ->map(function($cnpj) {
-                return only_numbers($cnpj);
-            })
-            ->unique()
-            ->each(function($cnpj) use($orgaoRepo) {
-
-               $orgao = $orgaoRepo->firstOrCreate($cnpj, $this->licitacao->nm_cliente);
-
-               $this->licitacao->orgao()->attach($orgao->id);
-           });
     }
 }

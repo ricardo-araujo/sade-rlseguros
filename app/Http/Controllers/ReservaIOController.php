@@ -20,8 +20,8 @@ class ReservaIOController extends Controller
     public function create(Request $request)
     {
         $this->validate($request, [
-            'reserva' => 'required|digits:6|unique:reserva_io,nm_reserva',
-            'cnpj' => 'required|size:14',
+            'reserva' => 'bail|required|digits:6|unique:reserva_io,nm_reserva',
+            'cnpj' => 'bail|required|size:14',
             'processo' => 'required',
         ]);
 

@@ -42,16 +42,16 @@ class MapfreLoginCommand extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(ProxyListRepository $repository)
     {
         $user = env('USUARIO_MAPFRE');
         $pass = env('SENHA_MAPFRE');
 
-        (new ProxyListRepository())->resetLoggedProxies(); //retorna proxies para nao logado para que sejam validados novamente
+        $repository->resetLoggedProxies(); //retorna proxies para nao logado para que sejam validados novamente
 
-        while ($proxies = (new ProxyListRepository())->notLogged()) {
+        while ($proxies = $repository->notLogged()) {
 
-            $proxies->each(function(ProxyList $proxy) use($user, $pass) {
+            $proxies->each(function (ProxyList $proxy) use ($user, $pass) {
 
                 $client = new Client([
                     'handler' => app(HandlerStack::class), //provider de Handler de retry, fiz o provider para nao poluir essa classe

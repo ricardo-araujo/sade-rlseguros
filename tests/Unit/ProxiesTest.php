@@ -27,7 +27,7 @@ class ProxiesTest extends TestCase
 
         $ips = []; //inicializa uma variavel para guardar ips retornados
 
-        $proxies->each(function(ProxyList $proxy) use(&$ips) {
+        $proxies->each(function(ProxyList $proxy) use (&$ips) {
 
             $client = new Client(['proxy' => $proxy->proxy]);
 

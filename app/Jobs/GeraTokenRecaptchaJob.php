@@ -44,7 +44,7 @@ class GeraTokenRecaptchaJob implements ShouldQueue
     {
         $this->delete();
 
-        if ($reservasBB->wasUploaded() && $reservasCN->wasUploaded() && $reservasIO->wasUploaded() && $proxies->logged())
+        if ($reservasBB->wereUploaded() && $reservasCN->wereUploaded() && $reservasIO->wereUploaded() && $proxies->logged())
             return; //Verificacao tem como objetivo minimizar a criação de tokens em caso de dias sem reserva, para que creditos da api nao sejam gastos sem necessidade
 
         while ($twoCaptcha->requisitaRespostaCaptcha()->identificaRespostaPadrao() == false)

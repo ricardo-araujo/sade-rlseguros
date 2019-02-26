@@ -45,11 +45,11 @@ class SadeHelpersTest extends TestCase
         $this->assertNotEmpty(only_numbers('abc123!@#$%*()'));
         $this->assertEmpty(only_numbers('uma frase qualquer'));
 
-        $this->assertFalse(cnpj_is_valid('00000000000000'));
-        $this->assertFalse(cnpj_is_valid('00.000.000/0000-00'));
-        $this->assertFalse(cnpj_is_valid('0'));
-        $this->assertNotFalse(cnpj_is_valid('16.703.759/0001-70'));
-        $this->assertNotFalse(cnpj_is_valid('16703759000170'));
+        $this->assertFalse(valid_cnpj('00000000000000'));
+        $this->assertFalse(valid_cnpj('00.000.000/0000-00'));
+        $this->assertFalse(valid_cnpj('0'));
+        $this->assertNotFalse(valid_cnpj('16.703.759/0001-70'));
+        $this->assertNotFalse(valid_cnpj('16703759000170'));
 
         $this->assertInstanceOf(\DateTime::class, hour(00, 00, 00));
 

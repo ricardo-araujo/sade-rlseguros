@@ -38,7 +38,7 @@ class UploadEditalCNJob implements ShouldQueue
     {
         $this->delete();
 
-        $this->licitacao->reserva->each(function(ReservaCN $reserva) {
+        $this->licitacao->reserva->each(function (ReservaCN $reserva) {
 
             dispatch(new AnexaEditalNaReservaJob($reserva))->onQueue('cn');
 

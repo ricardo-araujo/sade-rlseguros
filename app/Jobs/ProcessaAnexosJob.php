@@ -87,7 +87,7 @@ class ProcessaAnexosJob implements ShouldQueue
 
             } else {
 
-                if ($match = $collection->sortKeysDesc()->keys()->first(function($arquivo) { //orderna os nomes dos arquivos e retorna o primeiro que satisfaz a regex abaixo
+                if ($match = $collection->sortKeysDesc()->keys()->first(function ($arquivo) { //orderna os nomes dos arquivos e retorna o primeiro que satisfaz a regex abaixo
 
                     return (bool) preg_match('#^preg.o.*|^edital.*|^pe.*|.*preg.o.*|.*edital.*#iu', $arquivo);
 

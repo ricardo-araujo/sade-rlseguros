@@ -74,13 +74,13 @@ class IdentificaRamoReservaJob implements ShouldQueue
         $this->delete();
 
         collect(self::REGEX_VALORES)
-            ->filter(function($ramos, $regex) {
-                return (bool) preg_match($regex, $this->licitacao->txt_objeto);
+            ->filter(function ($ramosAsValue, $regexAsKey) {
+                return (bool) preg_match($regexAsKey, $this->licitacao->txt_objeto);
             })
             ->values()
             ->flatten()
             ->unique()
-            ->each(function($ramo) {
+            ->each(function ($ramo) {
 
                 dispatch(new CriaReservaJob($this->licitacao, $this->orgao, $ramo))->onQueue($this->licitacao->portal);
 

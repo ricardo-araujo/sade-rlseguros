@@ -10,7 +10,7 @@
             <div class="modal-body">
 
                 <div class="input-group mb-3">
-                    <input id="input-orgao" type="text" class="form-control" placeholder="Digite o nome, cnpj ou código Mapfre" aria-label="Digite o nome, cnpj ou código Mapfre" aria-describedby="basic-addon2">
+                    <input id="input-orgao" type="text" class="form-control" placeholder="Digite o nome, cnpj ou código Mapfre" aria-label="Digite o nome, cnpj ou código Mapfre" aria-describedby="basic-addon2" autocomplete="off">
                     <div class="input-group-append">
                         <button id="btn-orgao" class="btn btn-outline-secondary" type="button">
                             <i class="fa fa-search"></i>

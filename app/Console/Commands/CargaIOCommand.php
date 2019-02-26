@@ -77,7 +77,7 @@ class CargaIOCommand extends Command
 
                 $parser = $this->licDetPageObject->get($licitacao['id_licitacao']);
 
-                $this->repository->create($parser->asArray()); //internamente verifica se licitacao é de seguro ou nao existe antes de gravar
+                $this->repository->create($parser->asArray()); //internamente verifica se licitacao possui numero de unidade gestora ou nao existe antes de gravar
 
             }
 

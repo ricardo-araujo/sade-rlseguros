@@ -13,7 +13,7 @@
                             <i class="fa fa-key" aria-hidden="true"></i>
                         </div>
                     </div>
-                    <input id="senha" name="senha" type="password" class="form-control" placeholder="Nova Senha" aria-label="Nova Senha" aria-describedby="button-senha" required>
+                    <input id="senha" name="senha" type="password" class="form-control" placeholder="Nova Senha" aria-label="Nova Senha" aria-describedby="button-senha" autocomplete="off" required>
                 </div>
 
                 <label class="sr-only" for="senha_confirmation">Confirmar Senha</label>
@@ -23,7 +23,7 @@
                             <i class="fa fa-check" aria-hidden="true"></i>
                         </div>
                     </div>
-                    <input id="senha_confirmation" name="senha_confirmation" type="password" class="form-control" placeholder="Confirmar Senha" aria-label="Confirmar Senha" aria-describedby="button-confirma-senha" required>
+                    <input id="senha_confirmation" name="senha_confirmation" type="password" class="form-control" placeholder="Confirmar Senha" aria-label="Confirmar Senha" aria-describedby="button-confirma-senha" autocomplete="off" required>
                 </div>
             </div>
 
