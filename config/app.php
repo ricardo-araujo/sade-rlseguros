@@ -166,6 +166,7 @@ return [
         \App\Providers\TwoCaptchaProvider::class,
         \App\Providers\HandlerForGuzzleProvider::class,
         \App\Providers\GuzzleProvider::class,
+        \App\Providers\ZendMailProvider::class,
 
     ],
 

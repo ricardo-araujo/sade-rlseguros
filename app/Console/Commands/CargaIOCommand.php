@@ -83,7 +83,7 @@ class CargaIOCommand extends Command
 
         } catch (\Exception $e) {
 
-            Log::warning('Erro ao buscar licitacoes do portal IO', ['licitacao' => $licitacao['id_licitacao'], 'exception' => $e->getMessage()]);
+            Log::warning('Erro ao buscar licitacoes do portal IO', ['exception' => $e->getMessage()]);
 
         }
 

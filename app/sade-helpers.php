@@ -142,7 +142,6 @@ if (!function_exists('hour')) {
     function hour($hour = null, $minute = null, $second = null, $tz = null) {
 
         return \Illuminate\Support\Carbon::createFromTime($hour, $minute, $second, $tz);
-
     }
 }
 
@@ -151,7 +150,6 @@ if (!function_exists('yesterday')) {
     function yesterday($tz = null) {
 
         return today($tz)->subDay();
-
     }
 }
 
@@ -180,7 +178,6 @@ if (!function_exists('cookie_path')) {
     function cookie_path(\App\Models\ProxyList $proxy) {
 
         return storage_path("{$proxy->nome}.txt");
-
     }
 }
 
@@ -189,7 +186,6 @@ if (!function_exists('default_cookie_path')) {
     function default_cookie_path() {
 
         return storage_path('default.txt');
-
     }
 }
 
@@ -198,6 +194,18 @@ if (!function_exists('io_cookie_path')) {
     function io_cookie_path() {
 
         return storage_path('io.txt');
+    }
+}
 
+if (!function_exists('get_id_from_email')) {
+
+    function get_id_from_email($emailContent) {
+
+        preg_match('#[a-z0-9]+\-[a-z0-9]+\-[a-z0-9]+\-[a-z0-9]+\-[a-z0-9]+#', $emailContent, $match);
+
+        if (filled($match))
+            return $match[0];
+
+        throw new RuntimeException('Id de e-mail do boletim do Imprensa Oficial nao encontrado');
     }
 }

@@ -24,18 +24,17 @@ class Kernel extends ConsoleKernel
             ->timezone('America/Sao_Paulo');
 
         $schedule->command('sade:carga-io')
-            ->description('Busca as oportunidades no IO, de terça à sabado, das 07h00 às 09h00')
+            ->description('Busca as oportunidades no IO, de terça à sabado, das 03h00 às 09h00')
             ->days([2, 3, 4, 5, 6])
             ->between('03:00', '09:00')
             ->everyMinute()
             ->timezone('America/Sao_Paulo');
 
-        //login no portal Imprensa Oficial
-        $schedule->command('sade:imprensa-oficial-login')
-            ->description('Realiza login no portal Imprensa Oficial e gera cookie valido')
+        $schedule->command('sade:carga-email-io')
+            ->description('Busca as oportunidades do IO na caixa de e-mail informada, de terça à sabado, das 03h00 às 08h00')
             ->days([2, 3, 4, 5, 6])
-            ->between('02:00', '08:30')
-            ->everyFifteenMinutes()
+            ->between('03:00', '08:00')
+            ->everyMinute()
             ->timezone('America/Sao_Paulo');
 
         //login na Mapfre
