@@ -10,9 +10,11 @@ class LicitacaoCNRepository extends Repository
 
     public function create(array $attributes)
     {
-        if ($this->query()
+        if (
+            $this->query()
                  ->where([['nm_pregao', '=', $attributes['nu_pregao']], ['nu_uasg', '=', $attributes['nu_uasg']]])
-                 ->doesntExist()) {
+                 ->doesntExist()
+        ) {
 
             return $this->query()->create([
                 'portal' => 'cn',

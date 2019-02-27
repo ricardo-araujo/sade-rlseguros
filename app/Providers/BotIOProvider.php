@@ -5,7 +5,7 @@ namespace App\Providers;
 use Forseti\Bot\IO\PageObject\LicitacaoDetalhesPageObject;
 use Forseti\Bot\IO\PageObject\LicitacaoDownloadEditalPageObject;
 use Forseti\Bot\IO\PageObject\LicitacaoPageObject;
-use Forseti\Bot\IO\PageObject\LoginPageObject;
+use Forseti\Bot\IO\PageObject\RenderizaBoletimPageObject;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use Illuminate\Support\ServiceProvider;
@@ -29,26 +29,11 @@ class BotIOProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(LoginPageObject::class, function() {
-
-            return new LoginPageObject(new Client([
-                'handler' => app(HandlerStack::class), //provider de Handler de retry, fiz o provider para nao poluir essa classe
-                'cookies' => new \GuzzleHttp\Cookie\FileCookieJar(io_cookie_path(), true),
-                'verify' => false,
-                'headers' => [
-                    'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36',
-                ],
-                'timeout' => 10,
-                'connect_timeout' => 10,
-            ]));
-
-        });
-
         $this->app->singleton(LicitacaoPageObject::class, function() {
 
             return new LicitacaoPageObject(new Client([
                 'handler' => app(HandlerStack::class),
-                'cookies' => new \GuzzleHttp\Cookie\FileCookieJar(io_cookie_path(), true),
+                'cookies' => true,
                 'verify' => false,
                 'headers' => [
                     'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36',
@@ -63,7 +48,7 @@ class BotIOProvider extends ServiceProvider
 
             return new LicitacaoDetalhesPageObject(new Client([
                 'handler' => app(HandlerStack::class),
-                'cookies' => new \GuzzleHttp\Cookie\FileCookieJar(io_cookie_path(), true),
+                'cookies' => true,
                 'verify' => false,
                 'headers' => [
                     'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36',
@@ -78,7 +63,22 @@ class BotIOProvider extends ServiceProvider
 
             return new LicitacaoDownloadEditalPageObject(new Client([
                 'handler' => app(HandlerStack::class),
-                'cookies' => new \GuzzleHttp\Cookie\FileCookieJar(io_cookie_path(), true),
+                'cookies' => true,
+                'verify' => false,
+                'headers' => [
+                    'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36',
+                ],
+                'timeout' => 10,
+                'connect_timeout' => 10,
+            ]));
+
+        });
+
+        $this->app->singleton(RenderizaBoletimPageObject::class, function () {
+
+            return new RenderizaBoletimPageObject(new Client([
+                'handler' => app(HandlerStack::class),
+                'cookies' => true,
                 'verify' => false,
                 'headers' => [
                     'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36',
