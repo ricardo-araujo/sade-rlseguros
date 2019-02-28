@@ -6,6 +6,9 @@ use App\Models\LicitacaoIO;
 
 class LicitacaoIORepository extends Repository
 {
+    const MODALIDADE_PREGAO_ELETRONICO = 'PREGÃO ELETRÔNICO';
+    const SUBAREA_SEGUROS = 'Seguros';
+
     protected $model = LicitacaoIO::class;
 
     /**
@@ -15,10 +18,11 @@ class LicitacaoIORepository extends Repository
     public function create(array $attributes)
     {
         if (
-            filled($attributes['nu_unidade_gestora_executora']) and
-            filled($attributes['link_edital']) and
-            str_is('Seguros', $attributes['subarea']) and
-            $this->query()->where(['nu_licitacao' => $attributes['id_licitacao']])->doesntExist()
+            $this->query()->where(['nu_licitacao' => $attributes['id_licitacao']])->doesntExist() and
+            filled($attributes['nu_unidade_gestora_executora'])                                   and
+            filled($attributes['link_edital'])                                                    and
+            str_is(self::MODALIDADE_PREGAO_ELETRONICO, $attributes['modalidade'])         and
+            str_is(self::SUBAREA_SEGUROS, $attributes['subarea'])
         ) {
 
             return $this->query()->create([
