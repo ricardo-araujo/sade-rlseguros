@@ -7,7 +7,6 @@ use Forseti\Bot\CN\PageObject\ConsultaLicitacoes\DownloadPage;
 use Forseti\Bot\CN\PageObject\ConsultaLicitacoes\PesquisarUasgPage;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 class BotCNProvider extends ServiceProvider
@@ -29,7 +28,7 @@ class BotCNProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(ConsLicitacaoRelacaoPage::class, function(Application $app) {
+        $this->app->singleton(ConsLicitacaoRelacaoPage::class, function () {
 
             $http = new Client([
                 'handler' => app()->make(HandlerStack::class),
@@ -45,9 +44,9 @@ class BotCNProvider extends ServiceProvider
             return new ConsLicitacaoRelacaoPage($http);
         });
 
-        $this->app->singleton(DownloadPage::class, function(Application $app) {
+        $this->app->singleton(DownloadPage::class, function () {
 
-            $http = $http = new Client([
+            $http = new Client([
                 'handler' => app()->make(HandlerStack::class),
                 'verify' => false,
                 'cookies' => true,
@@ -65,7 +64,7 @@ class BotCNProvider extends ServiceProvider
             return new DownloadPage($http, $forsetiService);
         });
 
-        $this->app->singleton(PesquisarUasgPage::class, function(Application $app) {
+        $this->app->singleton(PesquisarUasgPage::class, function () {
 
             $http = $http = new Client([
                 'handler' => app()->make(HandlerStack::class),
