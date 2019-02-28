@@ -13,9 +13,9 @@ class LicitacaoBBRepository extends Repository
     public function create(array $attributes)
     {
         if (
-            str_is(LicitacaoBBRepository::MODALIDADE_CORRETA, $attributes['id_modalidade']) and
-            filled($attributes['arquivoList']) and
-            $this->query()->where(['nu_licitacao' => $attributes['nu_licitacao']])->doesntExist()
+            $this->query()->where(['nu_licitacao' => $attributes['nu_licitacao']])->doesntExist()  and
+            filled($attributes['arquivoList'])                                                     and
+            str_is(self::MODALIDADE_CORRETA, $attributes['id_modalidade'])
         ) {
 
             return $this->query()->create([

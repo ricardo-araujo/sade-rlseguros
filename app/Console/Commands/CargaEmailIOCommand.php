@@ -39,10 +39,12 @@ class CargaEmailIOCommand extends Command
      * @var Imap
      */
     private $imapbox;
+
     /**
      * @var RenderizaBoletimPageObject
      */
     private $pageObject;
+
     /**
      * @var LicitacaoDetalhesPageObject
      */
@@ -83,6 +85,8 @@ class CargaEmailIOCommand extends Command
                 $licitacoes = $parser->getLinksLicitacaoIterator();
 
                 foreach ($licitacoes as $licitacao) {
+
+                    $this->imapbox->noop();
 
                     $parser = $this->detalhesPageObject->get($licitacao['id_licitacao']);
 

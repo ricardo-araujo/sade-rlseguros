@@ -819,11 +819,11 @@
         },
         {
             "name": "forseti/bot-io",
-            "version": "1.2.3",
+            "version": "1.2.5",
             "source": {
                 "type": "git",
                 "url": "git@github.com:git-forseti/forseti-bot-io.git",
-                "reference": "b9130ab335dbbdbf9aafbd1f25f5edc320ed5014"
+                "reference": "7e83b4ca8f239576d32f709d9a05b14617f94b45"
             },
             "require": {
                 "forseti/logger": "^1.2",
@@ -859,7 +859,7 @@
                 "forseti",
                 "io"
             ],
-            "time": "2019-02-27T14:59:27+00:00"
+            "time": "2019-02-28T19:52:46+00:00"
         },
         {
             "name": "forseti/bot-sade",
@@ -2483,22 +2483,22 @@
         },
         {
             "name": "sentry/sentry-laravel",
-            "version": "0.6.1",
+            "version": "0.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-laravel.git",
-                "reference": "21ea11e02da7a6ea344d4e69d1955d2624a00faa"
+                "reference": "849f2156b37a0beb676e77dca63b72360ad59148"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-laravel/zipball/21ea11e02da7a6ea344d4e69d1955d2624a00faa",
-                "reference": "21ea11e02da7a6ea344d4e69d1955d2624a00faa",
+                "url": "https://api.github.com/repos/getsentry/sentry-laravel/zipball/849f2156b37a0beb676e77dca63b72360ad59148",
+                "reference": "849f2156b37a0beb676e77dca63b72360ad59148",
                 "shasum": ""
             },
             "require": {
                 "illuminate/support": "4.*|5.*",
                 "php": ">=5.2.4",
-                "sentry/sentry": ">=1.6.0"
+                "sentry/sentry": "^1.6.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^1.8.0",
@@ -2533,7 +2533,7 @@
                 "logging",
                 "sentry"
             ],
-            "time": "2017-02-09T17:35:04+00:00"
+            "time": "2019-02-28T11:17:10+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
